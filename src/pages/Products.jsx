@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Leaf, Thermometer, Wind } from "lucide-react";
+import FlavorWizard from "../components/products/FlavorWizard";
 
 const flavors = [
   {
@@ -194,6 +195,13 @@ export default function Products() {
               每一款 Terea 都經過精心調配，以加熱不燃燒技術呈現最純粹的風味體驗。選擇你的感官旅程。
             </p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Flavor Wizard */}
+      <section className="px-6 lg:px-12 pb-16">
+        <div className="max-w-7xl mx-auto">
+          <FlavorWizard />
         </div>
       </section>
 
