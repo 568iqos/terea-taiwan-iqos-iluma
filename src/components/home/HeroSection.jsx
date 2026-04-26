@@ -1,54 +1,125 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 
-export default function HeroSection({ heroImage }) {
+const slides = [
+  {
+    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/e45ae93a9_IMG_8058.jpg",
+    label: "TEREA Taiwan",
+    title: "加熱不燃燒\n新世代體驗",
+    sub: "六款精選風味，純粹菸草蒸氣享受",
+    cta: { label: "探索產品", to: "/products" },
+    ctaSecondary: { label: "了解技術", to: "/technology" },
+    align: "left",
+    overlay: "bg-gradient-to-r from-black/70 via-black/30 to-transparent",
+  },
+  {
+    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/15080c9ca_generated_image.png",
+    label: "Find a Store",
+    title: "全台授權\n門市據點",
+    sub: "台北、台中、高雄均設有專屬服務門市",
+    cta: { label: "查看門市", to: "/stores" },
+    align: "right",
+    overlay: "bg-gradient-to-l from-black/70 via-black/30 to-transparent",
+  },
+];
+
+export default function HeroSection() {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((c) => (c + 1) % slides.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const slide = slides[current];
+
   return (
-    <section className="relative w-full h-screen min-h-[600px] overflow-hidden">
-      {/* Full-bleed background */}
-      <div className="absolute inset-0">
-        <img
-          src={heroImage}
-          alt="Terea heat-not-burn tobacco sticks"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/30" />
+    <section className="relative w-full h-screen min-h-[640px] overflow-hidden bg-black">
+      {/* Background slides */}
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={current}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0"
+        >
+          <img
+            src={slide.image}
+            alt={slide.title}
+            className="w-full h-full object-cover"
+          />
+          <div className={`absolute inset-0 ${slide.overlay}`} />
+          <div className="absolute inset-0 bg-black/20" />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Content */}
+      <div className={`absolute inset-0 flex flex-col justify-end pb-20 md:pb-28 px-8 md:px-16 lg:px-24 ${slide.align === "right" ? "items-end text-right" : "items-start text-left"}`}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-xl"
+          >
+            <p className="font-body text-[10px] tracking-[0.3em] uppercase text-white/50 mb-5">
+              {slide.label}
+            </p>
+            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.05] mb-6 whitespace-pre-line">
+              {slide.title}
+            </h1>
+            <p className="font-body text-sm md:text-base text-white/60 leading-relaxed mb-10 max-w-sm">
+              {slide.sub}
+            </p>
+            <div className="flex items-center gap-4 flex-wrap">
+              <Link
+                to={slide.cta.to}
+                className="inline-flex items-center justify-center bg-white text-black px-8 py-3.5 font-body text-[11px] tracking-widest uppercase hover:bg-white/90 transition-colors"
+              >
+                {slide.cta.label}
+              </Link>
+              {slide.ctaSecondary && (
+                <Link
+                  to={slide.ctaSecondary.to}
+                  className="inline-flex items-center justify-center border border-white/60 text-white px-8 py-3.5 font-body text-[11px] tracking-widest uppercase hover:border-white transition-colors"
+                >
+                  {slide.ctaSecondary.label}
+                </Link>
+              )}
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
-      {/* Content overlay — bottom-left, IQOS style */}
-      <div className="absolute inset-0 flex flex-col justify-end pb-16 md:pb-24 px-8 md:px-16">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-lg"
-        >
-          <p className="font-body text-[11px] tracking-[0.25em] uppercase text-white/60 mb-4">
-            Heat-Not-Burn Tobacco
-          </p>
-          <h1 className="font-heading text-5xl md:text-7xl font-bold tracking-tight text-white leading-none mb-6">
-            TEREA<br />
-            <span className="font-light">Taiwan</span>
-          </h1>
-          <p className="font-body text-sm text-white/70 leading-relaxed mb-8 max-w-sm">
-            加熱不燃燒菸草產品。本產品含有尼古丁，尼古丁具有成癮性。
-          </p>
-          <div className="flex items-center gap-4">
-            <Link
-              to="/products"
-              className="inline-flex items-center justify-center bg-white text-black px-8 py-3 font-body text-[11px] tracking-widest uppercase rounded-full hover:bg-white/90 transition-colors"
-            >
-              查看產品
-            </Link>
-            <Link
-              to="/stores"
-              className="inline-flex items-center justify-center border border-white text-white px-8 py-3 font-body text-[11px] tracking-widest uppercase rounded-full hover:bg-white/10 transition-colors"
-            >
-              門市據點
-            </Link>
-          </div>
-        </motion.div>
+      {/* Slide indicators */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`transition-all duration-500 rounded-full ${
+              i === current ? "w-8 h-1.5 bg-white" : "w-1.5 h-1.5 bg-white/40"
+            }`}
+          />
+        ))}
       </div>
+
+      {/* Scroll hint */}
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        transition={{ repeat: Infinity, duration: 2 }}
+        className="absolute bottom-8 right-8 md:right-16 text-white/30"
+      >
+        <ChevronDown className="w-5 h-5" />
+      </motion.div>
     </section>
   );
 }
