@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Flame, Droplets, Shield, Zap } from "lucide-react";
+import { Flame, Droplets, Zap } from "lucide-react";
 
 const TECH_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/6b4f5e762_generated_d51a747f.png";
 const COLLECTION_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/a97b2b7bc_generated_3c7233ab.png";
@@ -21,11 +21,7 @@ const features = [
     title: "零灰燼體驗",
     description: "不燃燒意味著沒有灰燼、沒有煙霧，只有純粹的加熱蒸氣，帶來更潔淨的使用體驗。",
   },
-  {
-    icon: Shield,
-    title: "減害科技",
-    description: "相較於傳統燃燒式產品，有害物質平均減少95%*，是更負責任的選擇。",
-  },
+
 ];
 
 const steps = [
@@ -175,9 +171,7 @@ export default function Technology() {
               className="w-full h-full object-cover"
             />
           </motion.div>
-          <p className="font-heading text-xs tracking-wider text-muted-foreground mt-4">
-            *與繼續吸煙相比。這並不意味著風險降低95%。Terea 菸彈並非無風險的產品。
-          </p>
+
         </div>
       </section>
     </div>
