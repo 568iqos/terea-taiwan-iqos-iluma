@@ -33,12 +33,11 @@ export default function StoresCTA({ cityImage }) {
           </div>
 
           <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mb-6 max-w-2xl mx-auto">
-            尋找您附近的
-            <span className="text-primary"> 授權門市</span>
+            授權<span className="text-primary">販售據點</span>
           </h2>
 
-          <p className="font-body text-muted-foreground text-lg max-w-lg mx-auto mb-10">
-            台北、台中、高雄——全台授權販售據點，親身體驗 Terea 的精緻風味。
+          <p className="font-body text-muted-foreground text-base max-w-lg mx-auto mb-10">
+            台北、台中、高雄等地均設有授權販售門市。
           </p>
 
           <Link

@@ -26,7 +26,7 @@ export default function Footer() {
               TEREA
             </span>
             <p className="font-body text-xs text-secondary-foreground/40 mt-3 max-w-sm leading-relaxed">
-              以革命性感應加熱科技，重新定義品味體驗。TEREA Taiwan 為您帶來純粹、精準、潔淨的全新感受。
+              TEREA Taiwan — 加熱不燃燒菸草產品資訊網站。
             </p>
           </div>
 
@@ -49,8 +49,7 @@ export default function Footer() {
         {/* Legal notice */}
         <div className="space-y-3">
           <p className="font-body text-[10px] text-secondary-foreground/25 leading-relaxed max-w-3xl">
-            ⚠ 警告：本產品含有尼古丁，尼古丁具有成癮性。此產品不適合非吸煙者或未成年人使用。
-            本網站僅供已確認年滿18歲之成年吸煙者瀏覽。
+            ⚠ 吸菸有害健康——吸菸會導致肺癌、心臟病、慢性支氣管炎及動脈硬化。本產品含有尼古丁，尼古丁具有成癮性。未滿20歲請勿購買或吸菸。本網站僅供台灣地區20歲以上成年人瀏覽。
           </p>
           <p className="font-body text-[10px] text-secondary-foreground/20">
             © {new Date().getFullYear()} TEREA Taiwan. All rights reserved.

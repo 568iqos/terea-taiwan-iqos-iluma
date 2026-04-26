@@ -19,28 +19,14 @@ export default function TechTeaser({ techImage, deviceImage }) {
             <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mb-6">
               Smartcore™
               <br />
-              <span className="text-primary">感應加熱系統</span>
+              <span className="text-primary">感應加熱技術</span>
             </h2>
-            <p className="font-body text-background/60 text-lg leading-relaxed mb-8 max-w-md">
-              由內而外的精準加熱，不燃燒，不產生灰燼。以350°C恆溫技術，完整釋放菸草的真實風味，同時大幅降低有害物質的產生。
+            <p className="font-body text-background/60 text-base leading-relaxed mb-8 max-w-md">
+              以電磁感應從菸草內部加熱，加熱溫度不超過 350°C，不產生燃燒。
             </p>
-
-            <div className="grid grid-cols-3 gap-8 mb-10">
-              {[
-                { value: "350°C", label: "精準恆溫" },
-                { value: "0", label: "灰燼產生" },
-                { value: "95%", label: "減少有害物質" },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <p className="font-heading text-2xl md:text-3xl font-bold text-primary mb-1">
-                    {stat.value}
-                  </p>
-                  <p className="font-heading text-xs tracking-wider text-background/40 uppercase">
-                    {stat.label}
-                  </p>
-                </div>
-              ))}
-            </div>
+            <p className="font-body text-background/40 text-xs leading-relaxed mb-8 max-w-md">
+              本產品並非無風險，且含有尼古丁，尼古丁具有成癮性。
+            </p>
 
             <Link
               to="/technology"

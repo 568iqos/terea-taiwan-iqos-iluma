@@ -24,10 +24,10 @@ export default function FlavorPreview({ flavorImages }) {
         >
           <div className="h-px w-16 bg-primary mb-8" />
           <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mb-4">
-            風味光譜
+            產品系列
           </h2>
-          <p className="font-body text-muted-foreground text-lg max-w-lg">
-            五種精心調配的風味，每一款都是對感官的致敬。從清涼到醇厚，找到屬於你的儀式。
+          <p className="font-body text-muted-foreground text-base max-w-lg">
+            Terea 提供多種口味選擇，適用於 IQOS ILUMA 裝置。
           </p>
         </motion.div>
 
@@ -70,7 +70,7 @@ export default function FlavorPreview({ flavorImages }) {
             to="/products"
             className="inline-flex items-center gap-3 font-heading text-sm tracking-widest uppercase text-foreground hover:text-primary transition-colors group"
           >
-            探索完整系列
+            查看完整系列
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>
