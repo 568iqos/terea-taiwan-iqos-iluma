@@ -1,82 +1,83 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowDown } from "lucide-react";
 
-const HERO_IMAGE = 'https://media.base44.com/images/public/69edb64b2f0beef803a1b699/de26b606d_generated_8a22a6fb.png';
-
-export default function HeroSection() {
+export default function HeroSection({ heroImage }) {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-secondary">
-      {/* Induction rings */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        {[1, 2, 3].map((i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full border border-primary/20"
-            style={{
-              width: `${200 + i * 140}px`,
-              height: `${200 + i * 140}px`,
-            }}
-            animate={{
-              scale: [0.9, 1.1, 0.9],
-              opacity: [0.15, 0.05, 0.15],
-            }}
-            transition={{
-              duration: 4 + i,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: i * 0.5,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Product image */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 w-64 md:w-80 lg:w-96"
-      >
+    <section className="relative h-screen w-full overflow-hidden flex items-center">
+      {/* Background Image */}
+      <div className="absolute inset-0">
         <img
-          src={HERO_IMAGE}
-          alt="TEREA heated tobacco stick with induction glow"
-          className="w-full h-auto object-contain drop-shadow-2xl"
+          src={heroImage}
+          alt="Terea heat-not-burn tobacco stick on Taiwanese marble"
+          className="w-full h-full object-cover"
         />
-      </motion.div>
-
-      {/* Text overlay */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-end pb-24 md:pb-32 pointer-events-none">
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="font-heading font-bold text-4xl md:text-6xl lg:text-7xl tracking-[0.3em] uppercase text-secondary-foreground text-center"
-        >
-          TEREA
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-          className="font-body text-sm md:text-base tracking-[0.15em] text-secondary-foreground/60 mt-4 text-center"
-        >
-          感應加熱 · 純粹精準 · 品味極致
-        </motion.p>
+        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/40 to-transparent" />
       </div>
 
-      {/* Scroll indicator */}
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full">
+        <div className="max-w-xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <div className="h-px w-16 bg-primary mb-8" />
+            <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-none mb-6">
+              <span className="block">感受</span>
+              <span className="block text-primary mt-2">精準之美</span>
+            </h1>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="font-body text-lg text-muted-foreground leading-relaxed mb-10 max-w-md"
+          >
+            以加熱不燃燒的革新科技，釋放每一絲風味的純粹本質。Terea，為台灣而生。
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
+            className="flex items-center gap-6"
+          >
+            <Link
+              to="/products"
+              className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-heading text-sm tracking-widest uppercase hover:bg-primary/90 transition-all duration-300"
+            >
+              探索風味
+            </Link>
+            <Link
+              to="/technology"
+              className="inline-flex items-center gap-2 font-heading text-sm tracking-wider uppercase text-foreground hover:text-primary transition-colors"
+            >
+              了解科技
+              <span className="h-px w-8 bg-current" />
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="absolute bottom-8 z-20 flex flex-col items-center"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
+        <span className="font-heading text-xs tracking-widest uppercase text-muted-foreground">
+          向下探索
+        </span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          transition={{ repeat: Infinity, duration: 2 }}
         >
-          <ChevronDown className="w-5 h-5 text-secondary-foreground/40" />
+          <ArrowDown className="w-4 h-4 text-primary" />
         </motion.div>
       </motion.div>
     </section>
