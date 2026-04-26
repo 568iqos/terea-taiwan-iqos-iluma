@@ -10,11 +10,11 @@ const CITY_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b
 const DEVICE_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/11904d9b6_generated_image.png";
 
 const FLAVOR_IMAGES = [
-  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/3914cfbd4_generated_image.png",
-  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/c73b166f0_generated_image.png",
-  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/82e4b8859_generated_image.png",
-  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/c5d26d4dc_generated_image.png",
-  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/a968d7153_generated_image.png",
+  "https://edge.dis.commercecloud.salesforce.com/dw/image/v2/BKBN_PRD/on/demandware.static/-/Sites-catalog_master_sfcc_krs/default/dwa18cb993/images/large/2405300199_1.jpg",
+  "https://edge.dis.commercecloud.salesforce.com/dw/image/v2/BKBN_PRD/on/demandware.static/-/Sites-catalog_master_sfcc_krs/default/dw76a828c7/images/large/2405300200_1.jpg",
+  "https://edge.dis.commercecloud.salesforce.com/dw/image/v2/BKBN_PRD/on/demandware.static/-/Sites-catalog_master_sfcc_krs/default/dw038ac8b5/images/large/2405300201_1.jpg",
+  "https://edge.dis.commercecloud.salesforce.com/dw/image/v2/BKBN_PRD/on/demandware.static/-/Sites-catalog_master_sfcc_krs/default/dwd1febdd4/images/large/2405300231_1.jpg",
+  "https://edge.dis.commercecloud.salesforce.com/dw/image/v2/BKBN_PRD/on/demandware.static/-/Sites-catalog_master_sfcc_krs/default/dwf75b733a/images/large/2405300233_1_b.jpg",
 ];
 
 export default function Home() {
