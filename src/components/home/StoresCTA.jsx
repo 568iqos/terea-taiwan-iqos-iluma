@@ -1,51 +1,43 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { MapPin, ArrowRight } from "lucide-react";
 
 export default function StoresCTA({ cityImage }) {
   return (
-    <section className="relative py-32 overflow-hidden">
-      {/* Background */}
+    <section className="relative h-[70vh] min-h-[480px] overflow-hidden">
+      {/* Full-bleed background */}
       <div className="absolute inset-0">
         {cityImage && (
           <img
             src={cityImage}
-            alt="Taipei cityscape"
+            alt="Taiwan city"
             className="w-full h-full object-cover"
           />
         )}
-        <div className="absolute inset-0 bg-background/85 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-black/55" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 text-center">
+      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full mb-8">
-            <MapPin className="w-4 h-4 text-primary" />
-            <span className="font-heading text-xs tracking-widest uppercase text-primary">
-              台灣各地
-            </span>
-          </div>
-
-          <h2 className="font-heading text-3xl md:text-5xl font-bold tracking-tight mb-6 max-w-2xl mx-auto">
-            授權<span className="text-primary">販售據點</span>
+          <p className="font-body text-[11px] tracking-[0.25em] uppercase text-white/50 mb-5">
+            Find a Store
+          </p>
+          <h2 className="font-heading text-4xl md:text-6xl font-bold text-white tracking-tight mb-4">
+            授權販售據點
           </h2>
-
-          <p className="font-body text-muted-foreground text-base max-w-lg mx-auto mb-10">
+          <p className="font-body text-sm text-white/60 max-w-sm mx-auto mb-10 leading-relaxed">
             台北、台中、高雄等地均設有授權販售門市。
           </p>
-
           <Link
             to="/stores"
-            className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-heading text-sm tracking-widest uppercase hover:bg-primary/90 transition-all duration-300 group"
+            className="inline-flex items-center justify-center bg-white text-black px-10 py-3.5 font-body text-[11px] tracking-widest uppercase rounded-full hover:bg-white/90 transition-colors"
           >
             查看門市
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>
       </div>

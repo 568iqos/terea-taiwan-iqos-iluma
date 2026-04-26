@@ -1,77 +1,79 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
 const navLinks = [
-  { label: '風味系列', href: '#flavors' },
-  { label: '核心科技', href: '#technology' },
-  { label: '門市據點', href: '#stores' },
+  { label: '風味系列', href: '/products' },
+  { label: '核心科技', href: '/technology' },
+  { label: '門市據點', href: '/stores' },
 ];
 
 export default function Navbar() {
-  const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-      setVisible(currentY < 100 || currentY < lastScrollY);
-      setScrolled(currentY > 50);
-      setLastScrollY(currentY);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
-
-  const scrollToSection = (href) => {
-    setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, []);
 
   return (
     <>
-      <AnimatePresence>
-        {visible && (
-          <motion.nav
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            exit={{ y: -100 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${
-              scrolled ? 'bg-background/80 backdrop-blur-xl border-b border-border/50' : 'bg-transparent'
-            }`}
-          >
-            <div className="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
-              <Link to="/" className="font-heading font-800 text-xl tracking-[0.3em] uppercase text-foreground">
-                TEREA
-              </Link>
-
-              <div className="hidden md:flex items-center gap-12">
-                {navLinks.map((link) => (
-                  <button
-                    key={link.href}
-                    onClick={() => scrollToSection(link.href)}
-                    className="font-heading text-xs tracking-[0.2em] uppercase text-muted-foreground hover:text-primary transition-colors duration-300"
-                  >
-                    {link.label}
-                  </button>
-                ))}
-              </div>
-
-              <button
-                onClick={() => setMobileOpen(true)}
-                className="md:hidden text-foreground"
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? 'bg-white/95 backdrop-blur-md border-b border-black/10 shadow-sm' : 'bg-white/80 backdrop-blur-md border-b border-black/10'
+      }`}>
+        <div className="max-w-screen-xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+          {/* Left links */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.slice(0, 1).map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className={`font-body text-[11px] tracking-widest uppercase transition-colors duration-200 ${
+                  location.pathname === link.href ? 'text-foreground font-medium' : 'text-muted-foreground hover:text-foreground'
+                }`}
               >
-                <Menu className="w-6 h-6" />
-              </button>
-            </div>
-          </motion.nav>
-        )}
-      </AnimatePresence>
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Center logo */}
+          <Link
+            to="/"
+            className="absolute left-1/2 -translate-x-1/2 font-heading font-bold text-[22px] tracking-[0.35em] uppercase text-foreground"
+          >
+            TEREA
+          </Link>
+
+          {/* Right links */}
+          <div className="hidden md:flex items-center gap-8 ml-auto">
+            {navLinks.slice(1).map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className={`font-body text-[11px] tracking-widest uppercase transition-colors duration-200 ${
+                  location.pathname === link.href ? 'text-foreground font-medium' : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileOpen(true)}
+            className="md:hidden ml-auto text-foreground p-1"
+            aria-label="メニューを開く"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+      </nav>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -80,26 +82,25 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-secondary flex flex-col items-center justify-center"
+            className="fixed inset-0 z-[100] bg-white flex flex-col"
           >
-            <button
-              onClick={() => setMobileOpen(false)}
-              className="absolute top-6 right-6 text-secondary-foreground"
-            >
-              <X className="w-7 h-7" />
-            </button>
-            <div className="flex flex-col items-center gap-10">
-              {navLinks.map((link, i) => (
-                <motion.button
+            <div className="flex items-center justify-between h-16 px-6 border-b border-black/10">
+              <span className="font-heading font-bold text-[22px] tracking-[0.35em] uppercase">TEREA</span>
+              <button onClick={() => setMobileOpen(false)} aria-label="閉じる">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="flex flex-col pt-10 px-8 gap-0 divide-y divide-black/8">
+              {navLinks.map((link) => (
+                <Link
                   key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  onClick={() => scrollToSection(link.href)}
-                  className="font-heading text-2xl tracking-[0.25em] uppercase text-secondary-foreground hover:text-primary transition-colors"
+                  to={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="py-5 font-body text-base tracking-wider text-foreground hover:text-black/60 transition-colors flex items-center justify-between"
                 >
                   {link.label}
-                </motion.button>
+                  <span className="text-black/30">→</span>
+                </Link>
               ))}
             </div>
           </motion.div>

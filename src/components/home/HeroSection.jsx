@@ -1,85 +1,54 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowDown } from "lucide-react";
 
 export default function HeroSection({ heroImage }) {
   return (
-    <section className="relative h-screen w-full overflow-hidden flex items-center">
-      {/* Background Image */}
+    <section className="relative w-full h-screen min-h-[600px] overflow-hidden">
+      {/* Full-bleed background */}
       <div className="absolute inset-0">
         <img
           src={heroImage}
-          alt="Terea heat-not-burn tobacco stick on Taiwanese marble"
+          alt="Terea heat-not-burn tobacco sticks"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/40 to-transparent" />
+        <div className="absolute inset-0 bg-black/30" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full">
-        <div className="max-w-xl">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            <div className="h-px w-16 bg-primary mb-8" />
-            <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-none mb-6">
-              <span className="block">Terea</span>
-              <span className="block text-primary mt-2">Taiwan</span>
-            </h1>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="font-body text-base text-muted-foreground leading-relaxed mb-6 max-w-md"
-          >
+      {/* Content overlay — bottom-left, IQOS style */}
+      <div className="absolute inset-0 flex flex-col justify-end pb-16 md:pb-24 px-8 md:px-16">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-lg"
+        >
+          <p className="font-body text-[11px] tracking-[0.25em] uppercase text-white/60 mb-4">
+            Heat-Not-Burn Tobacco
+          </p>
+          <h1 className="font-heading text-5xl md:text-7xl font-bold tracking-tight text-white leading-none mb-6">
+            TEREA<br />
+            <span className="font-light">Taiwan</span>
+          </h1>
+          <p className="font-body text-sm text-white/70 leading-relaxed mb-8 max-w-sm">
             加熱不燃燒菸草產品。本產品含有尼古丁，尼古丁具有成癮性。
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            className="flex items-center gap-6"
-          >
+          </p>
+          <div className="flex items-center gap-4">
             <Link
               to="/products"
-              className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-heading text-sm tracking-widest uppercase hover:bg-primary/90 transition-all duration-300"
+              className="inline-flex items-center justify-center bg-white text-black px-8 py-3 font-body text-[11px] tracking-widest uppercase rounded-full hover:bg-white/90 transition-colors"
             >
               查看產品
             </Link>
             <Link
               to="/stores"
-              className="inline-flex items-center gap-2 font-heading text-sm tracking-wider uppercase text-foreground hover:text-primary transition-colors"
+              className="inline-flex items-center justify-center border border-white text-white px-8 py-3 font-body text-[11px] tracking-widest uppercase rounded-full hover:bg-white/10 transition-colors"
             >
               門市據點
-              <span className="h-px w-8 bg-current" />
             </Link>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="font-heading text-xs tracking-widest uppercase text-muted-foreground">
-          向下探索
-        </span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-        >
-          <ArrowDown className="w-4 h-4 text-primary" />
+          </div>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

@@ -92,7 +92,7 @@ function FlavorDetail({ flavor, onClose }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-background/95 backdrop-blur-lg flex items-center justify-center p-6"
+      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6"
       onClick={onClose}
     >
       <motion.div
@@ -100,7 +100,7 @@ function FlavorDetail({ flavor, onClose }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 40, scale: 0.95 }}
         transition={{ duration: 0.4 }}
-        className="max-w-4xl w-full bg-card rounded-2xl overflow-hidden shadow-2xl"
+        className="max-w-4xl w-full bg-white rounded-2xl overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="grid grid-cols-1 md:grid-cols-2">
@@ -138,7 +138,7 @@ function FlavorDetail({ flavor, onClose }) {
                 {flavor.notes.map((note) => (
                   <span
                     key={note}
-                    className={`${flavor.bgAccent} ${flavor.accentColor} font-heading text-xs tracking-wider px-3 py-1.5 rounded-full`}
+                    className="bg-black/5 text-black/70 font-body text-xs tracking-wider px-3 py-1.5 rounded-full"
                   >
                     {note}
                   </span>
@@ -188,11 +188,12 @@ export default function Products() {
             transition={{ duration: 0.8 }}
           >
             <div className="h-px w-16 bg-primary mb-8" />
-            <h1 className="font-heading text-4xl md:text-6xl font-bold tracking-tight mb-4">
+            <p className="font-body text-[11px] tracking-[0.25em] uppercase text-muted-foreground mb-3">Product Line</p>
+            <h1 className="font-heading text-4xl md:text-5xl font-bold tracking-tight mb-4">
               風味系列
             </h1>
-            <p className="font-body text-muted-foreground text-lg max-w-xl">
-              每一款 Terea 都經過精心調配，以加熱不燃燒技術呈現最純粹的風味體驗。選擇你的感官旅程。
+            <p className="font-body text-muted-foreground text-sm max-w-md leading-relaxed">
+              每一款 Terea 都經過精心調配，以加熱不燃燒技術呈現最純粹的風味體驗。
             </p>
           </motion.div>
         </div>
