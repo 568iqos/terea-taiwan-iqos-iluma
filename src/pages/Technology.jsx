@@ -2,8 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Flame, Droplets, Zap } from "lucide-react";
 
-const TECH_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/6b4f5e762_generated_d51a747f.png";
-const COLLECTION_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/a97b2b7bc_generated_3c7233ab.png";
+const TECH_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/1565ebbb3_generated_image.png";
+const COLLECTION_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/fb428996b_generated_image.png";
 
 const features = [
   {
