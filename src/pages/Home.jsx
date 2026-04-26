@@ -4,7 +4,7 @@ import FlavorPreview from "../components/home/FlavorPreview";
 import TechTeaser from "../components/home/TechTeaser";
 import StoresCTA from "../components/home/StoresCTA";
 
-const HERO_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/e33820db2_generated_1bc61e04.png";
+const HERO_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/e45ae93a9_IMG_8058.jpg";
 const TECH_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/6b4f5e762_generated_d51a747f.png";
 const CITY_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/b533020cf_generated_a770e83d.png";
 const DEVICE_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/fa60dbfcd_generated_0be12d84.png";
