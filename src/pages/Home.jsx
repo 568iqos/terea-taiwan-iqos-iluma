@@ -10,11 +10,11 @@ const CITY_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b
 const DEVICE_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/11904d9b6_generated_image.png";
 
 const FLAVOR_IMAGES = [
-  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/02dace3d5_generated_d47b826e.png",
-  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/8dda69a42_generated_ace8fd89.png",
-  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/4258615b9_generated_81912564.png",
-  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/4232866f5_generated_79373a25.png",
-  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/fb428996b_generated_image.png",
+  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/3914cfbd4_generated_image.png",
+  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/c73b166f0_generated_image.png",
+  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/82e4b8859_generated_image.png",
+  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/c5d26d4dc_generated_image.png",
+  "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/a968d7153_generated_image.png",
 ];
 
 export default function Home() {
