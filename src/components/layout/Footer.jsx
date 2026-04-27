@@ -59,7 +59,7 @@ export default function Footer() {
                 <p>📞 02-1234-5678</p>
                 <p>週一至週五 10:00–19:00</p>
                 <a
-                  href="https://line.me/R/ti/p/@terea_taiwan"
+                  href="https://lin.ee/nVwf4TD"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 mt-2 text-[#06C755] hover:text-[#06C755]/80 transition-colors"
