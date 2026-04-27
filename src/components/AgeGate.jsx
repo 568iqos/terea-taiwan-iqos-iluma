@@ -29,10 +29,9 @@ export default function AgeGate() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.3 }}
-          className="max-w-sm w-full bg-white rounded-2xl shadow-2xl overflow-hidden"
+          className="max-w-sm w-full bg-white rounded-2xl shadow-2xl overflow-hidden p-10 text-center"
           onClick={(e) => e.stopPropagation()}
         >
-        <div className="p-8 text-center">
           {/* Logo */}
           <p className="font-heading font-bold text-2xl tracking-[0.35em] uppercase text-black mb-8">
             TEREA
@@ -40,36 +39,29 @@ export default function AgeGate() {
 
           <div className="w-full h-px bg-black/10 mb-8" />
 
-          <h1 className="font-heading text-xl font-bold tracking-tight mb-3 text-black">
-            年齡確認
-          </h1>
+          <h2 className="font-heading text-xl font-bold tracking-tight mb-4 text-black">
+            年齡驗證
+          </h2>
           <p className="font-body text-sm text-black/50 leading-relaxed mb-8">
-            本網站涉及菸草相關產品資訊。<br />
-            您是否已年滿 <span className="font-semibold text-black">18 歲</span>？
+            本網站含有菸草相關商品資訊，未滿20歲者無法瀏覽菸草網頁。
+            <br /><br />
+            <span className="font-semibold text-black">您是否已滿 20 歲？</span>
           </p>
-
-          {/* Warning */}
-          <div className="bg-black/5 border border-black/10 rounded-xl p-4 mb-8 text-left">
-            <p className="font-body text-[11px] text-black/40 leading-relaxed">
-              ⚠ 吸菸有害健康。本產品含有尼古丁，尼古丁具有成癮性。未滿18歲請勿購買或使用。
-            </p>
-          </div>
 
           <div className="flex gap-3">
             <button
               onClick={handleYes}
-              className="flex-1 py-3.5 bg-black text-white font-body text-[11px] tracking-widest uppercase rounded-full hover:bg-black/80 transition-all"
+              className="flex-1 py-3.5 bg-black text-white font-body text-sm tracking-widest rounded-lg hover:bg-black/80 transition-all"
             >
-              是，我已成年
+              是
             </button>
             <a
               href="https://www.google.com"
-              className="flex-1 py-3.5 border border-black/20 text-black/50 font-body text-[11px] tracking-widest uppercase rounded-full hover:border-black/40 transition-all"
+              className="flex-1 py-3.5 border border-black/20 text-black/60 font-body text-sm tracking-widest rounded-lg hover:border-black/50 hover:text-black transition-all"
             >
-              否，離開
+              否
             </a>
           </div>
-        </div>
         </motion.div>
       </motion.div>
     </AnimatePresence>
