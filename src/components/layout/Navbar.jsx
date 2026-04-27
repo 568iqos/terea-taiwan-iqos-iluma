@@ -5,6 +5,7 @@ import { Menu, X, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 
 const navLinks = [
+  { label: '設備系列', href: '/devices' },
   { label: '風味系列', href: '/products' },
   { label: '核心科技', href: '/technology' },
 ];
