@@ -221,11 +221,11 @@ function FlavorDetail({ flavor, onClose }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className={`aspect-square bg-gradient-to-br ${flavor.gradient}`}>
+          <div className={`aspect-square bg-gradient-to-br ${flavor.gradient} flex items-center justify-center`}>
             <img
               src={flavor.image}
               alt={flavor.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain p-6"
             />
           </div>
           <div className="p-8 md:p-12 flex flex-col justify-center">
