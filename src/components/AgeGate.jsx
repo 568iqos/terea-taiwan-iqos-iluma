@@ -22,9 +22,17 @@ export default function AgeGate() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[9999] bg-white flex items-center justify-center p-6"
+        className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-6"
       >
-        <div className="max-w-sm w-full text-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          transition={{ duration: 0.3 }}
+          className="max-w-sm w-full bg-white rounded-2xl shadow-2xl overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+        <div className="p-8 text-center">
           {/* Logo */}
           <p className="font-heading font-bold text-2xl tracking-[0.35em] uppercase text-black mb-8">
             TEREA
@@ -62,6 +70,7 @@ export default function AgeGate() {
             </a>
           </div>
         </div>
+        </motion.div>
       </motion.div>
     </AnimatePresence>
   );
