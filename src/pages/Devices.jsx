@@ -1,49 +1,70 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Zap, Battery, Thermometer, Wifi } from "lucide-react";
+import { X, Zap, Battery, Thermometer, Wifi, Star } from "lucide-react";
 
 const devices = [
   {
-    id: "iluma-i",
-    name: "ILUMA i",
-    nameEn: "ILUMA i",
-    tagline: "旗艦機型，極致體驗",
+    id: "iluma-i-prime",
+    name: "ILUMA i PRIME",
+    nameEn: "ILUMA i PRIME",
+    tagline: "旗艦型，極致科技體驗",
     description:
-      "ILUMA i 是旗艦設備，採用革命性 Smartcore™ 感應加熱技術，從菸草核心均勻加熱，無需清潔，無燃燒、無灰燼。搭配 TEREA 專用菸彈，帶來最純粹、最潔淨的菸草蒸氣體驗。",
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/260e7c9f4_IMG_8125.jpg",
-    colors: ["#8B6B9E", "#7BA3C8", "#4ECDC4", "#C8A882", "#2C2C2C"],
-    colorNames: ["紫羅蘭", "天空藍", "薄荷綠", "暖沙棕", "經典黑"],
+      "旗艦款設備，搭載 OLED 觸控螢幕、智慧延長功能與可換式外殼設計。採用 Smartcore™ 感應加熱技術，無需清潔刀片，帶來最純粹、最潔淨的菸草蒸氣體驗。環保材質，科技與時尚完美融合。",
+    image: "https://terea-kim.com/wp-content/uploads/2025/05/%E3%80%90%E4%B8%BB%E5%9C%96%E3%80%91-TEREA-%E4%B8%BB%E6%A9%9F-%E5%9C%96%E7%89%87.png",
+    colors: ["#0D2340", "#8B3A62", "#2E5E4E", "#4A6FA5", "#6B3FA0"],
+    colorNames: ["午夜黑", "石榴紅", "白楊綠", "微風藍", "電光紫"],
     specs: [
       { icon: Thermometer, label: "加熱技術", value: "Smartcore™ 感應加熱" },
-      { icon: Battery, label: "電池容量", value: "支援連續 20 根使用" },
-      { icon: Zap, label: "充電時間", value: "約 100 分鐘滿電" },
+      { icon: Star, label: "控制介面", value: "OLED 觸控螢幕" },
+      { icon: Zap, label: "智慧功能", value: "FlexPuff 自動延長" },
       { icon: Wifi, label: "連線功能", value: "藍牙 APP 連線支援" },
     ],
-    features: ["無需清潔刀片", "自動停止功能", "防夾斷保護", "LED 電量顯示", "藍牙連線"],
-    gradient: "from-purple-100 to-blue-50",
-    accentColor: "text-purple-700",
-    bgAccent: "bg-purple-600",
+    features: ["OLED 觸控螢幕", "FlexPuff 自動延長", "FlexBattery 模式切換", "可換殼設計", "無需清潔刀片", "支援 2–3 次連吸"],
+    gradient: "from-slate-100 to-purple-50",
+    accentColor: "text-slate-700",
+    bgAccent: "bg-slate-700",
+  },
+  {
+    id: "iluma-i",
+    name: "ILUMA i",
+    nameEn: "ILUMA i Standard",
+    tagline: "標準型，日常首選",
+    description:
+      "標準版設備，搭載觸控螢幕可顯示剩餘時間與電量。全新暫停功能、Flex Puff 多抽 4 口功能及省電模式，讓日常使用更便利。可與前一代充電盒共用，輕巧設計適合日常攜帶。",
+    image: "https://terea-kim.com/wp-content/uploads/2025/05/%E3%80%905%E8%89%B2%E4%B8%BB%E6%A9%9F%E3%80%91IQO-S-TEREA%E5%9C%96%E7%89%87.png",
+    colors: ["#1A1A2E", "#4A6FA5", "#5B3FA0", "#E07B3A", "#4A8C5C"],
+    colorNames: ["午夜黑", "微風藍", "數位紫", "烈焰橘", "青蘋果綠"],
+    specs: [
+      { icon: Thermometer, label: "加熱技術", value: "Smartcore™ 感應加熱" },
+      { icon: Battery, label: "連續使用", value: "最高 3 支連續使用" },
+      { icon: Zap, label: "充電時間", value: "單支約 1 分 50 秒" },
+      { icon: Wifi, label: "連線功能", value: "藍牙 APP 連線支援" },
+    ],
+    features: ["觸控螢幕顯示", "暫停功能", "Flex Puff 多抽 4 口", "省電模式", "無需清潔刀片", "兼容舊款充電盒"],
+    gradient: "from-blue-50 to-indigo-50",
+    accentColor: "text-blue-700",
+    bgAccent: "bg-blue-600",
   },
   {
     id: "iluma-one-i",
     name: "ILUMA ONE i",
-    nameEn: "ILUMA ONE i",
-    tagline: "一體成型，隨行自在",
+    nameEn: "ILUMA ONE i All-in-One",
+    tagline: "一體式，隨行自在",
     description:
-      "ILUMA ONE i 採用一體成型設計，無需充電盒，整機即可使用。輕巧便攜，支援連續使用多根 TEREA 菸彈，是追求簡約生活風格用戶的理想選擇。同樣搭載 Smartcore™ 感應加熱技術。",
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/1cc1cf9ab_IMG_8122.png",
-    colors: ["#E8C4B8", "#B8D4E8", "#C8E8C4", "#E8E4B8", "#3C3C3C"],
-    colorNames: ["玫瑰粉", "冰川藍", "清草綠", "奶油黃", "深邃黑"],
+      "一體成型設計，主機與電池整合，無需充電盒。內建 1728 mAh 大容量電池，充飽約 90 分鐘可連續使用 20 支煙彈，滿足一整天需求。底部防滑設計，單手操作輕鬆自在，是便利生活的最佳夥伴。",
+    image: "https://terea-kim.com/wp-content/uploads/2025/12/Web-Asset-ILUMAi-One_Compare_Desktop.webp",
+    colors: ["#1A1A2E", "#5B3FA0", "#D45A3A", "#4A9EC4", "#4A8C5C"],
+    colorNames: ["午夜黑", "數位紫", "橘紅", "清風藍", "青蘋果綠"],
     specs: [
       { icon: Thermometer, label: "加熱技術", value: "Smartcore™ 感應加熱" },
-      { icon: Battery, label: "一體設計", value: "無需充電盒" },
-      { icon: Zap, label: "使用次數", value: "一次充電可使用多根" },
-      { icon: Wifi, label: "連線功能", value: "藍牙 APP 連線支援" },
+      { icon: Battery, label: "電池容量", value: "1728 mAh 一體設計" },
+      { icon: Zap, label: "充電時間", value: "約 90 分鐘滿電" },
+      { icon: Star, label: "連續使用", value: "一次充電使用 20 支" },
     ],
-    features: ["一體成型設計", "輕巧便攜", "無需清潔刀片", "自動停止功能", "LED 電量顯示"],
-    gradient: "from-rose-100 to-teal-50",
-    accentColor: "text-rose-600",
-    bgAccent: "bg-rose-500",
+    features: ["一體成型設計", "20 支連續使用", "FlexPuff 自動延長", "自動啟動", "底部防滑", "無需清潔刀片"],
+    gradient: "from-teal-50 to-cyan-50",
+    accentColor: "text-teal-700",
+    bgAccent: "bg-teal-600",
   },
 ];
 
@@ -149,7 +170,7 @@ export default function Devices() {
       {/* Device Cards */}
       <section className="px-6 lg:px-12 pb-32">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {devices.map((device, i) => (
               <motion.div
                 key={device.id}
@@ -159,17 +180,17 @@ export default function Devices() {
                 className="group cursor-pointer"
                 onClick={() => setSelectedDevice(device)}
               >
-                <div className={`rounded-2xl overflow-hidden bg-gradient-to-br ${device.gradient} border border-border/40 relative aspect-[4/3]`}>
+                <div className={`rounded-2xl overflow-hidden bg-gradient-to-br ${device.gradient} border border-border/40 relative aspect-[3/4]`}>
                   <img
                     src={device.image}
                     alt={device.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-contain p-8 group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                     <p className="font-body text-[10px] tracking-widest uppercase text-white/60 mb-1">{device.nameEn}</p>
-                    <h2 className="font-heading text-2xl md:text-3xl font-bold tracking-tight mb-1">{device.name}</h2>
-                    <p className="font-body text-sm text-white/70">{device.tagline}</p>
+                    <h2 className="font-heading text-xl md:text-2xl font-bold tracking-tight mb-1">{device.name}</h2>
+                    <p className="font-body text-xs text-white/70">{device.tagline}</p>
                   </div>
                 </div>
 
