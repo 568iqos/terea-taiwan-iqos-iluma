@@ -29,35 +29,35 @@ export default function AgeGate() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.3 }}
-          className="max-w-sm w-full bg-white rounded-2xl shadow-2xl overflow-hidden p-10 text-center"
+          className="max-w-sm w-full bg-black rounded-2xl shadow-2xl overflow-hidden p-10 text-center border border-white/10"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Logo */}
-          <p className="font-heading font-bold text-2xl tracking-[0.35em] uppercase text-black mb-8">
+          <p className="font-heading font-bold text-2xl tracking-[0.35em] uppercase text-white mb-8">
             TEREA
           </p>
 
-          <div className="w-full h-px bg-black/10 mb-8" />
+          <div className="w-full h-px bg-white/10 mb-8" />
 
-          <h2 className="font-heading text-xl font-bold tracking-tight mb-4 text-black">
+          <h2 className="font-heading text-xl font-bold tracking-tight mb-4 text-white">
             年齡驗證
           </h2>
-          <p className="font-body text-sm text-black/50 leading-relaxed mb-8">
+          <p className="font-body text-sm text-white/50 leading-relaxed mb-8">
             本網站含有菸草相關商品資訊，未滿20歲者無法瀏覽菸草網頁。
             <br /><br />
-            <span className="font-semibold text-black">您是否已滿 20 歲？</span>
+            <span className="font-semibold text-white">您是否已滿 20 歲？</span>
           </p>
 
           <div className="flex gap-3">
             <button
               onClick={handleYes}
-              className="flex-1 py-3.5 bg-black text-white font-body text-sm tracking-widest rounded-lg hover:bg-black/80 transition-all"
+              className="flex-1 py-3.5 bg-white text-black font-body text-sm tracking-widest rounded-lg hover:bg-white/80 transition-all"
             >
               是
             </button>
             <a
               href="https://www.google.com"
-              className="flex-1 py-3.5 border border-black/20 text-black/60 font-body text-sm tracking-widest rounded-lg hover:border-black/50 hover:text-black transition-all"
+              className="flex-1 py-3.5 border border-white/20 text-white/60 font-body text-sm tracking-widest rounded-lg hover:border-white/50 hover:text-white transition-all"
             >
               否
             </a>
