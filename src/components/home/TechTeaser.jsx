@@ -31,25 +31,17 @@ export default function TechTeaser() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9 }}
-            className="relative lg:order-1 order-2 flex items-center justify-center py-8 lg:py-0"
+            className="relative lg:order-1 order-2"
           >
-            <blockquote
-              className="instagram-media"
-              data-instgrm-captioned
-              data-instgrm-permalink="https://www.instagram.com/reel/DUqLt18jApW/?igsh=MTJiendwYXZ3Z3Flbg=="
-              data-instgrm-version="14"
-              style={{
-                background: "#FFF",
-                border: 0,
-                borderRadius: "3px",
-                boxShadow: "0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)",
-                margin: "1px",
-                maxWidth: "400px",
-                minWidth: "326px",
-                padding: 0,
-                width: "100%",
-              }}
-            />
+            <div className="h-72 lg:h-full lg:absolute lg:inset-0">
+              <img
+                src="https://media.base44.com/images/public/69edb64b2f0beef803a1b699/7489ac03d_IMG_8115.jpg"
+                alt="IQOS ILUMA i Electric Purple"
+                className="w-full h-full object-cover opacity-90"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#111] hidden lg:block" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent lg:hidden" />
+            </div>
           </motion.div>
 
           {/* Right: Text */}
