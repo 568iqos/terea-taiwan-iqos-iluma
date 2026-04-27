@@ -7,7 +7,7 @@ const slides = [
   {
     image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/e45ae93a9_IMG_8058.jpg",
     label: "TEREA Taiwan",
-    title: "加熱不燃燒\n新世代體驗",
+    title: "加熱不燃燒\n新科技體驗",
     sub: "六款精選風味，純粹菸草蒸氣享受",
     cta: { label: "探索產品", to: "/products" },
     ctaSecondary: { label: "了解技術", to: "/technology" },
