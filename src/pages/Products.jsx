@@ -16,6 +16,7 @@ const flavors = [
     notes: ["濃郁菸草", "啤酒花香", "深沉強烈"],
     intensity: 5,
     cooling: 1,
+    region: "日本",
   },
   {
     id: "regular",
@@ -29,6 +30,7 @@ const flavors = [
     notes: ["烘烤菸草", "堅果底韻", "醇厚經典"],
     intensity: 4,
     cooling: 1,
+    region: "日本",
   },
   {
     id: "smooth-regular",
@@ -42,6 +44,7 @@ const flavors = [
     notes: ["香草柑橘", "辛辣草本", "柔和平衡"],
     intensity: 2,
     cooling: 1,
+    region: "日本",
   },
   {
     id: "balanced-regular",
@@ -55,6 +58,7 @@ const flavors = [
     notes: ["堅果清香", "木質香氣", "溫和平衡"],
     intensity: 3,
     cooling: 1,
+    region: "日本",
   },
   {
     id: "black-menthol",
@@ -68,6 +72,7 @@ const flavors = [
     notes: ["強烈冷涼", "神秘深色香料", "苦甜層次"],
     intensity: 4,
     cooling: 5,
+    region: "日本",
   },
   {
     id: "menthol",
@@ -81,6 +86,7 @@ const flavors = [
     notes: ["強烈薄荷", "深邃清涼", "溫和菸草"],
     intensity: 3,
     cooling: 5,
+    region: "日本",
   },
   {
     id: "mint",
@@ -94,6 +100,7 @@ const flavors = [
     notes: ["溫和薄荷", "淡雅菸草", "清新順滑"],
     intensity: 3,
     cooling: 2,
+    region: "日本",
   },
   {
     id: "purple-menthol",
@@ -107,6 +114,7 @@ const flavors = [
     notes: ["藍莓果香", "清脆薄荷", "甜美異國"],
     intensity: 3,
     cooling: 4,
+    region: "日本",
   },
   {
     id: "yellow-menthol",
@@ -120,6 +128,7 @@ const flavors = [
     notes: ["青檸柑橘", "柔和薄荷", "清新輕盈"],
     intensity: 2,
     cooling: 3,
+    region: "日本",
   },
   {
     id: "tropical-menthol",
@@ -133,6 +142,7 @@ const flavors = [
     notes: ["芒果鳳梨", "百香果香", "熱帶甜蜜"],
     intensity: 2,
     cooling: 3,
+    region: "日本",
   },
   {
     id: "oasis-pearl",
@@ -146,6 +156,7 @@ const flavors = [
     notes: ["水果爆珠", "菸草醇厚", "冷暖交織"],
     intensity: 3,
     cooling: 5,
+    region: "日本",
   },
   {
     id: "sunshine-pearl",
@@ -159,6 +170,7 @@ const flavors = [
     notes: ["西瓜多汁", "哈密瓜香", "清甜爆珠"],
     intensity: 2,
     cooling: 4,
+    region: "日本",
   },
   {
     id: "black-purple-menthol",
@@ -172,6 +184,7 @@ const flavors = [
     notes: ["黑醋栗果香", "強烈薄荷", "清爽順口"],
     intensity: 4,
     cooling: 5,
+    region: "日本",
   },
   {
     id: "black-tropical",
@@ -185,8 +198,11 @@ const flavors = [
     notes: ["南國芒果香", "強烈薄荷", "微酸甜涼"],
     intensity: 3,
     cooling: 4,
+    region: "日本",
   },
 ];
+
+const regions = ["全部", "日本", "韓國", "台灣"];
 
 function IntensityDots({ level, max = 5, colorClass }) {
   return (
@@ -293,6 +309,11 @@ function FlavorDetail({ flavor, onClose }) {
 
 export default function Products() {
   const [selectedFlavor, setSelectedFlavor] = useState(null);
+  const [activeRegion, setActiveRegion] = useState("全部");
+
+  const filteredFlavors = activeRegion === "全部"
+    ? flavors
+    : flavors.filter((f) => f.region === activeRegion);
 
   return (
     <div className="pt-20">
@@ -323,11 +344,37 @@ export default function Products() {
         </div>
       </section>
 
+      {/* Region Filter */}
+      <section className="px-6 lg:px-12 pb-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-wrap gap-2">
+            {regions.map((region) => (
+              <button
+                key={region}
+                onClick={() => setActiveRegion(region)}
+                className={`px-5 py-2 font-body text-[11px] tracking-widest uppercase transition-all duration-200 rounded-full border ${
+                  activeRegion === region
+                    ? "bg-foreground text-background border-foreground"
+                    : "bg-transparent text-muted-foreground border-border hover:border-foreground hover:text-foreground"
+                }`}
+              >
+                {region}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Flavor Grid */}
       <section className="px-6 lg:px-12 pb-32">
         <div className="max-w-7xl mx-auto">
+          {filteredFlavors.length === 0 ? (
+            <div className="text-center py-24 text-muted-foreground font-body text-sm">
+              此區域暫無產品
+            </div>
+          ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {flavors.map((flavor, i) => (
+            {filteredFlavors.map((flavor, i) => (
               <motion.div
                 key={flavor.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -355,6 +402,7 @@ export default function Products() {
               </motion.div>
             ))}
           </div>
+          )}
         </div>
       </section>
 
