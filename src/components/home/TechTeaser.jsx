@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-
-const TECH_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/1565ebbb3_generated_image.png";
 
 const stats = [
   { value: "350°C", label: "最高加熱溫度" },
@@ -12,6 +10,17 @@ const stats = [
 ];
 
 export default function TechTeaser() {
+  useEffect(() => {
+    if (window.instgrm) {
+      window.instgrm.Embeds.process();
+    } else {
+      const script = document.createElement("script");
+      script.src = "https://www.instagram.com/embed.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
+
   return (
     <section className="bg-[#111] text-white overflow-hidden">
       <div className="max-w-screen-xl mx-auto px-6 md:px-12">
@@ -22,17 +31,25 @@ export default function TechTeaser() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9 }}
-            className="relative lg:order-1 order-2"
+            className="relative lg:order-1 order-2 flex items-center justify-center py-8 lg:py-0"
           >
-            <div className="h-72 lg:h-full lg:absolute lg:inset-0">
-              <img
-                src={TECH_IMAGE}
-                alt="Smartcore induction heating"
-                className="w-full h-full object-cover opacity-80"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#111] hidden lg:block" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent lg:hidden" />
-            </div>
+            <blockquote
+              className="instagram-media"
+              data-instgrm-captioned
+              data-instgrm-permalink="https://www.instagram.com/reel/DUqLt18jApW/?igsh=MTJiendwYXZ3Z3Flbg=="
+              data-instgrm-version="14"
+              style={{
+                background: "#FFF",
+                border: 0,
+                borderRadius: "3px",
+                boxShadow: "0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)",
+                margin: "1px",
+                maxWidth: "400px",
+                minWidth: "326px",
+                padding: 0,
+                width: "100%",
+              }}
+            />
           </motion.div>
 
           {/* Right: Text */}
