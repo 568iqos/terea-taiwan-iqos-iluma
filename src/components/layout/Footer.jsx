@@ -44,6 +44,24 @@ export default function Footer() {
             ))}
           </div>
 
+          {/* About */}
+          <div className="flex flex-col gap-3">
+            <p className="font-body text-[10px] tracking-widest uppercase text-white/30 mb-1">關於我們</p>
+            <div className="font-body text-xs text-white/50 leading-relaxed max-w-xs space-y-3">
+              <p>TEREA Taiwan 是台灣最專業的加熱不燃燒菸草產品代理商，致力提供消費者最優質的 IQOS ILUMA 搭配體驗。</p>
+              <div>
+                <p className="text-white/30 text-[10px] uppercase tracking-widest mb-1">我們的團隊</p>
+                <p>由一群熱愛生活品質的專業人士組成，提供完整的產品諮詢與售後服務。</p>
+              </div>
+              <div>
+                <p className="text-white/30 text-[10px] uppercase tracking-widest mb-1">聯絡我們</p>
+                <p>📧 service@terea-taiwan.com</p>
+                <p>📞 02-1234-5678</p>
+                <p>週一至週五 10:00–19:00</p>
+              </div>
+            </div>
+          </div>
+
           {/* Legal links */}
           <div className="flex flex-col gap-3">
             <p className="font-body text-[10px] tracking-widest uppercase text-white/30 mb-1">法律資訊</p>
