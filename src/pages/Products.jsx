@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Leaf, Thermometer, Wind } from "lucide-react";
+import { X, Leaf, Thermometer, Wind, Plus } from "lucide-react";
 import FlavorWizard from "../components/products/FlavorWizard";
+import { useCart } from "@/context/CartContext";
 
 const flavors = [
   {
@@ -523,6 +524,7 @@ function FlavorDetail({ flavor, onClose }) {
 export default function Products() {
   const [selectedFlavor, setSelectedFlavor] = useState(null);
   const [activeRegion, setActiveRegion] = useState("全部");
+  const { addItem } = useCart();
 
   const allFlavors = [...flavors, ...koreaFlavors];
   const filteredFlavors = activeRegion === "全部"
@@ -604,13 +606,22 @@ export default function Products() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-background">
-                    <p className="font-heading text-xs tracking-widest uppercase mb-1 text-background/60">
-                      {flavor.nameEn}
-                    </p>
-                    <h3 className="font-heading text-xl font-bold tracking-tight">
-                      {flavor.name}
-                    </h3>
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-background flex items-end justify-between">
+                    <div>
+                      <p className="font-heading text-xs tracking-widest uppercase mb-1 text-background/60">
+                        {flavor.nameEn}
+                      </p>
+                      <h3 className="font-heading text-xl font-bold tracking-tight">
+                        {flavor.name}
+                      </h3>
+                    </div>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); addItem(flavor); }}
+                      className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm flex items-center justify-center transition-all flex-shrink-0"
+                      aria-label="加入購物清單"
+                    >
+                      <Plus className="w-4 h-4 text-white" />
+                    </button>
                   </div>
                 </div>
               </motion.div>

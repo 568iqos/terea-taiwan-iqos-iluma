@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ShoppingBag } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
 
 const navLinks = [
   { label: '風味系列', href: '/products' },
@@ -12,6 +13,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { totalCount, setOpen } = useCart();
 
   const isHome = location.pathname === '/';
 
@@ -73,10 +75,24 @@ export default function Navbar() {
             ))}
           </div>
 
+          {/* Cart icon */}
+          <button
+            onClick={() => setOpen(true)}
+            className={`relative p-1 transition-colors hidden md:block ${transparent ? 'text-white/70 hover:text-white' : 'text-muted-foreground hover:text-foreground'}`}
+            aria-label="購物清單"
+          >
+            <ShoppingBag className="w-5 h-5" />
+            {totalCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-black text-white text-[9px] font-bold flex items-center justify-center">
+                {totalCount}
+              </span>
+            )}
+          </button>
+
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(true)}
-            className={`md:hidden ml-auto p-1 transition-colors ${transparent ? 'text-white' : 'text-foreground'}`}
+            className={`md:hidden ml-2 p-1 transition-colors ${transparent ? 'text-white' : 'text-foreground'}`}
             aria-label="開啟選單"
           >
             <Menu className="w-5 h-5" />

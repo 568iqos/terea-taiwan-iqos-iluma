@@ -1,4 +1,6 @@
 import { Toaster } from "@/components/ui/toaster"
+import { CartProvider } from "@/context/CartContext"
+import CartDrawer from "@/components/CartDrawer"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -54,10 +56,13 @@ function App() {
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
-        <Router>
-          <AuthenticatedApp />
-        </Router>
-        <Toaster />
+        <CartProvider>
+          <Router>
+            <AuthenticatedApp />
+            <CartDrawer />
+          </Router>
+          <Toaster />
+        </CartProvider>
       </QueryClientProvider>
     </AuthProvider>
   )
