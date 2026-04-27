@@ -35,8 +35,8 @@ export default function TechTeaser() {
           >
             <div className="h-72 lg:h-full lg:absolute lg:inset-0">
               <img
-                src="https://media.base44.com/images/public/69edb64b2f0beef803a1b699/7489ac03d_IMG_8115.jpg"
-                alt="ILUMA i Electric Purple"
+                src="https://media.base44.com/images/public/69edb64b2f0beef803a1b699/6f7a30d2f_IMG_8134.jpg"
+                alt="ILUMA 系列設備展示"
                 className="w-full h-full object-cover opacity-90"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#111] hidden lg:block" />
@@ -61,7 +61,7 @@ export default function TechTeaser() {
               <span className="font-light text-white/60">感應加熱技術</span>
             </h2>
             <p className="font-body text-sm text-white/50 leading-relaxed mb-10 max-w-sm">
-              革命性電磁感應加熱技術，從菸草核心均勻加熱，無燃燒、無灰燼，帶來更潔淨、更純粹的風味體驗。
+              SMARTCORE INDUCTION SYSTEM®（智慧感應核心技術），透過磁吸感應加熱專用 TEREA 煙彈，無需加熱刀片，主打無需清潔且不易損壞。包括旗艦型 ILUMA i PRIME、標準型 ILUMA i 以及一體式 ILUMA ONE i。
             </p>
 
             {/* Stats */}
