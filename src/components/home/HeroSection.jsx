@@ -25,8 +25,8 @@ const slides = [
   },
   {
     image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/260e7c9f4_IMG_8125.jpg",
-    label: "IQOS ILUMA",
-    title: "你的 IQOS\n個性登場",
+    label: "ILUMA",
+    title: "你的 Q故事\n個性登場",
     sub: "多款配色設計，展現獨一無二的風格品味",
     cta: { label: "探索產品", to: "/products" },
     ctaSecondary: { label: "了解技術", to: "/technology" },

@@ -36,7 +36,7 @@ export default function TechTeaser() {
             <div className="h-72 lg:h-full lg:absolute lg:inset-0">
               <img
                 src="https://media.base44.com/images/public/69edb64b2f0beef803a1b699/7489ac03d_IMG_8115.jpg"
-                alt="IQOS ILUMA i Electric Purple"
+                alt="ILUMA i Electric Purple"
                 className="w-full h-full object-cover opacity-90"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#111] hidden lg:block" />

@@ -25,7 +25,7 @@ const features = [
 ];
 
 const steps = [
-  { number: "01", title: "插入", description: "將 Terea 菸彈輕輕插入 IQOS ILUMA 裝置" },
+  { number: "01", title: "插入", description: "將 Terea 菸彈輕輕插入裝置" },
   { number: "02", title: "啟動", description: "Smartcore™ 感應系統自動偵測並啟動加熱" },
   { number: "03", title: "加熱", description: "電磁感應從菸草核心均勻加熱至350°C" },
   { number: "04", title: "品味", description: "純粹風味蒸氣釋出，享受約14口或6分鐘的體驗" },

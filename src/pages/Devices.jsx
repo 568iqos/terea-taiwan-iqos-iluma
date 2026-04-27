@@ -5,11 +5,11 @@ import { X, Zap, Battery, Thermometer, Wifi } from "lucide-react";
 const devices = [
   {
     id: "iluma-i",
-    name: "IQOS ILUMA i",
+    name: "ILUMA i",
     nameEn: "ILUMA i",
     tagline: "旗艦機型，極致體驗",
     description:
-      "IQOS ILUMA i 是 IQOS 系列的旗艦設備，採用革命性 Smartcore™ 感應加熱技術，從菸草核心均勻加熱，無需清潔，無燃燒、無灰燼。搭配 TEREA 專用菸彈，帶來最純粹、最潔淨的菸草蒸氣體驗。",
+      "ILUMA i 是旗艦設備，採用革命性 Smartcore™ 感應加熱技術，從菸草核心均勻加熱，無需清潔，無燃燒、無灰燼。搭配 TEREA 專用菸彈，帶來最純粹、最潔淨的菸草蒸氣體驗。",
     image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/260e7c9f4_IMG_8125.jpg",
     colors: ["#8B6B9E", "#7BA3C8", "#4ECDC4", "#C8A882", "#2C2C2C"],
     colorNames: ["紫羅蘭", "天空藍", "薄荷綠", "暖沙棕", "經典黑"],
@@ -26,11 +26,11 @@ const devices = [
   },
   {
     id: "iluma-one-i",
-    name: "IQOS ILUMA ONE i",
+    name: "ILUMA ONE i",
     nameEn: "ILUMA ONE i",
     tagline: "一體成型，隨行自在",
     description:
-      "IQOS ILUMA ONE i 採用一體成型設計，無需充電盒，整機即可使用。輕巧便攜，支援連續使用多根 TEREA 菸彈，是追求簡約生活風格用戶的理想選擇。同樣搭載 Smartcore™ 感應加熱技術。",
+      "ILUMA ONE i 採用一體成型設計，無需充電盒，整機即可使用。輕巧便攜，支援連續使用多根 TEREA 菸彈，是追求簡約生活風格用戶的理想選擇。同樣搭載 Smartcore™ 感應加熱技術。",
     image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/1cc1cf9ab_IMG_8122.png",
     colors: ["#E8C4B8", "#B8D4E8", "#C8E8C4", "#E8E4B8", "#3C3C3C"],
     colorNames: ["玫瑰粉", "冰川藍", "清草綠", "奶油黃", "深邃黑"],
@@ -140,7 +140,7 @@ export default function Devices() {
             <p className="font-body text-[11px] tracking-[0.25em] uppercase text-muted-foreground mb-3">Devices</p>
             <h1 className="font-heading text-4xl md:text-5xl font-bold tracking-tight mb-4">設備系列</h1>
             <p className="font-body text-muted-foreground text-sm max-w-md leading-relaxed">
-              IQOS ILUMA 系列搭載革命性 Smartcore™ 感應加熱技術，無燃燒、無灰燼，帶來最純粹的菸草體驗。
+              ILUMA 系列搭載革命性 Smartcore™ 感應加熱技術，無燃燒、無灰燼，帶來最純粹的菸草體驗。
             </p>
           </motion.div>
         </div>
