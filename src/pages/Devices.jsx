@@ -158,8 +158,8 @@ export default function Devices() {
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <div className="h-px w-16 bg-primary mb-8" />
-            <p className="font-body text-[11px] tracking-[0.25em] uppercase text-muted-foreground mb-3">Devices</p>
-            <h1 className="font-heading text-4xl md:text-5xl font-bold tracking-tight mb-4">設備系列</h1>
+            <p className="font-body text-[11px] tracking-[0.25em] uppercase text-muted-foreground mb-3">Heating Devices</p>
+            <h1 className="font-heading text-4xl md:text-5xl font-bold tracking-tight mb-4">加熱設備</h1>
             <p className="font-body text-muted-foreground text-sm max-w-md leading-relaxed">
               ILUMA 系列搭載革命性 Smartcore™ 感應加熱技術，無燃燒、無灰燼，帶來最純粹的菸草體驗。
             </p>
@@ -205,6 +205,47 @@ export default function Devices() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Extra panels: 限量版 + 反菸標語 */}
+      <section className="px-6 lg:px-12 pb-32">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* 最新限量版 */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="rounded-2xl overflow-hidden border border-border/40 relative"
+            >
+              <img
+                src="https://media.base44.com/images/public/69edb64b2f0beef803a1b699/088a39156_IMG_8190.jpg"
+                alt="最新限量版 ILUMA i 電光紫"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                <span className="inline-block bg-red-500 text-white font-body text-[10px] tracking-widest px-3 py-1 rounded-full mb-3 uppercase">新色登場</span>
+                <h2 className="font-heading text-2xl font-bold tracking-tight mb-1">最新限量版</h2>
+                <p className="font-body text-sm text-white/70">ILUMA i 電光紫・限量發售，先到先得</p>
+              </div>
+            </motion.div>
+
+            {/* 反菸標語 */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="rounded-2xl overflow-hidden border border-border/40"
+            >
+              <img
+                src="https://media.base44.com/images/public/69edb64b2f0beef803a1b699/f365327ff_roboneo_image_with_aigc.jpg"
+                alt="戒菸專線 0800-636363"
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
           </div>
         </div>
       </section>

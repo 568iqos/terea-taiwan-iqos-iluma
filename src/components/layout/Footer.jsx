@@ -2,14 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const navLinks = [
-  { label: '設備系列', href: '/devices' },
+  { label: '加熱設備', href: '/devices' },
   { label: '風味系列', href: '/products' },
   { label: '核心科技', href: '/technology' },
   { label: '門市據點', href: '/stores' },
 ];
 
 const aboutLinks = [
-  { label: '設備系列', href: '/devices' },
+  { label: '加熱設備', href: '/devices' },
   { label: '風味系列', href: '/products' },
   { label: '核心科技', href: '/technology' },
 ];

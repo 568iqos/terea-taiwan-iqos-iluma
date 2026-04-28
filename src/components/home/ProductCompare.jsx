@@ -5,40 +5,40 @@ import { ArrowRight } from "lucide-react";
 
 const products = [
   {
-    id: "regular",
-    name: "醇原味",
-    nameEn: "Regular",
-    desc: "飽滿焙烤菸草，堅果底韻，最經典的選擇",
-    image: "https://edge.dis.commercecloud.salesforce.com/dw/image/v2/BKBN_PRD/on/demandware.static/-/Sites-catalog_master_sfcc_krs/default/dwa18cb993/images/large/2405300199_1.jpg",
-    tag: "醇厚",
-    tagColor: "bg-amber-100 text-amber-700",
+    id: "iluma-i-prime",
+    name: "ILUMA i PRIME",
+    nameEn: "Flagship Device",
+    desc: "旗艦款設備，搭載 OLED 觸控螢幕、智慧延長功能與可換式外殼設計",
+    image: "https://terea-kim.com/wp-content/uploads/2025/05/%E3%80%90%E4%B8%BB%E5%9C%96%E3%80%91-TEREA-%E4%B8%BB%E6%A9%9F-%E5%9C%96%E7%89%87.png",
+    tag: "旗艦",
+    tagColor: "bg-purple-100 text-purple-700",
   },
   {
-    id: "rich",
-    name: "濃郁原味",
-    nameEn: "Rich",
-    desc: "層次豐富、飽滿深沉，為追求強烈體驗而設計",
-    image: "https://edge.dis.commercecloud.salesforce.com/dw/image/v2/BKBN_PRD/on/demandware.static/-/Sites-catalog_master_sfcc_krs/default/dwb73efcd5/images/large/2405300232_1.jpg",
-    tag: "強烈",
-    tagColor: "bg-stone-200 text-stone-700",
+    id: "iluma-i",
+    name: "ILUMA i",
+    nameEn: "Standard Device",
+    desc: "標準版設備，搭載觸控螢幕，FlexPuff 多抽功能，輕巧日常首選",
+    image: "https://terea-kim.com/wp-content/uploads/2025/05/%E3%80%905%E8%89%B2%E4%B8%BB%E6%A9%9F%E3%80%91IQO-S-TEREA%E5%9C%96%E7%89%87.png",
+    tag: "標準",
+    tagColor: "bg-blue-100 text-blue-700",
   },
   {
-    id: "oasis",
-    name: "綠洲珍珠",
-    nameEn: "Oasis Pearl",
-    desc: "冰涼薄荷珍珠，沁爽如綠洲，清新無限",
-    image: "https://edge.dis.commercecloud.salesforce.com/dw/image/v2/BKBN_PRD/on/demandware.static/-/Sites-catalog_master_sfcc_krs/default/dwd1febdd4/images/large/2405300231_1.jpg",
-    tag: "清涼",
+    id: "iluma-one-i",
+    name: "ILUMA ONE i",
+    nameEn: "All-in-One Device",
+    desc: "一體成型設計，內建大容量電池，一次充電可使用 20 支，隨行自在",
+    image: "https://terea-kim.com/wp-content/uploads/2025/12/Web-Asset-ILUMAi-One_Compare_Desktop.webp",
+    tag: "一體式",
     tagColor: "bg-teal-100 text-teal-700",
   },
   {
-    id: "sunshine",
-    name: "日光珍珠",
-    nameEn: "Sunshine Pearl",
-    desc: "柑橘日光搭配涼感珍珠，明亮愉悅",
-    image: "https://edge.dis.commercecloud.salesforce.com/dw/image/v2/BKBN_PRD/on/demandware.static/-/Sites-catalog_master_sfcc_krs/default/dwf75b733a/images/large/2405300233_1_b.jpg",
-    tag: "果香",
-    tagColor: "bg-sky-100 text-sky-700",
+    id: "limited",
+    name: "最新限量版",
+    nameEn: "Limited Edition",
+    desc: "ILUMA i 電光紫新色登場，限量發售，搶先入手",
+    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/088a39156_IMG_8190.jpg",
+    tag: "限量",
+    tagColor: "bg-violet-100 text-violet-700",
   },
 ];
 
@@ -55,10 +55,10 @@ export default function ProductCompare() {
             transition={{ duration: 0.7 }}
           >
             <p className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">
-              Find Your Flavor
+              Heating Devices
             </p>
             <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tight">
-              找到最適合您的風味
+              探索加熱設備系列
             </h2>
           </motion.div>
           <motion.div
@@ -68,7 +68,7 @@ export default function ProductCompare() {
             transition={{ duration: 0.7, delay: 0.15 }}
           >
             <Link
-              to="/products"
+              to="/devices"
               className="inline-flex items-center gap-2 font-body text-[11px] tracking-widest uppercase text-foreground hover:opacity-60 transition-opacity group"
             >
               查看全部
@@ -87,7 +87,7 @@ export default function ProductCompare() {
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
             >
-              <Link to="/products" className="group block h-full">
+              <Link to="/devices" className="group block h-full">
                 <div className="rounded-2xl overflow-hidden bg-[#f5f5f5] mb-4">
                   <div className="aspect-square">
                     <img

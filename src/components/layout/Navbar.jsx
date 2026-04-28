@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
 const navLinks = [
-  { label: '設備系列', href: '/devices' },
+  { label: '加熱設備', href: '/devices' },
   { label: '風味系列', href: '/products' },
   { label: '核心科技', href: '/technology' },
 ];
