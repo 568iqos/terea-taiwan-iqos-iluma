@@ -116,8 +116,8 @@ const devices = [
     description:
       "一體成型設計，主機與電池整合，無需充電盒。內建 1728 mAh 大容量電池，充飽約 90 分鐘可連續使用 20 支煙彈，滿足一整天需求。底部防滑設計，單手操作輕鬆自在，是便利生活的最佳夥伴。",
     image: "https://terea-kim.com/wp-content/uploads/2025/12/Web-Asset-ILUMAi-One_Compare_Desktop.webp",
-    colors: ["#1A1A2E", "#5B3FA0", "#D45A3A", "#4A9EC4", "#8DB84A"],
-    colorNames: ["午夜黑", "數位紫", "橘紅", "清風藍", "青蘋果綠"],
+    colors: ["#8DB84A", "#9B8EC4", "#8ECFCF", "#3A4A5E", "#D45A3A"],
+    colorNames: ["青蘋果綠", "數位紫", "清風藍", "午夜藍", "橘紅"],
     specs: [
       { icon: Thermometer, label: "加熱技術", value: "Smartcore™ 感應加熱" },
       { icon: Battery, label: "電池容量", value: "1728 mAh 一體設計" },
@@ -125,7 +125,7 @@ const devices = [
       { icon: Star, label: "連續使用", value: "一次充電使用 20 支" },
     ],
     features: ["一體成型設計", "20 支連續使用", "FlexPuff 自動延長", "自動啟動", "底部防滑", "無需清潔刀片"],
-    gradient: "from-teal-50 to-cyan-50",
+    gradient: "from-white to-white",
     accentColor: "text-teal-700",
     bgAccent: "bg-teal-600",
   },
