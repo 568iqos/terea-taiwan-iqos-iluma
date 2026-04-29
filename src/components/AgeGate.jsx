@@ -39,8 +39,8 @@ export default function AgeGate() {
 
           <div className="w-full h-px bg-white/10 mb-8" />
 
-          <h2 className="font-heading text-xl font-bold tracking-tight mb-4 text-white">
-            年齡驗證
+          <h2 className="font-heading text-xl font-bold tracking-tight mb-4 text-white flex items-center justify-center gap-2">
+            <span>🔞</span>年齡驗證
           </h2>
           <p className="font-body text-sm text-white/50 leading-relaxed mb-8">
             本網站含有菸草相關商品資訊，未滿20歲者無法瀏覽菸草網頁。
