@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Upload, Play, Pause, Volume2, VolumeX } from "lucide-react";
 import { base44 } from "@/api/base44Client";
@@ -8,14 +8,30 @@ export default function VideoSection() {
   const [uploading, setUploading] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
+  const [settingId, setSettingId] = useState(null);
   const videoRef = useRef(null);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    base44.entities.SiteSettings.filter({ key: "home_video_url" }).then((results) => {
+      if (results.length > 0) {
+        setVideoUrl(results[0].value);
+        setSettingId(results[0].id);
+      }
+    });
+  }, []);
 
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     setUploading(true);
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    if (settingId) {
+      await base44.entities.SiteSettings.update(settingId, { value: file_url });
+    } else {
+      const record = await base44.entities.SiteSettings.create({ key: "home_video_url", value: file_url });
+      setSettingId(record.id);
+    }
     setVideoUrl(file_url);
     setUploading(false);
     setPlaying(false);

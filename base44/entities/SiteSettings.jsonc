@@ -1,0 +1,17 @@
+{
+  "name": "SiteSettings",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "\u8a2d\u5b9a\u9375\u503c"
+    },
+    "value": {
+      "type": "string",
+      "description": "\u8a2d\u5b9a\u503c"
+    }
+  },
+  "required": [
+    "key"
+  ]
+}
