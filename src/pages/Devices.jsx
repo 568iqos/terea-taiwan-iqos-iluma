@@ -261,7 +261,12 @@ export default function Devices() {
                 <div className="mt-4 px-1 flex items-center gap-3">
                   <div className="flex gap-1.5">
                     {device.colors.map((color, ci) => (
-                      <div key={ci} className="w-3 h-3 rounded-full border border-black/10" style={{ backgroundColor: color }} />
+                      <div
+                        key={ci}
+                        title={device.colorNames[ci]}
+                        className="w-4 h-4 rounded-full border border-black/10 cursor-default"
+                        style={{ backgroundColor: color }}
+                      />
                     ))}
                   </div>
                   <p className="font-body text-[10px] text-muted-foreground tracking-wider">{device.colors.length} 種配色</p>
