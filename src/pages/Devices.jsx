@@ -95,7 +95,7 @@ const devices = [
     description:
       "標準版設備，搭載觸控螢幕可顯示剩餘時間與電量。全新暫停功能、Flex Puff 多抽 4 口功能及省電模式，讓日常使用更便利。可與前一代充電盒共用，輕巧設計適合日常攜帶。",
     image: "https://terea-kim.com/wp-content/uploads/2025/05/%E3%80%905%E8%89%B2%E4%B8%BB%E6%A9%9F%E3%80%91IQO-S-TEREA%E5%9C%96%E7%89%87.png",
-    colors: ["#1A1A2E", "#4A6FA5", "#5B3FA0", "#E07B3A", "#4A8C5C"],
+    colors: ["#1A1A2E", "#4A6FA5", "#5B3FA0", "#E07B3A", "#8DB84A"],
     colorNames: ["午夜黑", "微風藍", "數位紫", "烈焰橘", "青蘋果綠"],
     specs: [
       { icon: Thermometer, label: "加熱技術", value: "Smartcore™ 感應加熱" },
@@ -116,7 +116,7 @@ const devices = [
     description:
       "一體成型設計，主機與電池整合，無需充電盒。內建 1728 mAh 大容量電池，充飽約 90 分鐘可連續使用 20 支煙彈，滿足一整天需求。底部防滑設計，單手操作輕鬆自在，是便利生活的最佳夥伴。",
     image: "https://terea-kim.com/wp-content/uploads/2025/12/Web-Asset-ILUMAi-One_Compare_Desktop.webp",
-    colors: ["#1A1A2E", "#5B3FA0", "#D45A3A", "#4A9EC4", "#4A8C5C"],
+    colors: ["#1A1A2E", "#5B3FA0", "#D45A3A", "#4A9EC4", "#8DB84A"],
     colorNames: ["午夜黑", "數位紫", "橘紅", "清風藍", "青蘋果綠"],
     specs: [
       { icon: Thermometer, label: "加熱技術", value: "Smartcore™ 感應加熱" },
