@@ -18,7 +18,6 @@ const YEARS = Array.from({ length: 80 }, (_, i) => currentYear - 20 - i);
 const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1);
 
 export default function MemberRegisterGate({ onComplete }) {
-  const [checking, setChecking] = useState(true);
   const [show, setShow] = useState(false);
   const [form, setForm] = useState({
     name: "", phone: "", occupation: "", line_id: "",
@@ -28,25 +27,14 @@ export default function MemberRegisterGate({ onComplete }) {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const check = async () => {
-      try {
-        const user = await base44.auth.me();
-        if (!user) { setChecking(false); onComplete(); return; }
-
-        const existing = await base44.entities.Member.filter({ user_email: user.email });
-        if (existing.length > 0) {
-          setChecking(false);
-          onComplete();
-        } else {
-          setChecking(false);
-          setShow(true);
-        }
-      } catch {
-        setChecking(false);
-        onComplete();
-      }
-    };
-    check();
+    // 如果 sessionStorage 已記錄過，直接放行
+    const registered = sessionStorage.getItem("memberRegistered");
+    if (registered === "true") {
+      onComplete();
+      return;
+    }
+    // 否則顯示表單
+    setShow(true);
   }, []);
 
   const validate = () => {
@@ -65,13 +53,19 @@ export default function MemberRegisterGate({ onComplete }) {
     if (Object.keys(e).length > 0) { setErrors(e); return; }
     setSubmitting(true);
     try {
-      const user = await base44.auth.me();
+      let userEmail = "";
+      try {
+        const user = await base44.auth.me();
+        userEmail = user?.email || "";
+      } catch {}
+
       await base44.entities.Member.create({
         ...form,
         birth_year: parseInt(form.birth_year),
         birth_month: parseInt(form.birth_month),
-        user_email: user?.email || "",
+        user_email: userEmail,
       });
+      sessionStorage.setItem("memberRegistered", "true");
       setShow(false);
       onComplete();
     } catch {
@@ -83,8 +77,6 @@ export default function MemberRegisterGate({ onComplete }) {
     setForm(f => ({ ...f, [field]: value }));
     setErrors(e => ({ ...e, [field]: undefined }));
   };
-
-  if (checking) return null;
 
   return (
     <AnimatePresence>
@@ -176,7 +168,7 @@ export default function MemberRegisterGate({ onComplete }) {
 
                 {/* 勾選確認 */}
                 <div
-                  className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer ${errors.age_confirmed ? "border-red-400 bg-red-50" : "border-border bg-muted/30"}`}
+                  className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer select-none ${errors.age_confirmed ? "border-red-400 bg-red-50" : "border-border bg-muted/30"}`}
                   onClick={() => set("age_confirmed", !form.age_confirmed)}
                 >
                   <div className={`mt-0.5 w-5 h-5 rounded flex-shrink-0 border-2 flex items-center justify-center transition-colors ${form.age_confirmed ? "bg-black border-black" : "bg-white border-border"}`}>
