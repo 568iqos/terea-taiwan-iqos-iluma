@@ -23,19 +23,26 @@ export default function MemberRegisterGate({ onComplete }) {
     name: "", phone: "", occupation: "", line_id: "",
     birth_year: "", birth_month: "", city: "", age_confirmed: false,
   });
+  const [step, setStep] = useState("form"); // "form" | "otp"
+  const [otp, setOtp] = useState("");
+  const [otpSending, setOtpSending] = useState(false);
+  const [otpVerifying, setOtpVerifying] = useState(false);
+  const [otpError, setOtpError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
+  const [countdown, setCountdown] = useState(0);
 
   useEffect(() => {
-    // 如果 sessionStorage 已記錄過，直接放行
     const registered = sessionStorage.getItem("memberRegistered");
-    if (registered === "true") {
-      onComplete();
-      return;
-    }
-    // 否則顯示表單
+    if (registered === "true") { onComplete(); return; }
     setShow(true);
   }, []);
+
+  useEffect(() => {
+    if (countdown <= 0) return;
+    const timer = setTimeout(() => setCountdown(c => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [countdown]);
 
   const validate = () => {
     const e = {};
@@ -50,16 +57,66 @@ export default function MemberRegisterGate({ onComplete }) {
     return e;
   };
 
-  const handleSubmit = async () => {
+  const handleSendOtp = async () => {
     const e = validate();
     if (Object.keys(e).length > 0) { setErrors(e); return; }
+
+    setOtpSending(true);
+    setOtpError("");
+    try {
+      const res = await base44.functions.invoke("sendPhoneOtp", { phone: form.phone });
+      if (res.data?.success) {
+        setStep("otp");
+        setCountdown(60);
+      } else {
+        setOtpError(res.data?.error || "發送失敗，請確認電話號碼");
+      }
+    } catch {
+      setOtpError("發送失敗，請確認電話號碼格式");
+    }
+    setOtpSending(false);
+  };
+
+  const handleResend = async () => {
+    if (countdown > 0) return;
+    setOtpSending(true);
+    setOtpError("");
+    try {
+      const res = await base44.functions.invoke("sendPhoneOtp", { phone: form.phone });
+      if (res.data?.success) {
+        setCountdown(60);
+      } else {
+        setOtpError(res.data?.error || "發送失敗");
+      }
+    } catch {
+      setOtpError("發送失敗，請稍後再試");
+    }
+    setOtpSending(false);
+  };
+
+  const handleVerifyAndSubmit = async () => {
+    if (!otp.trim()) { setOtpError("請輸入驗證碼"); return; }
+
+    setOtpVerifying(true);
+    setOtpError("");
+    try {
+      const res = await base44.functions.invoke("verifyPhoneOtp", { phone: form.phone, code: otp });
+      if (!res.data?.success) {
+        setOtpError(res.data?.error || "驗證碼錯誤");
+        setOtpVerifying(false);
+        return;
+      }
+    } catch {
+      setOtpError("驗證失敗，請重試");
+      setOtpVerifying(false);
+      return;
+    }
+
+    // OTP 驗證成功，建立會員
     setSubmitting(true);
     try {
       let userEmail = "";
-      try {
-        const user = await base44.auth.me();
-        userEmail = user?.email || "";
-      } catch {}
+      try { const user = await base44.auth.me(); userEmail = user?.email || ""; } catch {}
 
       await base44.entities.Member.create({
         ...form,
@@ -71,6 +128,7 @@ export default function MemberRegisterGate({ onComplete }) {
       setShow(false);
       onComplete();
     } catch {
+      setOtpVerifying(false);
       setSubmitting(false);
     }
   };
@@ -105,95 +163,132 @@ export default function MemberRegisterGate({ onComplete }) {
 
             {/* Body */}
             <div className="px-8 py-6 overflow-y-auto max-h-[70vh]">
-              <h2 className="font-heading text-lg font-bold text-center mb-1">會員資料填寫</h2>
-              <p className="font-body text-xs text-muted-foreground text-center mb-6">請填寫以下資料以進入網站</p>
 
-              <div className="space-y-4">
-                {/* 姓名 */}
-                <Field label="姓名 *" error={errors.name}>
-                  <input
-                    type="text" placeholder="請輸入姓名"
-                    value={form.name} onChange={e => set("name", e.target.value)}
-                    className={inputCls(errors.name)}
-                  />
-                </Field>
+              {step === "form" ? (
+                <>
+                  <h2 className="font-heading text-lg font-bold text-center mb-1">會員資料填寫</h2>
+                  <p className="font-body text-xs text-muted-foreground text-center mb-6">請填寫以下資料以進入網站</p>
 
-                {/* 電話 */}
-                <Field label="電話 *" error={errors.phone}>
-                  <input
-                    type="tel" placeholder="請輸入電話"
-                    value={form.phone} onChange={e => set("phone", e.target.value)}
-                    className={inputCls(errors.phone)}
-                  />
-                </Field>
+                  <div className="space-y-4">
+                    <Field label="姓名 *" error={errors.name}>
+                      <input type="text" placeholder="請輸入姓名"
+                        value={form.name} onChange={e => set("name", e.target.value)}
+                        className={inputCls(errors.name)} />
+                    </Field>
 
-                {/* LINE ID */}
-                <Field label="LINE ID *" error={errors.line_id}>
-                  <input
-                    type="text" placeholder="請輸入 LINE ID"
-                    value={form.line_id} onChange={e => set("line_id", e.target.value)}
-                    className={inputCls(errors.line_id)}
-                  />
-                </Field>
+                    <Field label="電話 *" error={errors.phone}>
+                      <input type="tel" placeholder="例：0912345678"
+                        value={form.phone} onChange={e => set("phone", e.target.value)}
+                        className={inputCls(errors.phone)} />
+                    </Field>
 
-                {/* 職業別 */}
-                <Field label="職業別 *" error={errors.occupation}>
-                  <select value={form.occupation} onChange={e => set("occupation", e.target.value)} className={selectCls(errors.occupation)}>
-                    <option value="">請選擇職業</option>
-                    {OCCUPATIONS.map(o => <option key={o} value={o}>{o}</option>)}
-                  </select>
-                </Field>
+                    <Field label="LINE ID *" error={errors.line_id}>
+                      <input type="text" placeholder="請輸入 LINE ID"
+                        value={form.line_id} onChange={e => set("line_id", e.target.value)}
+                        className={inputCls(errors.line_id)} />
+                    </Field>
 
-                {/* 出生年月 */}
-                <div className="grid grid-cols-2 gap-3">
-                  <Field label="出生年份 *" error={errors.birth_year}>
-                    <select value={form.birth_year} onChange={e => set("birth_year", e.target.value)} className={selectCls(errors.birth_year)}>
-                      <option value="">年份</option>
-                      {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
-                    </select>
-                  </Field>
-                  <Field label="出生月份 *" error={errors.birth_month}>
-                    <select value={form.birth_month} onChange={e => set("birth_month", e.target.value)} className={selectCls(errors.birth_month)}>
-                      <option value="">月份</option>
-                      {MONTHS.map(m => <option key={m} value={m}>{m}月</option>)}
-                    </select>
-                  </Field>
-                </div>
+                    <Field label="職業別 *" error={errors.occupation}>
+                      <select value={form.occupation} onChange={e => set("occupation", e.target.value)} className={selectCls(errors.occupation)}>
+                        <option value="">請選擇職業</option>
+                        {OCCUPATIONS.map(o => <option key={o} value={o}>{o}</option>)}
+                      </select>
+                    </Field>
 
-                {/* 縣市 */}
-                <Field label="居住縣市 *" error={errors.city}>
-                  <select value={form.city} onChange={e => set("city", e.target.value)} className={selectCls(errors.city)}>
-                    <option value="">請選擇縣市</option>
-                    {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
-                  </select>
-                </Field>
+                    <div className="grid grid-cols-2 gap-3">
+                      <Field label="出生年份 *" error={errors.birth_year}>
+                        <select value={form.birth_year} onChange={e => set("birth_year", e.target.value)} className={selectCls(errors.birth_year)}>
+                          <option value="">年份</option>
+                          {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+                        </select>
+                      </Field>
+                      <Field label="出生月份 *" error={errors.birth_month}>
+                        <select value={form.birth_month} onChange={e => set("birth_month", e.target.value)} className={selectCls(errors.birth_month)}>
+                          <option value="">月份</option>
+                          {MONTHS.map(m => <option key={m} value={m}>{m}月</option>)}
+                        </select>
+                      </Field>
+                    </div>
 
-                {/* 勾選確認 */}
-                <div
-                  className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer select-none ${errors.age_confirmed ? "border-red-400 bg-red-50" : "border-border bg-muted/30"}`}
-                  onClick={() => set("age_confirmed", !form.age_confirmed)}
-                >
-                  <div className={`mt-0.5 w-5 h-5 rounded flex-shrink-0 border-2 flex items-center justify-center transition-colors ${form.age_confirmed ? "bg-black border-black" : "bg-white border-border"}`}>
-                    {form.age_confirmed && (
-                      <svg viewBox="0 0 12 10" className="w-3 h-3 fill-none stroke-white stroke-2">
-                        <polyline points="1,5 4,8 11,1" />
-                      </svg>
-                    )}
+                    <Field label="居住縣市 *" error={errors.city}>
+                      <select value={form.city} onChange={e => set("city", e.target.value)} className={selectCls(errors.city)}>
+                        <option value="">請選擇縣市</option>
+                        {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
+                      </select>
+                    </Field>
+
+                    <div
+                      className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer select-none ${errors.age_confirmed ? "border-red-400 bg-red-50" : "border-border bg-muted/30"}`}
+                      onClick={() => set("age_confirmed", !form.age_confirmed)}
+                    >
+                      <div className={`mt-0.5 w-5 h-5 rounded flex-shrink-0 border-2 flex items-center justify-center transition-colors ${form.age_confirmed ? "bg-black border-black" : "bg-white border-border"}`}>
+                        {form.age_confirmed && (
+                          <svg viewBox="0 0 12 10" className="w-3 h-3 fill-none stroke-white stroke-2">
+                            <polyline points="1,5 4,8 11,1" />
+                          </svg>
+                        )}
+                      </div>
+                      <p className="font-body text-sm text-foreground leading-relaxed">
+                        我已年滿 <span className="font-bold">20 歲</span>並自行同意進入本網站，了解本網站含有菸草相關商品資訊。
+                      </p>
+                    </div>
+                    {errors.age_confirmed && <p className="font-body text-xs text-red-500 -mt-2">{errors.age_confirmed}</p>}
                   </div>
-                  <p className="font-body text-sm text-foreground leading-relaxed">
-                    我已年滿 <span className="font-bold">20 歲</span>並自行同意進入本網站，了解本網站含有菸草相關商品資訊。
-                  </p>
-                </div>
-                {errors.age_confirmed && <p className="font-body text-xs text-red-500 -mt-2">{errors.age_confirmed}</p>}
-              </div>
 
-              <button
-                onClick={handleSubmit}
-                disabled={submitting}
-                className="w-full mt-6 py-4 bg-black text-white font-body text-sm tracking-widest rounded-xl hover:bg-black/80 transition-all disabled:opacity-50"
-              >
-                {submitting ? "送出中…" : "確認進入"}
-              </button>
+                  {otpError && <p className="font-body text-xs text-red-500 mt-3 text-center">{otpError}</p>}
+
+                  <button
+                    onClick={handleSendOtp}
+                    disabled={otpSending}
+                    className="w-full mt-6 py-4 bg-black text-white font-body text-sm tracking-widest rounded-xl hover:bg-black/80 transition-all disabled:opacity-50"
+                  >
+                    {otpSending ? "發送中…" : "發送驗證碼"}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h2 className="font-heading text-lg font-bold text-center mb-1">手機驗證</h2>
+                  <p className="font-body text-xs text-muted-foreground text-center mb-2">
+                    驗證碼已發送至
+                  </p>
+                  <p className="font-body text-sm font-bold text-center mb-6">{form.phone}</p>
+
+                  <Field label="請輸入 6 位數驗證碼" error={otpError}>
+                    <input
+                      type="number"
+                      placeholder="______"
+                      value={otp}
+                      onChange={e => { setOtp(e.target.value); setOtpError(""); }}
+                      maxLength={6}
+                      className="w-full border rounded-xl px-4 py-4 font-body text-xl text-center tracking-[0.5em] focus:outline-none focus:ring-2 focus:ring-black/20 border-border"
+                    />
+                  </Field>
+
+                  <button
+                    onClick={handleVerifyAndSubmit}
+                    disabled={otpVerifying || submitting}
+                    className="w-full mt-4 py-4 bg-black text-white font-body text-sm tracking-widest rounded-xl hover:bg-black/80 transition-all disabled:opacity-50"
+                  >
+                    {otpVerifying || submitting ? "驗證中…" : "確認進入"}
+                  </button>
+
+                  <div className="flex items-center justify-between mt-4">
+                    <button
+                      onClick={() => { setStep("form"); setOtp(""); setOtpError(""); }}
+                      className="font-body text-xs text-muted-foreground underline"
+                    >
+                      修改電話
+                    </button>
+                    <button
+                      onClick={handleResend}
+                      disabled={countdown > 0 || otpSending}
+                      className="font-body text-xs text-muted-foreground disabled:opacity-50"
+                    >
+                      {countdown > 0 ? `重新發送 (${countdown}s)` : "重新發送"}
+                    </button>
+                  </div>
+                </>
+              )}
 
               <p className="font-body text-[10px] text-muted-foreground text-center mt-4 leading-relaxed">
                 ⚠ 吸菸有害健康。本網站僅供台灣地區20歲以上成年人瀏覽。
