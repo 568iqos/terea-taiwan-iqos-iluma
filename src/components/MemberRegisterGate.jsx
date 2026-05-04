@@ -21,7 +21,7 @@ export default function MemberRegisterGate({ onComplete }) {
   const [show, setShow] = useState(false);
   const [form, setForm] = useState({
     name: "", phone: "", occupation: "", line_id: "",
-    birth_year: "", birth_month: "", city: "", age_confirmed: false
+    birth_year: "", birth_month: "", city: "", age_confirmed: false,
   });
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
@@ -41,9 +41,11 @@ export default function MemberRegisterGate({ onComplete }) {
     const e = {};
     if (!form.name.trim()) e.name = "請填寫姓名";
     if (!form.phone.trim()) e.phone = "請填寫電話";
-    if (!form.city) e.city = "請選擇縣市";
+    if (!form.line_id.trim()) e.line_id = "請填寫 LINE ID";
+    if (!form.occupation) e.occupation = "請選擇職業別";
     if (!form.birth_year) e.birth_year = "請選擇出生年份";
     if (!form.birth_month) e.birth_month = "請選擇出生月份";
+    if (!form.city) e.city = "請選擇縣市";
     if (!form.age_confirmed) e.age_confirmed = "請勾選確認";
     return e;
   };
@@ -126,17 +128,17 @@ export default function MemberRegisterGate({ onComplete }) {
                 </Field>
 
                 {/* LINE ID */}
-                <Field label="LINE ID">
+                <Field label="LINE ID *" error={errors.line_id}>
                   <input
                     type="text" placeholder="請輸入 LINE ID"
                     value={form.line_id} onChange={e => set("line_id", e.target.value)}
-                    className={inputCls()}
+                    className={inputCls(errors.line_id)}
                   />
                 </Field>
 
                 {/* 職業別 */}
-                <Field label="職業別">
-                  <select value={form.occupation} onChange={e => set("occupation", e.target.value)} className={selectCls()}>
+                <Field label="職業別 *" error={errors.occupation}>
+                  <select value={form.occupation} onChange={e => set("occupation", e.target.value)} className={selectCls(errors.occupation)}>
                     <option value="">請選擇職業</option>
                     {OCCUPATIONS.map(o => <option key={o} value={o}>{o}</option>)}
                   </select>
