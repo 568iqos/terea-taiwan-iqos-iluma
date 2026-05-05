@@ -37,9 +37,11 @@ export default function AgeGate() {
           onClick={(e) => e.stopPropagation()}
         >
           {/* Logo */}
-          <p className="font-heading font-bold text-3xl tracking-[0.4em] uppercase text-white mb-8">
-            TEREA
-          </p>
+          <img
+            src="https://media.base44.com/images/public/69edb64b2f0beef803a1b699/930b0c06c_IMG_8418.jpg"
+            alt="TEREA"
+            className="w-48 mx-auto mb-8 brightness-0 invert"
+          />
 
           <div className="w-full h-px bg-white/20 mb-8" />
 
