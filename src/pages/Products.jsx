@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Thermometer, Wind } from "lucide-react";
+import { X, Thermometer, Wind, ShoppingBag, Check } from "lucide-react";
 import FlavorWizard from "../components/products/FlavorWizard";
+import { useCart } from "@/context/CartContext";
 
 const flavors = [
   {
@@ -433,6 +434,15 @@ function IntensityDots({ level, max = 5, colorClass }) {
 }
 
 function FlavorDetail({ flavor, onClose }) {
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
+
+  const handleAdd = () => {
+    addItem(flavor);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1500);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -493,7 +503,7 @@ function FlavorDetail({ flavor, onClose }) {
             </div>
 
             {/* Intensity & Cooling */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-6 mb-8">
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <Thermometer className="w-3.5 h-3.5 text-muted-foreground" />
@@ -513,6 +523,22 @@ function FlavorDetail({ flavor, onClose }) {
                 <IntensityDots level={flavor.cooling} colorClass={flavor.bgAccent.replace('/10', '')} />
               </div>
             </div>
+
+            {/* Add to cart */}
+            <button
+              onClick={handleAdd}
+              className={`w-full py-3.5 font-body text-sm tracking-widest rounded-xl transition-all flex items-center justify-center gap-2 ${
+                added
+                  ? "bg-green-500 text-white"
+                  : "bg-black text-white hover:bg-black/80"
+              }`}
+            >
+              {added ? (
+                <><Check className="w-4 h-4" /> 已加入購物車</>
+              ) : (
+                <><ShoppingBag className="w-4 h-4" /> 加入購物車</>
+              )}
+            </button>
           </div>
         </div>
       </motion.div>
@@ -523,6 +549,15 @@ function FlavorDetail({ flavor, onClose }) {
 export default function Products() {
   const [selectedFlavor, setSelectedFlavor] = useState(null);
   const [activeRegion, setActiveRegion] = useState("全部");
+  const { addItem } = useCart();
+  const [addedId, setAddedId] = useState(null);
+
+  const handleQuickAdd = (e, flavor) => {
+    e.stopPropagation();
+    addItem(flavor);
+    setAddedId(flavor.id);
+    setTimeout(() => setAddedId(null), 1200);
+  };
 
   const allFlavors = [...flavors, ...koreaFlavors];
   const filteredFlavors = activeRegion === "全部"
@@ -608,9 +643,22 @@ export default function Products() {
                     <p className="font-heading text-xs tracking-widest uppercase mb-1 text-background/60">
                       {flavor.nameEn}
                     </p>
-                    <h3 className="font-heading text-xl font-bold tracking-tight">
-                      {flavor.name}
-                    </h3>
+                    <div className="flex items-end justify-between">
+                      <h3 className="font-heading text-xl font-bold tracking-tight">
+                        {flavor.name}
+                      </h3>
+                      <button
+                        onClick={(e) => handleQuickAdd(e, flavor)}
+                        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                          addedId === flavor.id
+                            ? "bg-green-500 text-white"
+                            : "bg-white/20 text-white hover:bg-white/40 backdrop-blur-sm"
+                        }`}
+                        aria-label="加入購物車"
+                      >
+                        {addedId === flavor.id ? <Check className="w-4 h-4" /> : <ShoppingBag className="w-4 h-4" />}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.div>

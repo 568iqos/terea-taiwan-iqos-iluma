@@ -3,17 +3,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Minus, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
-const LINE_URL = "https://lin.ee/nVwf4TD";
+const SEVEN_ELEVEN_URL = "https://www.seven-eleven.com.tw/sellgoods/index";
 
 export default function CartDrawer() {
   const { items, removeItem, updateQty, totalCount, open, setOpen } = useCart();
 
   const handleCheckout = () => {
-    const text = items
-      .map((i) => `${i.name}（${i.nameEn}）x${i.qty}`)
-      .join("、");
-    const msg = encodeURIComponent(`您好，我想諮詢以下產品：${text}`);
-    window.open(`${LINE_URL}?text=${msg}`, "_blank");
+    window.open(SEVEN_ELEVEN_URL, "_blank");
   };
 
   return (
@@ -101,15 +97,12 @@ export default function CartDrawer() {
               <div className="px-6 py-5 border-t border-border">
                 <button
                   onClick={handleCheckout}
-                  className="w-full py-4 bg-[#06C755] text-white font-body text-sm tracking-widest rounded-xl hover:bg-[#06C755]/90 transition-all flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-[#00A651] text-white font-body text-sm tracking-widest rounded-xl hover:bg-[#00A651]/90 transition-all flex items-center justify-center gap-2"
                 >
-                  <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
-                    <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
-                  </svg>
-                  透過 LINE 完成諮詢預約
+                  前往 7-11 賣貨便結帳
                 </button>
                 <p className="font-body text-[10px] text-muted-foreground text-center mt-3">
-                  點擊後將開啟官方 LINE 客服，告知您的選購清單
+                  點擊後將跳轉至 7-ELEVEN 賣貨便購買頁面
                 </p>
               </div>
             )}

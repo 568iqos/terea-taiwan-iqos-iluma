@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ShoppingBag } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
 
 const navLinks = [
   { label: '加熱設備', href: '/devices' },
@@ -14,6 +15,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const { totalCount } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -72,6 +74,16 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
+
+          {/* Cart icon */}
+          <Link to="/cart" className={`relative p-2 transition-colors ${transparent ? 'text-white/70 hover:text-white' : 'text-muted-foreground hover:text-foreground'}`} aria-label="購物車">
+            <ShoppingBag className="w-5 h-5" />
+            {totalCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-black text-white text-[9px] font-bold flex items-center justify-center">
+                {totalCount}
+              </span>
+            )}
+          </Link>
 
           {/* Mobile hamburger */}
           <button

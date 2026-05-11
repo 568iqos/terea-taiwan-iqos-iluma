@@ -11,6 +11,7 @@ import Products from './pages/Products';
 import Technology from './pages/Technology';
 import Stores from './pages/Stores';
 import Devices from './pages/Devices';
+import Cart from './pages/Cart';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -44,6 +45,7 @@ const AuthenticatedApp = () => {
         <Route path="/technology" element={<Technology />} />
         <Route path="/stores" element={<Stores />} />
         <Route path="/devices" element={<Devices />} />
+        <Route path="/cart" element={<Cart />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
