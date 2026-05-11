@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp, Video, Upload } from "lucide-react";
 
 const TAB_LIST = [
   { id: "hero", label: "Hero 輪播", icon: Image },
   { id: "faq", label: "FAQ 問答", icon: HelpCircle },
+  { id: "video", label: "影片", icon: Video },
 ];
 
 export default function Admin() {
@@ -62,6 +63,10 @@ export default function Admin() {
   ]);
 
   const [expandedSlide, setExpandedSlide] = useState(0);
+  const [videoUrl, setVideoUrl] = useState("");
+  const [videoSettingId, setVideoSettingId] = useState(null);
+  const [videoUploading, setVideoUploading] = useState(false);
+  const videoInputRef = useRef(null);
 
   useEffect(() => {
     const init = async () => {
@@ -85,8 +90,10 @@ export default function Admin() {
       const records = await base44.entities.SiteSettings.list();
       const heroRec = records.find((r) => r.key === "hero_slides");
       const faqRec = records.find((r) => r.key === "faq_items");
+      const videoRec = records.find((r) => r.key === "home_video_url");
       if (heroRec?.value) setSlides(JSON.parse(heroRec.value));
       if (faqRec?.value) setFaqs(JSON.parse(faqRec.value));
+      if (videoRec?.value) { setVideoUrl(videoRec.value); setVideoSettingId(videoRec.id); }
     } catch {}
   };
 
@@ -153,6 +160,39 @@ export default function Admin() {
       </div>
     );
   }
+
+  // Video upload
+  const handleVideoUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setVideoUploading(true);
+    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    const records = await base44.entities.SiteSettings.list();
+    const rec = records.find((r) => r.key === "home_video_url");
+    if (rec) {
+      await base44.entities.SiteSettings.update(rec.id, { value: file_url });
+      setVideoSettingId(rec.id);
+    } else {
+      const newRec = await base44.entities.SiteSettings.create({ key: "home_video_url", value: file_url });
+      setVideoSettingId(newRec.id);
+    }
+    setVideoUrl(file_url);
+    setVideoUploading(false);
+  };
+
+  const handleVideoUrlSave = async () => {
+    setSaving(true);
+    const records = await base44.entities.SiteSettings.list();
+    const rec = records.find((r) => r.key === "home_video_url");
+    if (rec) {
+      await base44.entities.SiteSettings.update(rec.id, { value: videoUrl });
+    } else {
+      await base44.entities.SiteSettings.create({ key: "home_video_url", value: videoUrl });
+    }
+    setSavedMsg("儲存成功！");
+    setTimeout(() => setSavedMsg(""), 2500);
+    setSaving(false);
+  };
 
   // Slide helpers
   const updateSlide = (i, field, val) => {
@@ -338,6 +378,60 @@ export default function Admin() {
                 className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-gray-200 rounded-xl text-sm text-gray-400 hover:border-black hover:text-black transition w-full justify-center"
               >
                 <Plus className="w-4 h-4" /> 新增輪播
+              </button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Video Editor */}
+        {tab === "video" && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+            <div className="bg-white rounded-xl border p-6 space-y-6">
+              <div>
+                <h2 className="font-semibold text-base mb-1">首頁影片</h2>
+                <p className="text-xs text-gray-400">可上傳影片檔案，或輸入影片網址（YouTube embed、CDN 連結等）</p>
+              </div>
+
+              {/* Upload */}
+              <div>
+                <label className="block text-xs font-medium text-gray-500 mb-2">上傳影片檔案</label>
+                <button
+                  onClick={() => videoInputRef.current?.click()}
+                  disabled={videoUploading}
+                  className="flex items-center gap-2 px-4 py-2.5 border border-dashed border-gray-300 rounded-lg text-sm text-gray-500 hover:border-black hover:text-black transition disabled:opacity-50"
+                >
+                  <Upload className="w-4 h-4" />
+                  {videoUploading ? "上傳中..." : "選擇影片檔案"}
+                </button>
+                <input ref={videoInputRef} type="file" accept="video/*" className="hidden" onChange={handleVideoUpload} />
+              </div>
+
+              {/* URL input */}
+              <div>
+                <label className="block text-xs font-medium text-gray-500 mb-2">或輸入影片網址</label>
+                <input
+                  className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black"
+                  value={videoUrl}
+                  onChange={(e) => setVideoUrl(e.target.value)}
+                  placeholder="https://..."
+                />
+              </div>
+
+              {/* Preview */}
+              {videoUrl && (
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-2">預覽</label>
+                  <video src={videoUrl} className="w-full max-h-64 rounded-lg object-cover bg-black" controls muted />
+                </div>
+              )}
+
+              <button
+                onClick={handleVideoUrlSave}
+                disabled={saving}
+                className="flex items-center gap-2 px-5 py-2 bg-black text-white text-sm rounded-lg hover:bg-black/80 transition disabled:opacity-50"
+              >
+                <Save className="w-4 h-4" />
+                儲存影片設定
               </button>
             </div>
           </motion.div>
