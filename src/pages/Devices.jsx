@@ -115,9 +115,9 @@ const devices = [
     tagline: "全家獨家聯名，台灣限定版本",
     description:
       "台灣全家便利商店獨家聯名版 IQOS ILUMA，外觀設計融入全家品牌元素，搭載 SMARTCORE INDUCTION SYSTEM™ 感應加熱技術，無燃燒、無需清潔，配備煙槍和充電盒，充電盒滿電可使用 20 支，為台灣限定特別版本。",
-    image: "https://media.iqos.com/is/image/DCXWAM/IQOS_ILUMA_News_ArticleContent_Default_Page5_IQOS_ILUMA_Global_Desktop_Standard?qlt=85&dpr=off",
-    colors: ["#1A7A3C", "#FFFFFF"],
-    colorNames: ["全家綠", "純白"],
+    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/5dc1a1936_IMG_8710.jpg",
+    colors: ["#1A1A2E", "#C8A882", "#C4185C", "#4A8C5C", "#4A6FA5"],
+    colorNames: ["午夜黑", "香檳金", "玫瑰紅", "橄欖綠", "寶石藍"],
     specs: [
       { icon: Thermometer, label: "加熱技術", value: "SMARTCORE™ 感應加熱" },
       { icon: Battery, label: "連續使用", value: "充電盒可用 20 支" },
@@ -136,9 +136,9 @@ const devices = [
     tagline: "全家聯名一體式，輕巧隨行",
     description:
       "台灣全家便利商店獨家聯名版 IQOS ILUMA ONE，一體成型設計無需充電盒，搭載 SMARTCORE INDUCTION SYSTEM™ 感應加熱技術，一次充電可使用 20 支，重量輕巧，為台灣全家獨家限定版本，外出攜帶最佳選擇。",
-    image: "https://media.iqos.com/is/image/DCXWAM/IQOS_ILUMA_News_ArticleContent_Default_Page5_IQOS_ILUMA_ONE_Global_Desktop_Standard?qlt=85&dpr=off",
-    colors: ["#1A7A3C", "#FFFFFF"],
-    colorNames: ["全家綠", "純白"],
+    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/d09df6891_IMG_8195.webp",
+    colors: ["#4A6FA5", "#1A1A2E", "#C8A882", "#C4185C", "#4A8C5C"],
+    colorNames: ["寶石藍", "午夜黑", "香檳金", "玫瑰紅", "橄欖綠"],
     specs: [
       { icon: Thermometer, label: "加熱技術", value: "SMARTCORE™ 感應加熱" },
       { icon: Battery, label: "重量", value: "68.5g 輕巧一體" },
