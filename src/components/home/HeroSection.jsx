@@ -2,15 +2,18 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
+import { base44 } from "@/api/base44Client";
 
-const slides = [
+const DEFAULT_SLIDES = [
   {
     image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/e45ae93a9_IMG_8058.jpg",
     label: "TEREA Taiwan",
     title: "加熱不燃燒\n新科技體驗",
     sub: "每一次點燃，都多了一份儀式感",
-    cta: { label: "探索產品", to: "/products" },
-    ctaSecondary: { label: "了解技術", to: "/technology" },
+    ctaLabel: "探索產品",
+    ctaTo: "/products",
+    ctaSecondaryLabel: "了解技術",
+    ctaSecondaryTo: "/technology",
     align: "left",
     overlay: "bg-gradient-to-r from-black/70 via-black/30 to-transparent",
   },
@@ -19,7 +22,10 @@ const slides = [
     label: "TEREA Lifestyle",
     title: "創作靈感\n自由表達",
     sub: "以風味為畫筆，描繪屬於你的生活品味",
-    cta: { label: "探索產品", to: "/products" },
+    ctaLabel: "探索產品",
+    ctaTo: "/products",
+    ctaSecondaryLabel: "",
+    ctaSecondaryTo: "",
     align: "left",
     overlay: "bg-gradient-to-r from-black/60 via-black/20 to-transparent",
   },
@@ -28,28 +34,49 @@ const slides = [
     label: "ILUMA",
     title: "你的 Q故事\n個性登場",
     sub: "多款配色設計，展現獨一無二的風格品味",
-    cta: { label: "探索產品", to: "/products" },
-    ctaSecondary: { label: "了解技術", to: "/technology" },
+    ctaLabel: "探索產品",
+    ctaTo: "/products",
+    ctaSecondaryLabel: "了解技術",
+    ctaSecondaryTo: "/technology",
     align: "right",
     overlay: "bg-gradient-to-l from-black/60 via-black/20 to-transparent",
   },
 ];
 
+function getOverlay(slide) {
+  if (slide.overlay) return slide.overlay;
+  return slide.align === "right"
+    ? "bg-gradient-to-l from-black/60 via-black/20 to-transparent"
+    : "bg-gradient-to-r from-black/70 via-black/30 to-transparent";
+}
+
 export default function HeroSection() {
   const [current, setCurrent] = useState(0);
+  const [slides, setSlides] = useState(DEFAULT_SLIDES);
+
+  useEffect(() => {
+    base44.entities.SiteSettings.list()
+      .then((records) => {
+        const rec = records.find((r) => r.key === "hero_slides");
+        if (rec?.value) {
+          const parsed = JSON.parse(rec.value);
+          if (Array.isArray(parsed) && parsed.length > 0) setSlides(parsed);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((c) => (c + 1) % slides.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
-  const slide = slides[current];
+  const slide = slides[current] || slides[0];
 
   return (
     <section className="relative w-full h-screen min-h-[640px] overflow-hidden bg-black">
-      {/* Background slides */}
       <AnimatePresence mode="sync">
         <motion.div
           key={current}
@@ -59,17 +86,12 @@ export default function HeroSection() {
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
-          <img
-            src={slide.image}
-            alt={slide.title}
-            className="w-full h-full object-cover"
-          />
-          <div className={`absolute inset-0 ${slide.overlay}`} />
+          <img src={slide.image} alt={slide.title} className="w-full h-full object-cover" />
+          <div className={`absolute inset-0 ${getOverlay(slide)}`} />
           <div className="absolute inset-0 bg-black/20" />
         </motion.div>
       </AnimatePresence>
 
-      {/* Content */}
       <div className={`absolute inset-0 flex flex-col justify-end pb-20 md:pb-28 px-8 md:px-16 lg:px-24 ${slide.align === "right" ? "items-end text-right" : "items-start text-left"}`}>
         <AnimatePresence mode="wait">
           <motion.div
@@ -91,17 +113,17 @@ export default function HeroSection() {
             </p>
             <div className="flex items-center gap-4 flex-wrap">
               <Link
-                to={slide.cta.to}
+                to={slide.ctaTo || "/products"}
                 className="inline-flex items-center justify-center bg-white text-black px-8 py-3.5 font-body text-[11px] tracking-widest uppercase hover:bg-white/90 transition-colors"
               >
-                {slide.cta.label}
+                {slide.ctaLabel || "探索產品"}
               </Link>
-              {slide.ctaSecondary && (
+              {slide.ctaSecondaryLabel && (
                 <Link
-                  to={slide.ctaSecondary.to}
+                  to={slide.ctaSecondaryTo || "/technology"}
                   className="inline-flex items-center justify-center border border-white/60 text-white px-8 py-3.5 font-body text-[11px] tracking-widest uppercase hover:border-white transition-colors"
                 >
-                  {slide.ctaSecondary.label}
+                  {slide.ctaSecondaryLabel}
                 </Link>
               )}
             </div>
@@ -109,20 +131,16 @@ export default function HeroSection() {
         </AnimatePresence>
       </div>
 
-      {/* Slide indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
-            className={`transition-all duration-500 rounded-full ${
-              i === current ? "w-8 h-1.5 bg-white" : "w-1.5 h-1.5 bg-white/40"
-            }`}
+            className={`transition-all duration-500 rounded-full ${i === current ? "w-8 h-1.5 bg-white" : "w-1.5 h-1.5 bg-white/40"}`}
           />
         ))}
       </div>
 
-      {/* Scroll hint */}
       <motion.div
         animate={{ y: [0, 8, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
