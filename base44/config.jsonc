@@ -1,0 +1,9 @@
+{
+  "name": "TEREA TAIWAN | \u53f0\u7063TEREA\u5b98\u7db2",
+  "site": {
+    "installCommand": "npm install",
+    "buildCommand": "npm run build",
+    "serveCommand": "npm run dev",
+    "outputDirectory": "./dist"
+  }
+}
