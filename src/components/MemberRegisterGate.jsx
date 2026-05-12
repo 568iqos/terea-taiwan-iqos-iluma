@@ -35,6 +35,7 @@ export default function MemberRegisterGate({ onComplete }) {
   const [sendingOtp, setSendingOtp] = useState(false);
   const [otpError, setOtpError] = useState("");
   const [errors, setErrors] = useState({});
+  const [otpPhone, setOtpPhone] = useState("");
 
   useEffect(() => {
     if (!show) onComplete();
@@ -60,14 +61,15 @@ export default function MemberRegisterGate({ onComplete }) {
     if (Object.keys(e).length > 0) { setErrors(e); return; }
 
     setSendingOtp(true);
-    const res = await base44.functions.invoke("sendEmailOtp", { email: form.email.trim() });
+    const res = await base44.functions.invoke("sendPhoneOtp", { phone: form.phone.trim() });
     setSendingOtp(false);
 
     if (res.data?.success) {
+      setOtpPhone(res.data.phone);
       setOtpSent(true);
       setOtpError("");
     } else {
-      setErrors(e2 => ({ ...e2, email: "驗證碼發送失敗，請確認 Email" }));
+      setErrors(e2 => ({ ...e2, phone: res.data?.error || "驗證碼發送失敗，請確認電話號碼" }));
     }
   };
 
@@ -75,7 +77,7 @@ export default function MemberRegisterGate({ onComplete }) {
     if (!otp.trim()) { setOtpError("請輸入驗證碼"); return; }
     setSubmitting(true);
 
-    const res = await base44.functions.invoke("verifyEmailOtp", { email: form.email.trim(), code: otp });
+    const res = await base44.functions.invoke("verifyPhoneOtp", { phone: otpPhone, code: otp });
 
     if (res.data?.success) {
       let userEmail = form.email.trim();
@@ -155,7 +157,6 @@ export default function MemberRegisterGate({ onComplete }) {
                 <Field label="Email *" error={errors.email}>
                        <input type="email" placeholder="example@email.com"
                          value={form.email} onChange={e => set("email", e.target.value)}
-                         disabled={otpSent}
                          className={inputCls(errors.email)} />
                      </Field>
 
@@ -171,7 +172,7 @@ export default function MemberRegisterGate({ onComplete }) {
                         className={inputCls(otpError)}
                         maxLength={6}
                       />
-                      <p className="font-body text-[10px] text-muted-foreground mt-1.5">若未收到，請檢查垃圾郵件資料夾</p>
+                      <p className="font-body text-[10px] text-muted-foreground mt-1.5">驗證碼已發送至 {otpPhone}</p>
                     </>
                   ) : (
                     <input type="text" placeholder="發送驗證碼後填寫" disabled className={inputCls("")} />
@@ -237,27 +238,27 @@ export default function MemberRegisterGate({ onComplete }) {
                   disabled={sendingOtp}
                   className="w-full mt-6 py-4 bg-black text-white font-body text-sm tracking-widest rounded-xl hover:bg-black/80 transition-all disabled:opacity-50"
                 >
-                  {sendingOtp ? "發送中…" : "發送驗證碼"}
-                </button>
-              )}
-
-                  {otpSent && (
-                    <button
-                  onClick={handleVerifyOtp}
-                  disabled={submitting}
-                  className="w-full mt-6 py-4 bg-black text-white font-body text-sm tracking-widest rounded-xl hover:bg-black/80 transition-all disabled:opacity-50"
-                >
-                  {submitting ? "驗證中…" : "確認進入"}
+                  {sendingOtp ? "發送中…" : "發送驗證碼至手機"}
                 </button>
               )}
 
               {otpSent && (
-                <button
-                  onClick={() => { setOtpSent(false); setOtp(""); setOtpError(""); }}
-                  className="w-full mt-2 py-3 text-muted-foreground font-body text-xs tracking-wider hover:text-foreground transition-colors"
-                >
-                  返回修改資料
-                </button>
+                <>
+                  <button
+                    onClick={handleVerifyOtp}
+                    disabled={submitting}
+                    className="w-full mt-6 py-4 bg-black text-white font-body text-sm tracking-widest rounded-xl hover:bg-black/80 transition-all disabled:opacity-50"
+                  >
+                    {submitting ? "驗證中…" : "確認進入"}
+                  </button>
+
+                  <button
+                    onClick={() => { setOtpSent(false); setOtp(""); setOtpError(""); setOtpPhone(""); }}
+                    className="w-full mt-2 py-3 text-muted-foreground font-body text-xs tracking-wider hover:text-foreground transition-colors"
+                  >
+                    返回修改資料
+                  </button>
+                </>
               )}
 
               <p className="font-body text-[10px] text-muted-foreground text-center mt-4 leading-relaxed">
