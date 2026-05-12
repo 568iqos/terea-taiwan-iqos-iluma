@@ -17,13 +17,18 @@ const currentYear = new Date().getFullYear();
 const YEARS = Array.from({ length: 80 }, (_, i) => currentYear - 20 - i);
 const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1);
 
+// step: "form" | "otp"
 export default function MemberRegisterGate({ onComplete }) {
   const [show, setShow] = useState(false);
+  const [step, setStep] = useState("form");
   const [form, setForm] = useState({
     name: "", phone: "", occupation: "", line_id: "",
     birth_year: "", birth_month: "", city: "", age_confirmed: false,
   });
+  const [otp, setOtp] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [otpError, setOtpError] = useState("");
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -45,12 +50,36 @@ export default function MemberRegisterGate({ onComplete }) {
     return e;
   };
 
-  const handleSubmit = async () => {
+  const handleSendOtp = async () => {
     const e = validate();
     if (Object.keys(e).length > 0) { setErrors(e); return; }
 
+    setSendingOtp(true);
+    // Format phone: convert 09xx to +8869xx
+    let phone = form.phone.trim();
+    if (phone.startsWith("0")) phone = "+886" + phone.slice(1);
+
+    const res = await base44.functions.invoke("sendPhoneOtp", { phone });
+    setSendingOtp(false);
+
+    if (res.data?.success) {
+      setStep("otp");
+      setOtpError("");
+    } else {
+      setErrors(e2 => ({ ...e2, phone: "驗證碼發送失敗，請確認電話號碼" }));
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    if (!otp.trim()) { setOtpError("請輸入驗證碼"); return; }
     setSubmitting(true);
-    try {
+
+    let phone = form.phone.trim();
+    if (phone.startsWith("0")) phone = "+886" + phone.slice(1);
+
+    const res = await base44.functions.invoke("verifyPhoneOtp", { phone, code: otp });
+
+    if (res.data?.success) {
       let userEmail = "";
       try { const user = await base44.auth.me(); userEmail = user?.email || ""; } catch {}
 
@@ -63,7 +92,8 @@ export default function MemberRegisterGate({ onComplete }) {
       sessionStorage.setItem("memberRegistered", "true");
       setShow(false);
       onComplete();
-    } catch {
+    } else {
+      setOtpError("驗證碼錯誤，請重新輸入");
       setSubmitting(false);
     }
   };
@@ -98,8 +128,8 @@ export default function MemberRegisterGate({ onComplete }) {
 
             {/* Body */}
             <div className="px-8 py-6 overflow-y-auto max-h-[70vh]">
-
-              <>
+              {step === "form" ? (
+                <>
                   <h2 className="font-heading text-lg font-bold text-center mb-1">會員資料填寫</h2>
                   <p className="font-body text-xs text-muted-foreground text-center mb-6">請填寫以下資料以進入網站</p>
 
@@ -170,13 +200,48 @@ export default function MemberRegisterGate({ onComplete }) {
                   </div>
 
                   <button
-                    onClick={handleSubmit}
+                    onClick={handleSendOtp}
+                    disabled={sendingOtp}
+                    className="w-full mt-6 py-4 bg-black text-white font-body text-sm tracking-widest rounded-xl hover:bg-black/80 transition-all disabled:opacity-50"
+                  >
+                    {sendingOtp ? "發送中…" : "發送驗證碼"}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h2 className="font-heading text-lg font-bold text-center mb-1">手機驗證</h2>
+                  <p className="font-body text-xs text-muted-foreground text-center mb-6">
+                    驗證碼已發送至 <span className="font-bold text-foreground">{form.phone}</span>
+                  </p>
+
+                  <Field label="驗證碼 *" error={otpError}>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      placeholder="請輸入 6 位驗證碼"
+                      value={otp}
+                      onChange={e => { setOtp(e.target.value); setOtpError(""); }}
+                      className={inputCls(otpError)}
+                      maxLength={6}
+                    />
+                  </Field>
+
+                  <button
+                    onClick={handleVerifyOtp}
                     disabled={submitting}
                     className="w-full mt-6 py-4 bg-black text-white font-body text-sm tracking-widest rounded-xl hover:bg-black/80 transition-all disabled:opacity-50"
                   >
-                    {submitting ? "送出中…" : "確認進入"}
+                    {submitting ? "驗證中…" : "確認進入"}
+                  </button>
+
+                  <button
+                    onClick={() => setStep("form")}
+                    className="w-full mt-2 py-3 text-muted-foreground font-body text-xs tracking-wider hover:text-foreground transition-colors"
+                  >
+                    返回修改資料
                   </button>
                 </>
+              )}
 
               <p className="font-body text-[10px] text-muted-foreground text-center mt-4 leading-relaxed">
                 ⚠ 吸菸有害健康。本網站僅供台灣地區20歲以上成年人瀏覽。
