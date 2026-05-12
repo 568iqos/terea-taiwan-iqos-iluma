@@ -19,25 +19,7 @@ import Admin from './pages/Admin';
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
-  // Only block render on first paint for a very short time
-  if (isLoadingPublicSettings && isLoadingAuth) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
-      </div>
-    );
-  }
-
-  // Handle authentication errors
-  if (authError) {
-    if (authError.type === 'user_not_registered') {
-      return <UserNotRegisteredError />;
-    }
-    // For all other errors (auth_required, unknown, network errors),
-    // render the app anyway since it's public
-  }
-
-  // Render the main app
+  // Render the main app immediately — this is a public site
   return (
     <Routes>
       <Route element={<AppLayout />}>
