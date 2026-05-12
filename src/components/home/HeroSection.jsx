@@ -7,7 +7,7 @@ const DEFAULT_SLIDES = [
     image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/4bf459377_IMG_8758.webp",
     label: "TEREA Taiwan Official",
     title: "IQOS ILUMA\n韓國限定",
-    sub: "每一次點燃，都多了一份儀式感",
+    sub: "每一次點燃，多了一份儀式感\n\n探索日本限定 IQOS ILUMA  與\n各國 TEREA 口味系列",
     ctaLabel: "探索產品",
     ctaTo: "/products",
     ctaSecondaryLabel: "了解技術",
