@@ -28,7 +28,7 @@ const DEFAULT_SLIDES = [
     overlay: "bg-gradient-to-r from-black/60 via-black/20 to-transparent",
   },
   {
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/8cd105daf_IMG_8769.jpg",
+    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/d51d872a4_IMG_8769.jpg",
     label: "ILUMA",
     title: "你的 Q故事\n個性登場",
     sub: "多款配色設計，展現獨一無二的風格品味",
