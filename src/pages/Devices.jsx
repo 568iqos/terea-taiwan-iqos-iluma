@@ -266,7 +266,7 @@ export default function Devices() {
             <p className="font-body text-[11px] tracking-[0.25em] uppercase text-muted-foreground mb-3">Heating Devices</p>
             <h1 className="font-heading text-4xl md:text-5xl font-bold tracking-tight mb-4">加熱設備</h1>
             <p className="font-body text-muted-foreground text-sm max-w-md leading-relaxed">
-              ILUMA 系列搭載革命性 Smartcore™ 感應加熱技術，無燃燒、無灰燼，帶來最純粹的菸草體驗。
+              探索加熱美學，感受全新科技體驗。
             </p>
           </motion.div>
         </div>
