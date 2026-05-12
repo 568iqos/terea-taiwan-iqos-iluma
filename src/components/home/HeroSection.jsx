@@ -39,6 +39,18 @@ const DEFAULT_SLIDES = [
     align: "right",
     overlay: "bg-gradient-to-l from-black/60 via-black/20 to-transparent",
   },
+  {
+    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/45d016eac_IMG_8744.jpg",
+    label: "TEREA Collection",
+    title: "你的 Q故事\n即將登場",
+    sub: "多彩配色，展現你的獨特品味與個性風格",
+    ctaLabel: "探索產品",
+    ctaTo: "/products",
+    ctaSecondaryLabel: "了解技術",
+    ctaSecondaryTo: "/technology",
+    align: "left",
+    overlay: "bg-gradient-to-r from-black/70 via-black/30 to-transparent",
+  },
 ];
 
 function getOverlay(slide) {
