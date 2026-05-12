@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ShoppingBag, Settings } from 'lucide-react';
+import { Menu, X, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
-import { base44 } from '@/api/base44Client';
 
 const navLinks = [
   { label: '加熱設備', href: '/devices' },
@@ -14,16 +13,9 @@ const navLinks = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
   const { totalCount } = useCart();
-
-  useEffect(() => {
-    base44.auth.me().then(user => {
-      if (user?.role === 'admin') setIsAdmin(true);
-    }).catch(() => {});
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -82,17 +74,6 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
-
-          {/* Admin link */}
-          {isAdmin && (
-            <Link
-              to="/admin"
-              className={`hidden md:flex items-center gap-1 transition-colors ${transparent ? 'text-white/50 hover:text-white' : 'text-muted-foreground hover:text-foreground'}`}
-              title="後台管理"
-            >
-              <Settings className="w-4 h-4" />
-            </Link>
-          )}
 
           {/* Cart icon */}
           <Link to="/cart" className={`relative p-2 transition-colors ${transparent ? 'text-white/70 hover:text-white' : 'text-muted-foreground hover:text-foreground'}`} aria-label="購物車">
@@ -153,16 +134,6 @@ export default function Navbar() {
                   <span className="text-white/20">→</span>
                 </Link>
               ))}
-              {isAdmin && (
-                <Link
-                  to="/admin"
-                  onClick={() => setMobileOpen(false)}
-                  className="py-5 font-body text-sm tracking-wider text-white/60 hover:text-white transition-colors flex items-center justify-between"
-                >
-                  後台管理
-                  <span className="text-white/20">→</span>
-                </Link>
-              )}
             </div>
           </motion.div>
         )}
