@@ -35,7 +35,7 @@ export default function MemberRegisterGate({ onComplete }) {
 
   useEffect(() => {
     if (!show) onComplete();
-  }, []);
+  }, [show, onComplete]);
 
   const validate = () => {
     const e = {};
