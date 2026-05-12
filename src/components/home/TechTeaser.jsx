@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -10,16 +10,7 @@ const stats = [
 ];
 
 export default function TechTeaser() {
-  useEffect(() => {
-    if (window.instgrm) {
-      window.instgrm.Embeds.process();
-    } else {
-      const script = document.createElement("script");
-      script.src = "https://www.instagram.com/embed.js";
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, []);
+
 
   return (
     <section className="bg-[#111] text-white overflow-hidden">
@@ -38,6 +29,7 @@ export default function TechTeaser() {
                 src="https://media.base44.com/images/public/69edb64b2f0beef803a1b699/6f7a30d2f_IMG_8134.jpg"
                 alt="ILUMA 系列設備展示"
                 className="w-full h-full object-cover opacity-90"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#111] hidden lg:block" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent lg:hidden" />
