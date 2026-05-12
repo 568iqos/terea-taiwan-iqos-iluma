@@ -74,6 +74,7 @@ export default function FlavorPreview() {
                     src={flavor.image}
                     alt={flavor.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
                   />
                 </div>
                 <p className="font-body text-[10px] text-muted-foreground tracking-wider uppercase mb-1">

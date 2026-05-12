@@ -83,7 +83,7 @@ export default function HeroSection({ siteSettings }) {
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
-          <img src={slide.image} alt={slide.title} className="w-full h-full object-cover" />
+          <img src={slide.image} alt={slide.title} className="w-full h-full object-cover" loading={current === 0 ? "eager" : "lazy"} fetchpriority={current === 0 ? "high" : "auto"} />
           <div className={`absolute inset-0 ${getOverlay(slide)}`} />
           <div className="absolute inset-0 bg-black/20" />
         </motion.div>

@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AgeGate() {
-  const [confirmed, setConfirmed] = useState(false);
-
-  useEffect(() => {
-    const passed = sessionStorage.getItem("ageGatePassed");
-    if (passed === "true") setConfirmed(true);
-  }, []);
+  const [confirmed, setConfirmed] = useState(() => {
+    try { return sessionStorage.getItem("ageGatePassed") === "true"; } catch { return false; }
+  });
 
   const handleYes = () => {
     sessionStorage.setItem("ageGatePassed", "true");

@@ -19,7 +19,9 @@ const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1);
 
 // step: "form" | "otp"
 export default function MemberRegisterGate({ onComplete }) {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(() => {
+    try { return sessionStorage.getItem("memberRegistered") !== "true"; } catch { return true; }
+  });
   const [step, setStep] = useState("form");
   const [form, setForm] = useState({
     name: "", email: "", occupation: "", line_id: "",
@@ -32,9 +34,7 @@ export default function MemberRegisterGate({ onComplete }) {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const registered = sessionStorage.getItem("memberRegistered");
-    if (registered === "true") { onComplete(); return; }
-    setShow(true);
+    if (!show) onComplete();
   }, []);
 
   const validate = () => {
