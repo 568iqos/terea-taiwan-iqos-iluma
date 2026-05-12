@@ -1,94 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { base44 } from "@/api/base44Client";
-
-const CITIES = [
-  "台北市", "新北市", "基隆市", "桃園市", "新竹市", "新竹縣",
-  "苗栗縣", "台中市", "彰化縣", "南投縣", "雲林縣", "嘉義市",
-  "嘉義縣", "台南市", "高雄市", "屏東縣", "宜蘭縣", "花蓮縣",
-  "台東縣", "澎湖縣", "金門縣", "連江縣"
-];
-
-const OCCUPATIONS = [
-  "上班族", "學生", "自營業主", "自由業", "家管", "退休", "其他"
-];
-
-const currentYear = new Date().getFullYear();
-const YEARS = Array.from({ length: 80 }, (_, i) => currentYear - 20 - i);
-const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1);
 
 export default function MemberRegisterGate({ onComplete }) {
   const [show, setShow] = useState(() => {
     try {
-      const saved = localStorage.getItem("memberData");
+      const saved = localStorage.getItem("ageConfirmed");
       return !saved;
     } catch { return true; }
   });
-  const [form, setForm] = useState(() => {
-    try {
-      const saved = localStorage.getItem("memberData");
-      if (saved) return JSON.parse(saved);
-    } catch {}
-    return {
-      name: "", phone: "", email: "", occupation: "", line_id: "",
-      birth_year: "", birth_month: "", city: "", age_confirmed: false,
-    };
-  });
-
-  const [submitting, setSubmitting] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [ageConfirmed, setAgeConfirmed] = useState(false);
 
   useEffect(() => {
     if (!show) onComplete();
   }, [show, onComplete]);
 
-  const validate = () => {
-    const e = {};
-    if (!form.name.trim()) e.name = "請填寫姓名";
-    if (!form.phone.trim()) e.phone = "請填寫電話";
-    if (!form.email.trim()) e.email = "請填寫 Email";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Email 格式不正確";
-    if (!form.line_id.trim()) e.line_id = "請填寫 LINE ID";
-    if (!form.occupation) e.occupation = "請選擇職業別";
-    if (!form.birth_year) e.birth_year = "請選擇出生年份";
-    if (!form.birth_month) e.birth_month = "請選擇出生月份";
-    if (!form.city) e.city = "請選擇縣市";
-    if (!form.age_confirmed) e.age_confirmed = "請勾選確認";
-    return e;
-  };
-
-  const handleSubmit = async () => {
-    const e = validate();
-    if (Object.keys(e).length > 0) { setErrors(e); return; }
-
-    setSubmitting(true);
-
-    let userEmail = form.email.trim();
-    try { const user = await base44.auth.me(); userEmail = user?.email || userEmail; } catch {}
-
-    const memberData = {
-      ...form,
-      birth_year: parseInt(form.birth_year),
-      birth_month: parseInt(form.birth_month),
-      user_email: userEmail,
-    };
-    
-    await base44.entities.Member.create(memberData);
-    localStorage.setItem("memberData", JSON.stringify(memberData));
-    
-    try {
-      await base44.functions.invoke("notifyNewMember", { memberData });
-    } catch (err) {
-      console.error("Failed to send notification:", err);
-    }
-    
+  const handleSubmit = () => {
+    if (!ageConfirmed) return;
+    localStorage.setItem("ageConfirmed", "true");
     setShow(false);
     onComplete();
-  };
-
-  const set = (field, value) => {
-    setForm(f => ({ ...f, [field]: value }));
-    setErrors(e => ({ ...e, [field]: undefined }));
   };
 
   return (
@@ -115,88 +45,32 @@ export default function MemberRegisterGate({ onComplete }) {
             </div>
 
             {/* Body */}
-            <div className="px-8 py-6 overflow-y-auto max-h-[70vh]">
-              <h2 className="font-heading text-lg font-bold text-center mb-1">會員資料填寫</h2>
-              <p className="font-body text-xs text-muted-foreground text-center mb-6">請填寫以下資料以進入網站</p>
+            <div className="px-8 py-6 text-center">
+              <h2 className="font-heading text-lg font-bold mb-4">年齡確認</h2>
+              <p className="font-body text-sm text-muted-foreground mb-6">本網站僅供20歲以上成年人瀏覽</p>
 
-              <div className="space-y-4">
-                <Field label="姓名 *" error={errors.name}>
-                      <input type="text" placeholder="請輸入姓名"
-                        value={form.name} onChange={e => set("name", e.target.value)}
-                        className={inputCls(errors.name)} />
-                    </Field>
-
-                <Field label="電話 *" error={errors.phone}>
-                      <input type="tel" placeholder="請輸入電話號碼"
-                        value={form.phone} onChange={e => set("phone", e.target.value)}
-                        className={inputCls(errors.phone)} />
-                    </Field>
-
-                <Field label="Email *" error={errors.email}>
-                       <input type="email" placeholder="example@email.com"
-                         value={form.email} onChange={e => set("email", e.target.value)}
-                         className={inputCls(errors.email)} />
-                     </Field>
-
-                <Field label="LINE ID *" error={errors.line_id}>
-                      <input type="text" placeholder="請輸入 LINE ID"
-                        value={form.line_id} onChange={e => set("line_id", e.target.value)}
-                        className={inputCls(errors.line_id)} />
-                    </Field>
-
-                <Field label="職業別 *" error={errors.occupation}>
-                      <select value={form.occupation} onChange={e => set("occupation", e.target.value)} className={selectCls(errors.occupation)}>
-                        <option value="">請選擇職業</option>
-                        {OCCUPATIONS.map(o => <option key={o} value={o}>{o}</option>)}
-                      </select>
-                    </Field>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <Field label="出生年份 *" error={errors.birth_year}>
-                        <select value={form.birth_year} onChange={e => set("birth_year", e.target.value)} className={selectCls(errors.birth_year)}>
-                          <option value="">年份</option>
-                          {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
-                        </select>
-                      </Field>
-                  <Field label="出生月份 *" error={errors.birth_month}>
-                        <select value={form.birth_month} onChange={e => set("birth_month", e.target.value)} className={selectCls(errors.birth_month)}>
-                          <option value="">月份</option>
-                          {MONTHS.map(m => <option key={m} value={m}>{m}月</option>)}
-                        </select>
-                  </Field>
+              <div
+                className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer select-none mb-6 ${!ageConfirmed ? "border-border bg-muted/30" : "border-black bg-black/5"}`}
+                onClick={() => setAgeConfirmed(!ageConfirmed)}
+              >
+                <div className={`mt-0.5 w-5 h-5 rounded flex-shrink-0 border-2 flex items-center justify-center transition-colors ${ageConfirmed ? "bg-black border-black" : "bg-white border-border"}`}>
+                  {ageConfirmed && (
+                    <svg viewBox="0 0 12 10" className="w-3 h-3 fill-none stroke-white stroke-2">
+                      <polyline points="1,5 4,8 11,1" />
+                    </svg>
+                  )}
                 </div>
-
-                <Field label="居住縣市 *" error={errors.city}>
-                      <select value={form.city} onChange={e => set("city", e.target.value)} className={selectCls(errors.city)}>
-                        <option value="">請選擇縣市</option>
-                        {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
-                      </select>
-                    </Field>
-
-                <div
-                  className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer select-none ${errors.age_confirmed ? "border-red-400 bg-red-50" : "border-border bg-muted/30"}`}
-                      onClick={() => set("age_confirmed", !form.age_confirmed)}
-                    >
-                      <div className={`mt-0.5 w-5 h-5 rounded flex-shrink-0 border-2 flex items-center justify-center transition-colors ${form.age_confirmed ? "bg-black border-black" : "bg-white border-border"}`}>
-                        {form.age_confirmed && (
-                          <svg viewBox="0 0 12 10" className="w-3 h-3 fill-none stroke-white stroke-2">
-                            <polyline points="1,5 4,8 11,1" />
-                          </svg>
-                        )}
-                      </div>
-                      <p className="font-body text-sm text-foreground leading-relaxed">
-                        我已年滿 <span className="font-bold">20 歲</span>並自行同意進入本網站，了解本網站含有菸草相關商品資訊。
-                      </p>
-                    </div>
-                {errors.age_confirmed && <p className="font-body text-xs text-red-500 -mt-2">{errors.age_confirmed}</p>}
+                <p className="font-body text-sm text-foreground leading-relaxed">
+                  我已年滿 <span className="font-bold">20 歲</span>
+                </p>
               </div>
 
               <button
                 onClick={handleSubmit}
-                disabled={submitting}
-                className="w-full mt-6 py-4 bg-black text-white font-body text-sm tracking-widest rounded-xl hover:bg-black/80 transition-all disabled:opacity-50"
+                disabled={!ageConfirmed}
+                className="w-full py-4 bg-black text-white font-body text-sm tracking-widest rounded-xl hover:bg-black/80 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {submitting ? "提交中…" : "確認進入"}
+                確認進入
               </button>
 
               <p className="font-body text-[10px] text-muted-foreground text-center mt-4 leading-relaxed">
@@ -208,22 +82,4 @@ export default function MemberRegisterGate({ onComplete }) {
       )}
     </AnimatePresence>
   );
-}
-
-function Field({ label, error, children }) {
-  return (
-    <div>
-      <label className="font-body text-xs text-muted-foreground mb-1.5 block">{label}</label>
-      {children}
-      {error && <p className="font-body text-xs text-red-500 mt-1">{error}</p>}
-    </div>
-  );
-}
-
-function inputCls(error) {
-  return `w-full border rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:ring-2 focus:ring-black/20 ${error ? "border-red-400" : "border-border"}`;
-}
-
-function selectCls(error) {
-  return `w-full border rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:ring-2 focus:ring-black/20 bg-white appearance-none ${error ? "border-red-400" : "border-border"}`;
 }
