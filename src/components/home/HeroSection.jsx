@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react";
 const DEFAULT_SLIDES = [
   {
     image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/e45ae93a9_IMG_8058.jpg",
-    label: "TEREA Taiwan",
+    label: "TEREA Taiwan Official",
     title: "加熱不燃燒\n新科技體驗",
     sub: "每一次點燃，都多了一份儀式感",
     ctaLabel: "探索產品",
