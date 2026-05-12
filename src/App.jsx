@@ -14,6 +14,7 @@ import Technology from './pages/Technology';
 import Stores from './pages/Stores';
 import Devices from './pages/Devices';
 import Cart from './pages/Cart';
+import ContactUs from './pages/ContactUs';
 import Admin from './pages/Admin';
 
 const AuthenticatedApp = () => {
@@ -29,6 +30,7 @@ const AuthenticatedApp = () => {
         <Route path="/stores" element={<Stores />} />
         <Route path="/devices" element={<Devices />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/contact" element={<ContactUs />} />
       </Route>
       <Route path="/admin" element={<Admin />} />
       <Route path="*" element={<PageNotFound />} />
