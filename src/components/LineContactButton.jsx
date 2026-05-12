@@ -13,7 +13,7 @@ export default function LineContactButton() {
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 0.5, duration: 0.3 }}
       whileHover={{ scale: 1.1 }}
-      className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#00B900] hover:bg-[#009900] shadow-lg flex items-center justify-center transition-all"
+      className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#00B900] hover:bg-[#009900] shadow-lg flex items-center justify-center transition-all"
       title="加入 TEREA 官方 LINE"
     >
       <svg
