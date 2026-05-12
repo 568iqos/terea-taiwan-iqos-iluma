@@ -16,13 +16,13 @@ export default function LineContactButton() {
         target="_blank"
         rel="noopener noreferrer"
         whileHover={{ scale: 1.1 }}
-        className="w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all"
+        className="w-16 h-16 flex items-center justify-center transition-all"
         title="加入 TEREA 官方 LINE"
       >
         <img
-          src="https://media.base44.com/images/public/69edb64b2f0beef803a1b699/27995367f_IMG_8734.webp"
+          src="https://media.base44.com/images/public/69edb64b2f0beef803a1b699/28ce148cc_IMG_8735.png"
           alt="LINE"
-          className="w-14 h-14 rounded-full object-cover"
+          className="w-16 h-16 object-contain drop-shadow-lg"
         />
       </motion.a>
       <p className="text-xs font-medium text-gray-800 whitespace-nowrap">聯絡我們</p>
