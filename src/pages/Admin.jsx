@@ -9,7 +9,14 @@ const TAB_LIST = [
   { id: "video", label: "影片", icon: Video },
 ];
 
+const ADMIN_EMAIL = "568iqos@gmail.com";
+const ADMIN_PASSWORD = "i9831221";
+
 export default function Admin() {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("hero");
@@ -73,7 +80,7 @@ export default function Admin() {
       try {
         const me = await base44.auth.me();
         setUser(me);
-        if (me?.role === "admin") {
+        if (me?.role === "admin" && authenticated) {
           await loadSettings();
         }
       } catch {
@@ -82,8 +89,8 @@ export default function Admin() {
         setLoading(false);
       }
     };
-    init();
-  }, []);
+    if (authenticated) init();
+  }, [authenticated]);
 
   const loadSettings = async () => {
     try {
@@ -125,6 +132,58 @@ export default function Admin() {
       setSaving(false);
     }
   };
+
+  const handleAdminLogin = (e) => {
+    e.preventDefault();
+    if (loginEmail === ADMIN_EMAIL && loginPassword === ADMIN_PASSWORD) {
+      setAuthenticated(true);
+      setLoginError("");
+      setLoading(true);
+    } else {
+      setLoginError("帳號或密碼錯誤");
+    }
+  };
+
+  if (!authenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full">
+          <h1 className="text-2xl font-bold text-center mb-1 tracking-widest">TEREA</h1>
+          <p className="text-xs text-gray-400 text-center mb-6 tracking-widest">後台管理系統</p>
+
+          <form onSubmit={handleAdminLogin} className="space-y-4">
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1.5">帳號</label>
+              <input
+                type="email"
+                value={loginEmail}
+                onChange={(e) => { setLoginEmail(e.target.value); setLoginError(""); }}
+                placeholder="568iqos@gmail.com"
+                className="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black/20"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1.5">密碼</label>
+              <input
+                type="password"
+                value={loginPassword}
+                onChange={(e) => { setLoginPassword(e.target.value); setLoginError(""); }}
+                placeholder="密碼"
+                className="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black/20"
+              />
+            </div>
+            {loginError && <p className="text-xs text-red-500 text-center">{loginError}</p>}
+            <button
+              type="submit"
+              className="w-full bg-black text-white py-3 rounded-lg font-medium text-sm hover:bg-black/80 transition mt-6"
+            >
+              進入後台
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
