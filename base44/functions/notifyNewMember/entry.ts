@@ -7,24 +7,17 @@ Deno.serve(async (req) => {
 
     const data = payload.memberData || {};
 
-    const body = `
-📋 新會員註冊通知
-
-姓名：${data.name || '-'}
-電話：${data.phone || '-'}
-Email：${data.user_email || '-'}
-LINE ID：${data.line_id || '-'}
-職業別：${data.occupation || '-'}
-出生年月：${data.birth_year || '-'} 年 ${data.birth_month || '-'} 月
-居住縣市：${data.city || '-'}
-已確認年滿20歲：${data.age_confirmed ? '是' : '否'}
-填寫時間：${new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}
-    `.trim();
-
-    await base44.asServiceRole.integrations.Core.SendEmail({
-      to: '568iqos@gmail.com',
-      subject: '【TEREA Taiwan】新會員註冊通知',
-      body,
+    // 儲存到 MemberSubmission 實體
+    await base44.asServiceRole.entities.MemberSubmission.create({
+      name: data.name || '',
+      phone: data.phone || '',
+      email: data.user_email || '',
+      line_id: data.line_id || '',
+      occupation: data.occupation || '',
+      birth_year: data.birth_year || null,
+      birth_month: data.birth_month || null,
+      city: data.city || '',
+      age_confirmed: data.age_confirmed || false,
     });
 
     return Response.json({ success: true });

@@ -1,0 +1,50 @@
+{
+  "name": "MemberSubmission",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "\u59d3\u540d"
+    },
+    "phone": {
+      "type": "string",
+      "description": "\u96fb\u8a71"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email"
+    },
+    "line_id": {
+      "type": "string",
+      "description": "LINE ID"
+    },
+    "occupation": {
+      "type": "string",
+      "description": "\u8077\u696d\u5225"
+    },
+    "birth_year": {
+      "type": "number",
+      "description": "\u51fa\u751f\u5e74\u4efd"
+    },
+    "birth_month": {
+      "type": "number",
+      "description": "\u51fa\u751f\u6708\u4efd"
+    },
+    "city": {
+      "type": "string",
+      "description": "\u5c45\u4f4f\u7e23\u5e02"
+    },
+    "age_confirmed": {
+      "type": "boolean",
+      "description": "\u5df2\u78ba\u8a8d\u5e74\u6eff20\u6b72",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "phone",
+    "email",
+    "city",
+    "age_confirmed"
+  ]
+}

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp, Video, Upload } from "lucide-react";
+import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp, Video, Upload, Users } from "lucide-react";
 
 const TAB_LIST = [
   { id: "hero", label: "Hero 輪播", icon: Image },
   { id: "faq", label: "FAQ 問答", icon: HelpCircle },
   { id: "video", label: "影片", icon: Video },
+  { id: "members", label: "會員提交", icon: Users },
 ];
 
 const ADMIN_EMAIL = "568iqos@gmail.com";
@@ -69,6 +70,9 @@ export default function Admin() {
     { q: "TEREA 每根可以使用多久？", a: "每根 TEREA 約可使用 14 口或 6 分鐘，具體時間依個人使用方式而異。" },
   ]);
 
+  // Members state
+  const [members, setMembers] = useState([]);
+
   const [expandedSlide, setExpandedSlide] = useState(0);
   const [videoUrl, setVideoUrl] = useState("");
   const [videoSettingId, setVideoSettingId] = useState(null);
@@ -82,6 +86,7 @@ export default function Admin() {
         setUser(me);
         if (me?.role === "admin" && authenticated) {
           await loadSettings();
+          await loadMembers();
         }
       } catch {
         setUser(null);
@@ -91,6 +96,13 @@ export default function Admin() {
     };
     if (authenticated) init();
   }, [authenticated]);
+
+  const loadMembers = async () => {
+    try {
+      const records = await base44.entities.MemberSubmission.list('-created_date', 100);
+      setMembers(records);
+    } catch {}
+  };
 
   const loadSettings = async () => {
     try {
@@ -540,6 +552,49 @@ export default function Admin() {
               >
                 <Plus className="w-4 h-4" /> 新增問答
               </button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Members Submissions */}
+        {tab === "members" && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+            <div className="bg-white rounded-xl border overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="border-b bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left font-medium text-gray-600">姓名</th>
+                      <th className="px-4 py-3 text-left font-medium text-gray-600">Email</th>
+                      <th className="px-4 py-3 text-left font-medium text-gray-600">電話</th>
+                      <th className="px-4 py-3 text-left font-medium text-gray-600">LINE ID</th>
+                      <th className="px-4 py-3 text-left font-medium text-gray-600">職業</th>
+                      <th className="px-4 py-3 text-left font-medium text-gray-600">居住地</th>
+                      <th className="px-4 py-3 text-left font-medium text-gray-600">提交時間</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {members.map((m) => (
+                      <tr key={m.id} className="border-b hover:bg-gray-50 transition">
+                        <td className="px-4 py-3">{m.name}</td>
+                        <td className="px-4 py-3 text-xs text-gray-600">{m.email}</td>
+                        <td className="px-4 py-3">{m.phone}</td>
+                        <td className="px-4 py-3">{m.line_id || '-'}</td>
+                        <td className="px-4 py-3">{m.occupation || '-'}</td>
+                        <td className="px-4 py-3">{m.city}</td>
+                        <td className="px-4 py-3 text-xs text-gray-500">
+                          {new Date(m.created_date).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {members.length === 0 && (
+                <div className="p-8 text-center text-gray-400">
+                  <p className="text-sm">還沒有會員提交資料</p>
+                </div>
+              )}
             </div>
           </motion.div>
         )}
