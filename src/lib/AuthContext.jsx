@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
       setIsLoadingPublicSettings(false);
       setIsLoadingAuth(false);
       setAuthChecked(true);
-    }, 5000);
+    }, 2000);
 
     try {
       setIsLoadingPublicSettings(true);
