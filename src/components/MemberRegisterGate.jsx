@@ -19,7 +19,10 @@ const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1);
 
 export default function MemberRegisterGate({ onComplete }) {
   const [show, setShow] = useState(() => {
-    try { return sessionStorage.getItem("memberRegistered") !== "true"; } catch { return true; }
+    try {
+      sessionStorage.removeItem("memberRegistered");
+      return true;
+    } catch { return true; }
   });
   const [otpSent, setOtpSent] = useState(false);
   const [form, setForm] = useState({
