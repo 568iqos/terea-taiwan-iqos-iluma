@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp, Video, Upload, Users } from "lucide-react";
+import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp, Video, Upload, Users, Download } from "lucide-react";
 
 const TAB_LIST = [
   { id: "hero", label: "Hero 輪播", icon: Image },
@@ -102,6 +102,42 @@ export default function Admin() {
       const records = await base44.entities.MemberSubmission.list('-created_date', 100);
       setMembers(records);
     } catch {}
+  };
+
+  const exportToCSV = () => {
+    if (members.length === 0) {
+      alert('沒有資料可導出');
+      return;
+    }
+
+    const headers = ['姓名', '電話', 'Email', 'LINE ID', '職業', '出生年份', '出生月份', '居住縣市', '年滿20歲', '提交時間'];
+    const rows = members.map(m => [
+      m.name,
+      m.phone,
+      m.email,
+      m.line_id || '-',
+      m.occupation || '-',
+      m.birth_year || '-',
+      m.birth_month || '-',
+      m.city,
+      m.age_confirmed ? '是' : '否',
+      new Date(m.created_date).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })
+    ]);
+
+    let csv = headers.join(',') + '\n';
+    rows.forEach(row => {
+      csv += row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',') + '\n';
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `TEREA會員資料_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const loadSettings = async () => {
@@ -560,6 +596,16 @@ export default function Admin() {
         {tab === "members" && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
             <div className="bg-white rounded-xl border overflow-hidden">
+              <div className="px-6 py-4 border-b bg-gray-50 flex items-center justify-between">
+                <h2 className="font-semibold text-base">會員提交紀錄</h2>
+                <button
+                  onClick={exportToCSV}
+                  className="flex items-center gap-2 px-4 py-2 bg-black text-white text-sm rounded-lg hover:bg-black/80 transition"
+                >
+                  <Download className="w-4 h-4" />
+                  導出 CSV
+                </button>
+              </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="border-b bg-gray-50">
