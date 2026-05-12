@@ -1,0 +1,23 @@
+{
+  "name": "OtpCode",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "Email address"
+    },
+    "code": {
+      "type": "string",
+      "description": "6-digit OTP code"
+    },
+    "expires": {
+      "type": "number",
+      "description": "Expiry timestamp (ms)"
+    }
+  },
+  "required": [
+    "email",
+    "code",
+    "expires"
+  ]
+}

@@ -22,7 +22,7 @@ export default function MemberRegisterGate({ onComplete }) {
   const [show, setShow] = useState(false);
   const [step, setStep] = useState("form");
   const [form, setForm] = useState({
-    name: "", phone: "", occupation: "", line_id: "",
+    name: "", email: "", occupation: "", line_id: "",
     birth_year: "", birth_month: "", city: "", age_confirmed: false,
   });
   const [otp, setOtp] = useState("");
@@ -40,7 +40,8 @@ export default function MemberRegisterGate({ onComplete }) {
   const validate = () => {
     const e = {};
     if (!form.name.trim()) e.name = "請填寫姓名";
-    if (!form.phone.trim()) e.phone = "請填寫電話";
+    if (!form.email.trim()) e.email = "請填寫 Email";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Email 格式不正確";
     if (!form.line_id.trim()) e.line_id = "請填寫 LINE ID";
     if (!form.occupation) e.occupation = "請選擇職業別";
     if (!form.birth_year) e.birth_year = "請選擇出生年份";
@@ -55,18 +56,14 @@ export default function MemberRegisterGate({ onComplete }) {
     if (Object.keys(e).length > 0) { setErrors(e); return; }
 
     setSendingOtp(true);
-    // Format phone: convert 09xx to +8869xx
-    let phone = form.phone.trim();
-    if (phone.startsWith("0")) phone = "+886" + phone.slice(1);
-
-    const res = await base44.functions.invoke("sendPhoneOtp", { phone });
+    const res = await base44.functions.invoke("sendEmailOtp", { email: form.email.trim() });
     setSendingOtp(false);
 
     if (res.data?.success) {
       setStep("otp");
       setOtpError("");
     } else {
-      setErrors(e2 => ({ ...e2, phone: "驗證碼發送失敗，請確認電話號碼" }));
+      setErrors(e2 => ({ ...e2, email: "驗證碼發送失敗，請確認 Email" }));
     }
   };
 
@@ -74,14 +71,11 @@ export default function MemberRegisterGate({ onComplete }) {
     if (!otp.trim()) { setOtpError("請輸入驗證碼"); return; }
     setSubmitting(true);
 
-    let phone = form.phone.trim();
-    if (phone.startsWith("0")) phone = "+886" + phone.slice(1);
-
-    const res = await base44.functions.invoke("verifyPhoneOtp", { phone, code: otp });
+    const res = await base44.functions.invoke("verifyEmailOtp", { email: form.email.trim(), code: otp });
 
     if (res.data?.success) {
-      let userEmail = "";
-      try { const user = await base44.auth.me(); userEmail = user?.email || ""; } catch {}
+      let userEmail = form.email.trim();
+      try { const user = await base44.auth.me(); userEmail = user?.email || userEmail; } catch {}
 
       await base44.entities.Member.create({
         ...form,
@@ -93,7 +87,7 @@ export default function MemberRegisterGate({ onComplete }) {
       setShow(false);
       onComplete();
     } else {
-      setOtpError("驗證碼錯誤，請重新輸入");
+      setOtpError(res.data?.error || "驗證碼錯誤，請重新輸入");
       setSubmitting(false);
     }
   };
@@ -140,10 +134,10 @@ export default function MemberRegisterGate({ onComplete }) {
                         className={inputCls(errors.name)} />
                     </Field>
 
-                    <Field label="電話 *" error={errors.phone}>
-                      <input type="tel" placeholder="例：0912345678"
-                        value={form.phone} onChange={e => set("phone", e.target.value)}
-                        className={inputCls(errors.phone)} />
+                    <Field label="Email *" error={errors.email}>
+                      <input type="email" placeholder="example@email.com"
+                        value={form.email} onChange={e => set("email", e.target.value)}
+                        className={inputCls(errors.email)} />
                     </Field>
 
                     <Field label="LINE ID *" error={errors.line_id}>
@@ -209,9 +203,9 @@ export default function MemberRegisterGate({ onComplete }) {
                 </>
               ) : (
                 <>
-                  <h2 className="font-heading text-lg font-bold text-center mb-1">手機驗證</h2>
+                  <h2 className="font-heading text-lg font-bold text-center mb-1">Email 驗證</h2>
                   <p className="font-body text-xs text-muted-foreground text-center mb-6">
-                    驗證碼已發送至 <span className="font-bold text-foreground">{form.phone}</span>
+                    驗證碼已發送至 <span className="font-bold text-foreground">{form.email}</span>
                   </p>
 
                   <Field label="驗證碼 *" error={otpError}>
@@ -224,6 +218,7 @@ export default function MemberRegisterGate({ onComplete }) {
                       className={inputCls(otpError)}
                       maxLength={6}
                     />
+                    <p className="font-body text-[10px] text-muted-foreground mt-1.5">若未收到，請檢查垃圾郵件資料夾</p>
                   </Field>
 
                   <button
