@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Upload, Play, Pause, Volume2, VolumeX } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 
-export default function VideoSection() {
+export default function VideoSection({ siteSettings }) {
   const [videoUrl, setVideoUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -13,13 +13,13 @@ export default function VideoSection() {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    base44.entities.SiteSettings.filter({ key: "home_video_url" }).then((results) => {
-      if (results.length > 0) {
-        setVideoUrl(results[0].value);
-        setSettingId(results[0].id);
-      }
-    });
-  }, []);
+    if (!siteSettings) return;
+    const rec = siteSettings.find((r) => r.key === "home_video_url");
+    if (rec) {
+      setVideoUrl(rec.value);
+      setSettingId(rec.id);
+    }
+  }, [siteSettings]);
 
   const handleUpload = async (e) => {
     const file = e.target.files[0];

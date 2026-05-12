@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
-import { base44 } from "@/api/base44Client";
-
 const DEFAULT_FAQS = [
   { q: "TEREA 是什麼產品？", a: "TEREA 是專為 IQOS ILUMA 系列設計的加熱式菸草彈，採用 Smartcore™ 感應加熱技術，從菸草內部加熱，溫度不超過 350°C，不產生燃燒、無灰燼。" },
   { q: "加熱不燃燒與傳統菸草有何不同？", a: "傳統菸草透過燃燒（600°C 以上）產生煙霧，而 TEREA 使用電磁感應將菸草加熱至 350°C 以下，產生蒸氣而非煙霧，因此無燃燒氣味，也不會產生灰燼。" },
@@ -11,21 +9,20 @@ const DEFAULT_FAQS = [
   { q: "TEREA 每根可以使用多久？", a: "每根 TEREA 約可使用 14 口或 6 分鐘，具體時間依個人使用方式而異。" },
 ];
 
-export default function FaqSection() {
+export default function FaqSection({ siteSettings }) {
   const [open, setOpen] = useState(null);
   const [faqs, setFaqs] = useState(DEFAULT_FAQS);
 
   useEffect(() => {
-    base44.entities.SiteSettings.list()
-      .then((records) => {
-        const rec = records.find((r) => r.key === "faq_items");
-        if (rec?.value) {
-          const parsed = JSON.parse(rec.value);
-          if (Array.isArray(parsed) && parsed.length > 0) setFaqs(parsed);
-        }
-      })
-      .catch(() => {});
-  }, []);
+    if (!siteSettings) return;
+    const rec = siteSettings.find((r) => r.key === "faq_items");
+    if (rec?.value) {
+      try {
+        const parsed = JSON.parse(rec.value);
+        if (Array.isArray(parsed) && parsed.length > 0) setFaqs(parsed);
+      } catch {}
+    }
+  }, [siteSettings]);
 
   return (
     <section className="py-20 md:py-28 px-6 md:px-12 bg-[#fafafa]">

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-import { base44 } from "@/api/base44Client";
-
 const DEFAULT_SLIDES = [
   {
     image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/e45ae93a9_IMG_8058.jpg",
@@ -50,21 +48,20 @@ function getOverlay(slide) {
     : "bg-gradient-to-r from-black/70 via-black/30 to-transparent";
 }
 
-export default function HeroSection() {
+export default function HeroSection({ siteSettings }) {
   const [current, setCurrent] = useState(0);
   const [slides, setSlides] = useState(DEFAULT_SLIDES);
 
   useEffect(() => {
-    base44.entities.SiteSettings.list()
-      .then((records) => {
-        const rec = records.find((r) => r.key === "hero_slides");
-        if (rec?.value) {
-          const parsed = JSON.parse(rec.value);
-          if (Array.isArray(parsed) && parsed.length > 0) setSlides(parsed);
-        }
-      })
-      .catch(() => {});
-  }, []);
+    if (!siteSettings) return;
+    const rec = siteSettings.find((r) => r.key === "hero_slides");
+    if (rec?.value) {
+      try {
+        const parsed = JSON.parse(rec.value);
+        if (Array.isArray(parsed) && parsed.length > 0) setSlides(parsed);
+      } catch {}
+    }
+  }, [siteSettings]);
 
   useEffect(() => {
     const timer = setInterval(() => {
