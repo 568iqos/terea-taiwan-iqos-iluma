@@ -3,7 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function AgeGate() {
   const [confirmed, setConfirmed] = useState(() => {
-    try { return sessionStorage.getItem("ageGatePassed") === "true"; } catch { return false; }
+    try {
+      const val = sessionStorage.getItem("ageGatePassed");
+      return val === "true";
+    } catch { return false; }
   });
 
   const handleYes = () => {
