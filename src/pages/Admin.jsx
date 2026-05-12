@@ -97,6 +97,12 @@ export default function Admin() {
     if (authenticated) init();
   }, [authenticated]);
 
+  useEffect(() => {
+    if (authenticated && user?.role === "admin" && tab === "members") {
+      loadMembers();
+    }
+  }, [tab, authenticated, user?.role]);
+
   const loadMembers = async () => {
     try {
       const records = await base44.entities.MemberSubmission.list('-created_date', 100);
