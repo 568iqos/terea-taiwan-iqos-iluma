@@ -42,7 +42,7 @@ const DEFAULT_SLIDES = [
   {
     image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/45d016eac_IMG_8744.jpg",
     label: "TEREA Collection",
-    title: "你的 Q故事\n即將登場",
+    title: "你的 Q故事\n個性登場",
     sub: "多彩配色，展現你的獨特品味與個性風格",
     ctaLabel: "探索產品",
     ctaTo: "/products",
