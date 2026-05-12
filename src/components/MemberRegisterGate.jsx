@@ -140,26 +140,30 @@ export default function MemberRegisterGate({ onComplete }) {
                     </Field>
 
                 <Field label="Email *" error={errors.email}>
-                      <input type="email" placeholder="example@email.com"
-                        value={form.email} onChange={e => set("email", e.target.value)}
-                        disabled={otpSent}
-                        className={inputCls(errors.email)} />
-                    </Field>
+                       <input type="email" placeholder="example@email.com"
+                         value={form.email} onChange={e => set("email", e.target.value)}
+                         disabled={otpSent}
+                         className={inputCls(errors.email)} />
+                     </Field>
 
-                {otpSent && (
-                  <Field label="驗證碼 *" error={otpError}>
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          placeholder="請輸入 6 位驗證碼"
-                          value={otp}
-                          onChange={e => { setOtp(e.target.value); setOtpError(""); }}
-                          className={inputCls(otpError)}
-                          maxLength={6}
-                        />
-                    <p className="font-body text-[10px] text-muted-foreground mt-1.5">若未收到，請檢查垃圾郵件資料夾</p>
-                  </Field>
-                )}
+                <Field label="驗證碼 *" error={otpError}>
+                  {otpSent ? (
+                    <>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        placeholder="請輸入 6 位驗證碼"
+                        value={otp}
+                        onChange={e => { setOtp(e.target.value); setOtpError(""); }}
+                        className={inputCls(otpError)}
+                        maxLength={6}
+                      />
+                      <p className="font-body text-[10px] text-muted-foreground mt-1.5">若未收到，請檢查垃圾郵件資料夾</p>
+                    </>
+                  ) : (
+                    <input type="text" placeholder="發送驗證碼後填寫" disabled className={inputCls("")} />
+                  )}
+                </Field>
 
                 <Field label="LINE ID *" error={errors.line_id}>
                       <input type="text" placeholder="請輸入 LINE ID"
