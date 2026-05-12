@@ -22,7 +22,7 @@ Deno.serve(async (req) => {
     }
 
     // Send email
-    await base44.integrations.Core.SendEmail({
+    await base44.asServiceRole.integrations.Core.SendEmail({
       to: email,
       subject: 'TEREA Taiwan 驗證碼',
       body: `
