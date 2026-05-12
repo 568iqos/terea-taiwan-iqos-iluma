@@ -7,6 +7,7 @@ import HealthWarningBanner from "../HealthWarningBanner";
 import WebViewWarning from "../WebViewWarning";
 import MemberRegisterGate from "../MemberRegisterGate";
 import FloatingLine from "../FloatingLine";
+import LineContactButton from "../LineContactButton";
 import { useState } from "react";
 
 export default function AppLayout() {
@@ -22,6 +23,7 @@ export default function AppLayout() {
       <AgeGate />
       <MemberRegisterGate key="member-register-gate-v2" onComplete={() => setMemberDone(true)} />
       <HealthWarningBanner />
+      <LineContactButton />
       <Navbar />
       <main className="flex-1">
         <Outlet />

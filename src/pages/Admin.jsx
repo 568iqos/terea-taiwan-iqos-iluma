@@ -349,17 +349,17 @@ export default function Admin() {
 
       <div className="max-w-5xl mx-auto px-6 py-8">
         {/* Tabs */}
-        <div className="flex gap-2 mb-8">
+        <div className="flex flex-wrap gap-2 mb-8">
           {TAB_LIST.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition whitespace-nowrap ${
                 tab === t.id ? "bg-black text-white" : "bg-white border text-gray-600 hover:border-black"
               }`}
             >
               <t.icon className="w-4 h-4" />
-              {t.label}
+              <span>{t.label}</span>
             </button>
           ))}
         </div>
