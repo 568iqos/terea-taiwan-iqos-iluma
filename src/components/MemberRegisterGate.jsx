@@ -23,7 +23,7 @@ export default function MemberRegisterGate({ onComplete }) {
   });
   const [otpSent, setOtpSent] = useState(false);
   const [form, setForm] = useState({
-    name: "", email: "", occupation: "", line_id: "",
+    name: "", phone: "", email: "", occupation: "", line_id: "",
     birth_year: "", birth_month: "", city: "", age_confirmed: false,
   });
 
@@ -40,6 +40,7 @@ export default function MemberRegisterGate({ onComplete }) {
   const validate = () => {
     const e = {};
     if (!form.name.trim()) e.name = "請填寫姓名";
+    if (!form.phone.trim()) e.phone = "請填寫電話";
     if (!form.email.trim()) e.email = "請填寫 Email";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Email 格式不正確";
     if (!form.line_id.trim()) e.line_id = "請填寫 LINE ID";
@@ -130,6 +131,12 @@ export default function MemberRegisterGate({ onComplete }) {
                       <input type="text" placeholder="請輸入姓名"
                         value={form.name} onChange={e => set("name", e.target.value)}
                         className={inputCls(errors.name)} />
+                    </Field>
+
+                <Field label="電話 *" error={errors.phone}>
+                      <input type="tel" placeholder="請輸入電話號碼"
+                        value={form.phone} onChange={e => set("phone", e.target.value)}
+                        className={inputCls(errors.phone)} />
                     </Field>
 
                 <Field label="Email *" error={errors.email}>
