@@ -6,7 +6,6 @@ import AgeGate from "../AgeGate";
 import HealthWarningBanner from "../HealthWarningBanner";
 import WebViewWarning from "../WebViewWarning";
 import MemberRegisterGate from "../MemberRegisterGate";
-import FloatingLine from "../FloatingLine";
 import LineContactButton from "../LineContactButton";
 import { useState } from "react";
 
@@ -29,7 +28,6 @@ export default function AppLayout() {
         <Outlet />
       </main>
       <Footer />
-      <FloatingLine />
     </div>
   );
 }
