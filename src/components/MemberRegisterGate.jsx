@@ -81,12 +81,22 @@ export default function MemberRegisterGate({ onComplete }) {
       let userEmail = form.email.trim();
       try { const user = await base44.auth.me(); userEmail = user?.email || userEmail; } catch {}
 
-      await base44.entities.Member.create({
+      const memberData = {
         ...form,
         birth_year: parseInt(form.birth_year),
         birth_month: parseInt(form.birth_month),
         user_email: userEmail,
-      });
+      };
+      
+      await base44.entities.Member.create(memberData);
+      
+      // Send notification email with member data
+      try {
+        await base44.functions.invoke("notifyNewMember", { memberData });
+      } catch (err) {
+        console.error("Failed to send notification:", err);
+      }
+      
       sessionStorage.setItem("memberRegistered", "true");
       setShow(false);
       onComplete();

@@ -5,13 +5,14 @@ Deno.serve(async (req) => {
     const base44 = createClientFromRequest(req);
     const payload = await req.json();
 
-    const data = payload.data || {};
+    const data = payload.memberData || {};
 
     const body = `
 📋 新會員註冊通知
 
 姓名：${data.name || '-'}
 電話：${data.phone || '-'}
+Email：${data.user_email || '-'}
 LINE ID：${data.line_id || '-'}
 職業別：${data.occupation || '-'}
 出生年月：${data.birth_year || '-'} 年 ${data.birth_month || '-'} 月
