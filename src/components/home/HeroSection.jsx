@@ -83,7 +83,7 @@ export default function HeroSection({ siteSettings }) {
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
-          <img src={slide.image} alt={slide.title} className="w-full h-full object-cover" loading={current === 0 ? "eager" : "lazy"} fetchpriority={current === 0 ? "high" : "auto"} />
+          <img src={slide.image} alt={`${slide.label} - ${slide.title}`} className="w-full h-full object-cover" loading={current === 0 ? "eager" : "lazy"} fetchpriority={current === 0 ? "high" : "auto"} />
           <div className={`absolute inset-0 ${getOverlay(slide)}`} />
           <div className="absolute inset-0 bg-black/20" />
         </motion.div>
@@ -102,9 +102,7 @@ export default function HeroSection({ siteSettings }) {
             <p className="font-body text-[10px] tracking-[0.3em] uppercase text-white/50 mb-5">
               {slide.label}
             </p>
-            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.05] mb-6 whitespace-pre-line">
-              {slide.title}
-            </h1>
+            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.05] mb-6 whitespace-pre-line">{slide.title}</h1>
             <p className="font-body text-sm md:text-base text-white/60 leading-relaxed mb-10 max-w-sm">
               {slide.sub}
             </p>
