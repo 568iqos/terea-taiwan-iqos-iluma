@@ -33,8 +33,8 @@ const AuthenticatedApp = () => {
     if (authError.type === 'user_not_registered') {
       return <UserNotRegisteredError />;
     }
-    // auth_required: app is private — just render the app anyway for public browsing
-    // (set app to Public in Base44 dashboard to remove this permanently)
+    // For all other errors (auth_required, unknown, network errors),
+    // render the app anyway since it's public
   }
 
   // Render the main app

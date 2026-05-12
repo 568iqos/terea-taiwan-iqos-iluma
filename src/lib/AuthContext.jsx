@@ -19,6 +19,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const checkAppState = async () => {
+    // Safety timeout: if loading takes too long, unblock the UI
+    const timeout = setTimeout(() => {
+      setIsLoadingPublicSettings(false);
+      setIsLoadingAuth(false);
+      setAuthChecked(true);
+    }, 5000);
+
     try {
       setIsLoadingPublicSettings(true);
       setAuthError(null);
@@ -86,6 +93,8 @@ export const AuthProvider = ({ children }) => {
       });
       setIsLoadingPublicSettings(false);
       setIsLoadingAuth(false);
+    } finally {
+      clearTimeout(timeout);
     }
   };
 
