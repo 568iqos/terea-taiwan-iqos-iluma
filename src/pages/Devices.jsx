@@ -10,7 +10,7 @@ const devices = [
     tagline: "旗艦典藏，極致奢華體驗",
     description:
       "IQOS ILUMA PRIME 為台灣版旗艦機型，採用鋁合金外殼搭配皮革質感開蓋設計，外型比 ILUMA 更加精緻大器。配備煙槍與充電盒，吸食 2 支後放入充電盒充電，充電盒滿電可吸食 20 支，搭載 SMARTCORE INDUCTION SYSTEM™ 感應加熱技術，無燃燒、無需清潔、無灰燼。",
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/e45ae93a9_IMG_8122.png",
+    image: "https://media.iqos.com/is/image/DCXWAM/IQOS_ILUMA_News_ArticleContent_Default_Page5_Iluma_Prime_Global_Desktop_Standard?qlt=85&dpr=off",
     colors: ["#1A1A2E", "#B8860B", "#5B3FA0", "#4A6FA5"],
     colorNames: ["黑曜石", "金色", "紫羅蘭", "寶石藍"],
     specs: [
@@ -31,7 +31,7 @@ const devices = [
     tagline: "標準典藏，日常精選",
     description:
       "IQOS ILUMA 為台灣版標準機型，機身採用磨砂面設計，配備煙槍和充電盒，吸食 2 支後放入充電盒充電，充電盒滿電可吸食 20 支煙。搭載 SMARTCORE INDUCTION SYSTEM™ 感應加熱技術，無燃燒、無需清潔，支援 APP 智慧控制，5 色可選。",
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/1cc1cf9ab_IMG_8122.png",
+    image: "https://media.iqos.com/is/image/DCXWAM/IQOS_ILUMA_News_ArticleContent_Default_Page5_IQOS_ILUMA_Global_Desktop_Standard?qlt=85&dpr=off",
     colors: ["#1A1A2E", "#4A6FA5", "#5B3FA0", "#E07B3A", "#4A8C5C"],
     colorNames: ["午夜黑", "微風藍", "數位紫", "烈焰橘", "墨綠"],
     specs: [
@@ -52,7 +52,7 @@ const devices = [
     tagline: "一體輕巧，隨行隨吸",
     description:
       "IQOS ILUMA ONE 為台灣版一體式機型，無需充電盒，主機內建大容量電池，一次充電（約 1.5 小時）可連續使用 20 支，重量僅 68.5g，輕巧便攜。搭載 SMARTCORE INDUCTION SYSTEM™ 感應加熱技術，無燃燒、無需清潔，是日常外出的最佳夥伴。",
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/4d0dfe6db_IMG_8744.jpg",
+    image: "https://media.iqos.com/is/image/DCXWAM/IQOS_ILUMA_News_ArticleContent_Default_Page5_IQOS_ILUMA_ONE_Global_Desktop_Standard?qlt=85&dpr=off",
     colors: ["#1A1A2E", "#5B3FA0", "#D45A3A", "#4A9EC4", "#4A8C5C"],
     colorNames: ["午夜黑", "數位紫", "橘紅", "清風藍", "墨綠"],
     specs: [
@@ -73,7 +73,7 @@ const devices = [
     tagline: "旗艦型，極致科技體驗",
     description:
       "旗艦款設備，搭載 OLED 觸控螢幕、智慧延長功能與可換式外殼設計。採用 Smartcore™ 感應加熱技術，無需清潔刀片，帶來最純粹、最潔淨的菸草蒸氣體驗。環保材質，科技與時尚完美融合。",
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/a7b3c8d92_device_main.png",
+    image: "https://terea-kim.com/wp-content/uploads/2025/05/%E3%80%90%E4%B8%BB%E5%9C%96%E3%80%91-TEREA-%E4%B8%BB%E6%A9%9F-%E5%9C%96%E7%89%87.png",
     colors: ["#0D2340", "#8B3A62", "#2E5E4E", "#4A6FA5", "#6B3FA0"],
     colorNames: ["午夜黑", "石榴紅", "白楊綠", "微風藍", "電光紫"],
     specs: [
@@ -94,7 +94,7 @@ const devices = [
     tagline: "標準型，日常首選",
     description:
       "標準版設備，搭載觸控螢幕可顯示剩餘時間與電量。全新暫停功能、Flex Puff 多抽 4 口功能及省電模式，讓日常使用更便利。可與前一代充電盒共用，輕巧設計適合日常攜帶。",
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/b8c4d9e03_device_5color.png",
+    image: "https://terea-kim.com/wp-content/uploads/2025/05/%E3%80%905%E8%89%B2%E4%B8%BB%E6%A9%9F%E3%80%91IQO-S-TEREA%E5%9C%96%E7%89%87.png",
     colors: ["#1A1A2E", "#4A6FA5", "#5B3FA0", "#E07B3A", "#8DB84A"],
     colorNames: ["午夜黑", "微風藍", "數位紫", "烈焰橘", "青蘋果綠"],
     specs: [
@@ -157,7 +157,7 @@ const devices = [
     tagline: "一體式，隨行自在",
     description:
       "一體成型設計，主機與電池整合，無需充電盒。內建 1728 mAh 大容量電池，充飽約 90 分鐘可連續使用 20 支煙彈，滿足一整天需求。底部防滑設計，單手操作輕鬆自在，是便利生活的最佳夥伴。",
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/c9d5eaf14_device_one_i.png",
+    image: "https://terea-kim.com/wp-content/uploads/2025/12/Web-Asset-ILUMAi-One_Compare_Desktop.webp",
     colors: ["#8DB84A", "#9B8EC4", "#8ECFCF", "#3A4A5E", "#D45A3A"],
     colorNames: ["青蘋果綠", "數位紫", "清風藍", "午夜藍", "橘紅"],
     specs: [
