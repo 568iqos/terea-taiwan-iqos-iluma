@@ -113,7 +113,7 @@ export default function HeroSection({ siteSettings }) {
                 to={slide.ctaTo || "/products"}
                 className="inline-flex items-center justify-center bg-white text-black px-8 py-3.5 font-body text-[11px] tracking-widest uppercase hover:bg-white/90 transition-colors"
               >
-                {slide.ctaLabel || "探索產品"}
+                {slide.ctaLabel || "探索加熱煙"}
               </Link>
               {slide.ctaSecondaryLabel && (
                 <Link
