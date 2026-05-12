@@ -18,7 +18,6 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <WebViewWarning />
       <AgeGate />
       <MemberRegisterGate key="member-register-gate-v2" onComplete={() => setMemberDone(true)} />
       <HealthWarningBanner />
