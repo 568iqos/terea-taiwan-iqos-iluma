@@ -20,7 +20,7 @@ export default function LineContactButton() {
         title="加入 TEREA 官方 LINE"
       >
         <img
-          src="https://media.base44.com/images/public/69edb64b2f0beef803a1b699/28ce148cc_IMG_8735.png"
+          src="https://media.base44.com/images/public/69edb64b2f0beef803a1b699/ff50a8a5f_IMG_8734.webp"
           alt="LINE"
           className="w-16 h-16 object-contain drop-shadow-lg"
         />
