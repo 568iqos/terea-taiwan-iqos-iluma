@@ -37,7 +37,7 @@ const DEFAULT_SLIDES = [
     ctaSecondaryLabel: "了解技術",
     ctaSecondaryTo: "/technology",
     align: "right",
-    overlay: "bg-gradient-to-l from-black/60 via-black/20 to-transparent",
+    overlay: "bg-gradient-to-l from-black/20 via-transparent to-transparent",
   },
   {
     image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/1588b4bb6_IMG_8744.jpg",
