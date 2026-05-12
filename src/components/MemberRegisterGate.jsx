@@ -27,6 +27,7 @@ export default function MemberRegisterGate({ onComplete }) {
     name: "", email: "", occupation: "", line_id: "",
     birth_year: "", birth_month: "", city: "", age_confirmed: false,
   });
+
   const [otp, setOtp] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [sendingOtp, setSendingOtp] = useState(false);
