@@ -28,7 +28,7 @@ const DEFAULT_SLIDES = [
     overlay: "bg-gradient-to-r from-black/60 via-black/20 to-transparent",
   },
   {
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/8f7f1c754_IMG_8757.jpg",
+    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/1588b4bb6_IMG_8744.jpg",
     label: "ILUMA",
     title: "你的 Q故事\n個性登場",
     sub: "多款配色設計，展現獨一無二的風格品味",
@@ -40,7 +40,7 @@ const DEFAULT_SLIDES = [
     overlay: "bg-gradient-to-l from-black/60 via-black/20 to-transparent",
   },
   {
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/4d0dfe6db_IMG_8744.jpg",
+    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/088a39156_IMG_8190.jpg",
     label: "ILUMA Collection",
     title: "你的 Q故事\n個性登場",
     sub: "多款配色設計，展現獨一無二的風格品味",
