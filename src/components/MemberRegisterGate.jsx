@@ -122,7 +122,6 @@ export default function MemberRegisterGate({ onComplete }) {
 
             {/* Body */}
             <div className="px-8 py-6 overflow-y-auto max-h-[70vh]">
-              <>
               <h2 className="font-heading text-lg font-bold text-center mb-1">會員資料填寫</h2>
               <p className="font-body text-xs text-muted-foreground text-center mb-6">請填寫以下資料以進入網站</p>
 
@@ -219,7 +218,7 @@ export default function MemberRegisterGate({ onComplete }) {
               )}
 
                   {otpSent && (
-                <button
+                    <button
                   onClick={handleVerifyOtp}
                   disabled={submitting}
                   className="w-full mt-6 py-4 bg-black text-white font-body text-sm tracking-widest rounded-xl hover:bg-black/80 transition-all disabled:opacity-50"
@@ -236,7 +235,6 @@ export default function MemberRegisterGate({ onComplete }) {
                   返回修改資料
                 </button>
               )}
-            </>
 
               <p className="font-body text-[10px] text-muted-foreground text-center mt-4 leading-relaxed">
                 ⚠ 吸菸有害健康。本網站僅供台灣地區20歲以上成年人瀏覽。
