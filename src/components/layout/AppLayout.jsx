@@ -10,7 +10,11 @@ import FloatingLine from "../FloatingLine";
 import { useState } from "react";
 
 export default function AppLayout() {
-  const [memberDone, setMemberDone] = useState(false);
+  const [memberDone, setMemberDone] = useState(() => {
+    // Force refresh - clear old sessionStorage
+    try { sessionStorage.removeItem("memberRegistered"); } catch {}
+    return false;
+  });
 
   return (
     <div className="min-h-screen flex flex-col">
