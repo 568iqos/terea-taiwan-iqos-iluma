@@ -20,13 +20,19 @@ const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1);
 export default function MemberRegisterGate({ onComplete }) {
   const [show, setShow] = useState(() => {
     try {
-      sessionStorage.removeItem("memberRegistered");
-      return true;
+      const saved = localStorage.getItem("memberData");
+      return !saved;
     } catch { return true; }
   });
-  const [form, setForm] = useState({
-    name: "", phone: "", email: "", occupation: "", line_id: "",
-    birth_year: "", birth_month: "", city: "", age_confirmed: false,
+  const [form, setForm] = useState(() => {
+    try {
+      const saved = localStorage.getItem("memberData");
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return {
+      name: "", phone: "", email: "", occupation: "", line_id: "",
+      birth_year: "", birth_month: "", city: "", age_confirmed: false,
+    };
   });
 
   const [submitting, setSubmitting] = useState(false);
@@ -68,6 +74,7 @@ export default function MemberRegisterGate({ onComplete }) {
     };
     
     await base44.entities.Member.create(memberData);
+    localStorage.setItem("memberData", JSON.stringify(memberData));
     
     try {
       await base44.functions.invoke("notifyNewMember", { memberData });
@@ -75,7 +82,6 @@ export default function MemberRegisterGate({ onComplete }) {
       console.error("Failed to send notification:", err);
     }
     
-    sessionStorage.setItem("memberRegistered", "true");
     setShow(false);
     onComplete();
   };
