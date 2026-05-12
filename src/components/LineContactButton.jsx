@@ -2,9 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 export default function LineContactButton() {
-  // 替換為實際的 LINE 官方帳號 ID
-  const LINE_OFFICIAL_ACCOUNT = "@tereaTaiwan";
-  const LINE_OFFICIAL_URL = "https://line.me/R/ti/p/@tereatwaiwan";
+  const LINE_OFFICIAL_URL = "https://lin.ee/oUNXRCC";
 
   return (
     <motion.a
