@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp, Video, Upload, Users, Download } from "lucide-react";
+import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp, Video, Upload, Users, Download, ImagePlus } from "lucide-react";
 
 const TAB_LIST = [
   { id: "hero", label: "Hero 輪播", icon: Image },
@@ -307,6 +307,15 @@ export default function Admin() {
     setSaving(false);
   };
 
+  // Slide image upload
+  const handleSlideImageUpload = async (e, i) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    updateSlide(i, "_uploading", true);
+    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    setSlides((prev) => prev.map((s, idx) => idx === i ? { ...s, image: file_url, _uploading: false } : s));
+  };
+
   // Slide helpers
   const updateSlide = (i, field, val) => {
     setSlides((prev) => prev.map((s, idx) => idx === i ? { ...s, [field]: val } : s));
@@ -403,15 +412,32 @@ export default function Admin() {
                   {expandedSlide === i && (
                     <div className="px-5 pb-5 border-t pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="md:col-span-2">
-                        <label className="block text-xs font-medium text-gray-500 mb-1">圖片網址</label>
+                        <label className="block text-xs font-medium text-gray-500 mb-2">輪播圖片</label>
+                        <label className="flex items-center justify-center gap-2 w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-sm text-gray-500 hover:border-black hover:text-black transition cursor-pointer mb-2">
+                          <ImagePlus className="w-4 h-4" />
+                          {slide._uploading ? "上傳中..." : "點此上傳圖片（手機可直接選相簿）"}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => handleSlideImageUpload(e, i)}
+                            disabled={slide._uploading}
+                          />
+                        </label>
+                        <p className="text-xs text-gray-400 mb-1">或直接貼上圖片網址：</p>
                         <input
                           className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black"
                           value={slide.image}
                           onChange={(e) => updateSlide(i, "image", e.target.value)}
                           placeholder="https://..."
                         />
-                        {slide.image && (
+                        {slide.image && !slide._uploading && (
                           <img src={slide.image} alt="" className="mt-2 h-28 w-full object-cover rounded-lg" />
+                        )}
+                        {slide._uploading && (
+                          <div className="mt-2 h-28 w-full rounded-lg bg-gray-100 flex items-center justify-center">
+                            <div className="w-6 h-6 border-2 border-gray-300 border-t-black rounded-full animate-spin" />
+                          </div>
                         )}
                       </div>
                       <div>
