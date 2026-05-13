@@ -5,6 +5,7 @@ import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp, 
 
 const TAB_LIST = [
   { id: "hero", label: "Hero 輪播", icon: Image },
+  { id: "products", label: "產品圖片", icon: ImagePlus },
   { id: "faq", label: "FAQ 問答", icon: HelpCircle },
   { id: "video", label: "影片", icon: Video },
   { id: "members", label: "會員提交", icon: Users },
@@ -69,6 +70,10 @@ export default function Admin() {
     { q: "在哪裡可以購買 TEREA？", a: "TEREA 可於全台授權門市購買，包含台北、台中、高雄等地。請前往「門市據點」頁面查詢最近的授權販售點。" },
     { q: "TEREA 每根可以使用多久？", a: "每根 TEREA 約可使用 14 口或 6 分鐘，具體時間依個人使用方式而異。" },
   ]);
+
+  // Product images state
+  const [productImages, setProductImages] = useState({});
+  const [productImgUploading, setProductImgUploading] = useState({});
 
   // Members state
   const [members, setMembers] = useState([]);
@@ -155,6 +160,8 @@ export default function Admin() {
       if (heroRec?.value) setSlides(JSON.parse(heroRec.value));
       if (faqRec?.value) setFaqs(JSON.parse(faqRec.value));
       if (videoRec?.value) { setVideoUrl(videoRec.value); setVideoSettingId(videoRec.id); }
+      const productImgRec = records.find((r) => r.key === "product_images");
+      if (productImgRec?.value) setProductImages(JSON.parse(productImgRec.value));
     } catch {}
   };
 
@@ -305,6 +312,25 @@ export default function Admin() {
     setSavedMsg("儲存成功！");
     setTimeout(() => setSavedMsg(""), 2500);
     setSaving(false);
+  };
+
+  // Product image upload
+  const handleProductImageUpload = async (e, productId) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setProductImgUploading((prev) => ({ ...prev, [productId]: true }));
+    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    const updated = { ...productImages, [productId]: file_url };
+    setProductImages(updated);
+    // Save immediately
+    const records = await base44.entities.SiteSettings.list();
+    const rec = records.find((r) => r.key === "product_images");
+    if (rec) {
+      await base44.entities.SiteSettings.update(rec.id, { value: JSON.stringify(updated) });
+    } else {
+      await base44.entities.SiteSettings.create({ key: "product_images", value: JSON.stringify(updated) });
+    }
+    setProductImgUploading((prev) => ({ ...prev, [productId]: false }));
   };
 
   // Slide image upload
@@ -572,6 +598,72 @@ export default function Admin() {
                 <Save className="w-4 h-4" />
                 儲存影片設定
               </button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Product Images Editor */}
+        {tab === "products" && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+            <p className="text-xs text-gray-400 mb-4">點擊「上傳」可從手機相簿選圖，圖片上傳後立即儲存。</p>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {[
+                { id: "rich-regular", name: "特濃原味", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100099_00S-300x300.jpg" },
+                { id: "regular", name: "醇原味", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100085_00S-300x300.jpg" },
+                { id: "smooth-regular", name: "淡原味", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100086_00S-300x300.jpg" },
+                { id: "balanced-regular", name: "堅果原味", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100087_00S-300x300.jpg" },
+                { id: "black-menthol", name: "黑薄荷", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100093_00S-300x300.jpg" },
+                { id: "menthol", name: "濃薄荷", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100088_00S-300x300.jpg" },
+                { id: "mint", name: "淡薄荷", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100089_00S-300x300.jpg" },
+                { id: "purple-menthol", name: "藍莓薄荷", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100090_00S-300x300.jpg" },
+                { id: "yellow-menthol", name: "青檸薄荷", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100091_00S-300x300.jpg" },
+                { id: "tropical-menthol", name: "熱帶水果", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100092_00S-300x300.jpg" },
+                { id: "oasis-pearl", name: "綠洲爆珠", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100098_00S-300x300.jpg" },
+                { id: "sunshine-pearl", name: "太陽爆珠", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100121_00S-300x300.jpg" },
+                { id: "black-purple-menthol", name: "黑藍莓薄荷", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100096_00S-300x300.jpg" },
+                { id: "black-tropical", name: "黑熱帶水果", defaultImg: "https://terea-device.com/wp-content/uploads/2025/12/2030100127_00S-300x300.jpg" },
+                { id: "kr-sun-pearl", name: "日光爆珠(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/Sun-Pearl.png" },
+                { id: "kr-green-zing", name: "青檸/抹茶(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/green_zing.png" },
+                { id: "kr-starling-pearl", name: "櫻桃爆珠(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/Starling-Pearl.png" },
+                { id: "kr-yugen", name: "花香(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/terea-yugen.png" },
+                { id: "kr-blue", name: "濃薄荷(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/blue.png" },
+                { id: "kr-summer-wave", name: "熱帶水果(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/summer_wave.png" },
+                { id: "kr-amber", name: "琥珀(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/amber.png" },
+                { id: "kr-oasis-pearl", name: "綠洲爆珠(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/Oasis-Pearl.png" },
+                { id: "kr-purple-wave", name: "葡萄(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/purple_wave.png" },
+                { id: "kr-green", name: "薄荷(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/green.png" },
+                { id: "kr-silver", name: "閃銀(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/silver.png" },
+                { id: "kr-abora-pearl", name: "青蘋果爆珠(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/Abora-Pearl.png" },
+                { id: "kr-black-ruby", name: "黑紅莓果(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/Black-Ruby.png" },
+                { id: "kr-black-purple", name: "黑葡萄(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/black_purple.png" },
+                { id: "kr-black-green", name: "黑冰薄荷(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/black_green.png" },
+              ].map((product) => {
+                const currentImg = productImages[product.id] || product.defaultImg;
+                const isUploading = productImgUploading[product.id];
+                return (
+                  <div key={product.id} className="bg-white rounded-xl border p-3 flex flex-col items-center gap-2">
+                    <div className="w-full aspect-square rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
+                      {isUploading ? (
+                        <div className="w-6 h-6 border-2 border-gray-300 border-t-black rounded-full animate-spin" />
+                      ) : (
+                        <img src={currentImg} alt={product.name} className="w-full h-full object-contain" />
+                      )}
+                    </div>
+                    <p className="text-xs font-medium text-center text-gray-700 leading-tight">{product.name}</p>
+                    <label className="w-full flex items-center justify-center gap-1.5 py-2 border border-dashed border-gray-300 rounded-lg text-xs text-gray-500 hover:border-black hover:text-black transition cursor-pointer">
+                      <Upload className="w-3 h-3" />
+                      {isUploading ? "上傳中..." : "換圖"}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => handleProductImageUpload(e, product.id)}
+                        disabled={isUploading}
+                      />
+                    </label>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
         )}

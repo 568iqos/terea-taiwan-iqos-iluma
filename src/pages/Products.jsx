@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Thermometer, Wind, ShoppingBag, Check } from "lucide-react";
 import FlavorWizard from "../components/products/FlavorWizard";
 import { useCart } from "@/context/CartContext";
+import { base44 } from "@/api/base44Client";
 
 const flavors = [
   {
@@ -551,6 +552,14 @@ export default function Products() {
   const [activeRegion, setActiveRegion] = useState("全部");
   const { addItem } = useCart();
   const [addedId, setAddedId] = useState(null);
+  const [productImages, setProductImages] = useState({});
+
+  useEffect(() => {
+    base44.entities.SiteSettings.list().then((records) => {
+      const rec = records.find((r) => r.key === "product_images");
+      if (rec?.value) setProductImages(JSON.parse(rec.value));
+    }).catch(() => {});
+  }, []);
 
   const handleQuickAdd = (e, flavor) => {
     e.stopPropagation();
@@ -559,7 +568,10 @@ export default function Products() {
     setTimeout(() => setAddedId(null), 1200);
   };
 
-  const allFlavors = [...flavors, ...koreaFlavors];
+  const allFlavors = [...flavors, ...koreaFlavors].map((f) => ({
+    ...f,
+    image: productImages[f.id] || f.image,
+  }));
   const filteredFlavors = activeRegion === "全部"
     ? allFlavors
     : allFlavors.filter((f) => f.region === activeRegion);
