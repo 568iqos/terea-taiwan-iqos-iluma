@@ -27,25 +27,8 @@ function isIOS() {
 }
 
 export default function WebViewWarning() {
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    if (isWebView()) {
-      // Try to auto-redirect on iOS LINE using openExternalBrowser
-      if (isLineWebView() && isIOS()) {
-        const url = window.location.href;
-        // LINE iOS supports ?openExternalBrowser=1 to force open in Safari
-        if (!url.includes("openExternalBrowser=1")) {
-          const separator = url.includes("?") ? "&" : "?";
-          window.location.replace(url + separator + "openExternalBrowser=1");
-          return;
-        }
-      }
-      setShow(true);
-    }
-  }, []);
-
-  if (!show) return null;
+  // WebView warning disabled — allow LINE/IG in-app browsers
+  return null;
 
   const ios = isIOS();
   const isLine = isLineWebView();
