@@ -390,12 +390,12 @@ export default function Admin() {
 
       <div className="max-w-5xl mx-auto px-6 py-8">
         {/* Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex gap-2 mb-8 overflow-x-auto pb-2 -mx-1 px-1" style={{scrollbarWidth: 'none'}}>
           {TAB_LIST.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition whitespace-nowrap ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium transition whitespace-nowrap flex-shrink-0 ${
                 tab === t.id ? "bg-black text-white" : "bg-white border text-gray-600 hover:border-black"
               }`}
             >
