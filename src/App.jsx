@@ -8,6 +8,7 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import AppLayout from './components/layout/AppLayout';
 import { CartProvider } from './context/CartContext';
 import CartDrawer from './components/CartDrawer';
+import SeoHead from './components/SeoHead';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Technology from './pages/Technology';
@@ -48,6 +49,7 @@ function App() {
       <QueryClientProvider client={queryClientInstance}>
         <CartProvider>
           <Router>
+            <SeoHead />
             <AuthenticatedApp />
             <CartDrawer />
           </Router>
