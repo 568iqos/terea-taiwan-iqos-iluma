@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 const DEFAULT_SLIDES = [
   {
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/e45ae93a9_IMG_8058.jpg",
+    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/a703fb94e_IMG_8058.jpg",
     label: "TEREA Taiwan",
     title: "加熱不燃燒\n新科技體驗",
     sub: "每一次點燃，都多了一份儀式感",
@@ -16,7 +16,7 @@ const DEFAULT_SLIDES = [
     overlay: "bg-gradient-to-r from-black/70 via-black/30 to-transparent",
   },
   {
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/1cc1cf9ab_IMG_8122.png",
+    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/4ecd63040_IMG_8820.jpg",
     label: "TEREA Lifestyle",
     title: "創作靈感\n自由表達",
     sub: "以風味為畫筆，描繪屬於你的生活品味",
@@ -28,7 +28,7 @@ const DEFAULT_SLIDES = [
     overlay: "bg-gradient-to-r from-black/60 via-black/20 to-transparent",
   },
   {
-    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/260e7c9f4_IMG_8125.jpg",
+    image: "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/6aae1bad3_IMG_8821.jpg",
     label: "ILUMA",
     title: "你的 Q故事\n個性登場",
     sub: "多款配色設計，展現獨一無二的風格品味",
