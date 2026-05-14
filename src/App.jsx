@@ -18,6 +18,7 @@ import Devices from './pages/Devices';
 import Cart from './pages/Cart';
 import ContactUs from './pages/ContactUs';
 import Admin from './pages/Admin';
+import Limited from './pages/Limited';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -34,6 +35,7 @@ const AuthenticatedApp = () => {
         <Route path="/devices" element={<Devices />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/limited" element={<Limited />} />
       </Route>
       <Route path="/admin" element={<Admin />} />
       <Route path="*" element={<PageNotFound />} />
