@@ -6,7 +6,7 @@ import { Menu, X } from 'lucide-react';
 const navLinks = [
   { label: '加熱設備', href: '/devices' },
   { label: '風味系列', href: '/products' },
-  { label: '核心科技', href: '/technology' },
+  { label: '關於我們', href: '/about' },
 ];
 
 export default function Navbar() {

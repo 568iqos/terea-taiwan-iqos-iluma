@@ -11,6 +11,7 @@ import CartDrawer from './components/CartDrawer';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Technology from './pages/Technology';
+import About from './pages/About';
 import Stores from './pages/Stores';
 import Devices from './pages/Devices';
 import Cart from './pages/Cart';
@@ -27,6 +28,7 @@ const AuthenticatedApp = () => {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/technology" element={<Technology />} />
+        <Route path="/about" element={<About />} />
         <Route path="/stores" element={<Stores />} />
         <Route path="/devices" element={<Devices />} />
         <Route path="/cart" element={<Cart />} />
