@@ -1,49 +1,18 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ShoppingBag, Check } from "lucide-react";
+import { X, ShoppingBag, Check, Cpu, Smartphone, Zap, Leaf, RefreshCw, Wind } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
-const japanLimited = [
-  {
-    id: "jp-limited-oasis-pearl",
-    name: "綠洲爆珠",
-    nameEn: "Oasis Pearl",
-    image: "https://terea-device.com/wp-content/uploads/2025/12/2030100098_00S-300x300.jpg",
-    gradient: "from-teal-400/10 to-teal-700/10",
-    description: "結合傳統菸草的醇厚與水果爆珠的清爽，咬破爆珠瞬間清涼感倍增，帶來如沁入綠洲般的極致爽快體驗。",
-    tag: "日本限定",
-    region: "日本",
-  },
-  {
-    id: "jp-limited-sunshine-pearl",
-    name: "太陽爆珠",
-    nameEn: "Sunshine Pearl",
-    image: "https://terea-device.com/wp-content/uploads/2025/12/2030100121_00S-300x300.jpg",
-    gradient: "from-yellow-200/10 to-yellow-500/10",
-    description: "西瓜爆珠口味，令人聯想到西瓜的多汁口感，同時也能感受到與西瓜相似的哈密瓜風味，清甜多汁。",
-    tag: "日本限定",
-    region: "日本",
-  },
-  {
-    id: "jp-limited-black-purple",
-    name: "黑藍莓薄荷",
-    nameEn: "Black Purple Menthol",
-    image: "https://terea-device.com/wp-content/uploads/2025/12/2030100096_00S-300x300.jpg",
-    gradient: "from-purple-400/10 to-purple-800/10",
-    description: "融合黑醋栗果香與強烈薄荷涼感，口感清爽順口，果香濃郁，是果香與涼感雙重刺激的極致之選。",
-    tag: "日本限定",
-    region: "日本",
-  },
-  {
-    id: "jp-limited-black-tropical",
-    name: "黑熱帶水果",
-    nameEn: "Black Tropical",
-    image: "https://terea-device.com/wp-content/uploads/2025/12/2030100127_00S-300x300.jpg",
-    gradient: "from-fuchsia-400/10 to-fuchsia-700/10",
-    description: "以芒果等南國果香為主調，融合強烈薄荷涼感，帶微酸與甜味的超濃熱帶水果體驗。",
-    tag: "日本限定",
-    region: "日本",
-  },
+const JAPAN_DEVICE_IMAGE = "https://media.base44.com/images/public/69edb64b2f0beef803a1b699/14c723944_IMG_8812.webp";
+const JAPAN_DEVICE_VIDEO = "https://media.base44.com/videos/public/69edb64b2f0beef803a1b699/75a842c39_SaveClipApp_AQO-jwPNYhtICUUoQIFtg39RrrxZJ7i5CamXwAo4rIS2PZQL4hPldqf4liUIOORv4E1RigLrGOpSNAmXK39iKY8j6I9b9hOhUTEH0dI.mp4";
+
+const japanDeviceSpecs = [
+  { icon: Smartphone, label: "控制介面", value: "OLED 觸控螢幕，可 Pause、查看剩餘次數" },
+  { icon: Zap, label: "智慧功能", value: "FlexPuff 自動延長、FlexBattery 模式切換" },
+  { icon: Cpu, label: "加熱技術", value: "感應加熱無需清潔，Smartcore Induction System" },
+  { icon: RefreshCw, label: "材質與美觀", value: "分離式設計、鋁+皮革/布料外觀、可換殼" },
+  { icon: Leaf, label: "環保設計", value: "使用回收塑膠、再造鋁外框" },
+  { icon: Wind, label: "使用體驗", value: "支援 2–3 次連吸、無菸灰清潔限制" },
 ];
 
 const koreaLimited = [
@@ -233,19 +202,81 @@ export default function Limited() {
         </div>
       </section>
 
-      {/* Japan Section */}
+      {/* Japan Section - IQOS ILUMA I PRIME */}
       <section className="px-6 lg:px-12 pb-20">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-4 mb-8">
+          <div className="flex items-center gap-4 mb-10">
             <span className="w-3 h-3 rounded-full bg-red-500 inline-block" />
             <h2 className="font-heading text-xl font-bold tracking-tight">日本限定</h2>
             <div className="flex-1 h-px bg-border" />
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-            {japanLimited.map((item) => (
-              <ProductCard key={item.id} item={item} onSelect={setSelected} addedId={addedId} onQuickAdd={handleQuickAdd} />
-            ))}
-          </div>
+
+          {/* Device Hero Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="rounded-3xl overflow-hidden bg-gradient-to-br from-purple-950 to-indigo-950 text-white"
+          >
+            {/* Top: image + intro */}
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              {/* Image */}
+              <div className="relative aspect-[4/3] lg:aspect-auto">
+                <img
+                  src={JAPAN_DEVICE_IMAGE}
+                  alt="IQOS ILUMA I PRIME"
+                  className="w-full h-full object-cover"
+                />
+                <span className="absolute top-4 left-4 bg-red-500 text-white text-[10px] font-bold tracking-widest px-3 py-1 rounded-full">
+                  日本限定
+                </span>
+              </div>
+
+              {/* Intro text */}
+              <div className="p-8 md:p-12 flex flex-col justify-center">
+                <p className="font-body text-[10px] tracking-[0.3em] uppercase text-white/50 mb-3">Japan Limited Edition</p>
+                <h3 className="font-heading text-2xl md:text-3xl font-bold tracking-tight mb-2 leading-snug">
+                  IQOS ILUMA I PRIME
+                </h3>
+                <p className="font-body text-xs tracking-widest text-white/50 mb-6">
+                  適用各版本：ILUMA I PRIME / ILUMA ONE i / ILUMA I
+                </p>
+                <p className="font-body text-sm text-white/70 leading-relaxed mb-6">
+                  第八代 IQOS ILUMA i PRIME 不僅是一款加熱菸裝置，更是科技與時尚融合的智能產品。它的觸控螢幕、智慧延長功能、可換外殼和環保材質，讓使用者在便利與品質之間獲得完美平衡。
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  <span className="bg-white/10 border border-white/20 text-white/80 text-[10px] tracking-widest px-3 py-1.5 rounded-full">系列 ILUMA I PRIME</span>
+                  <span className="bg-purple-500/30 border border-purple-400/30 text-purple-200 text-[10px] tracking-widest px-3 py-1.5 rounded-full">顏色 電光紫</span>
+                  <span className="bg-white/10 border border-white/20 text-white/80 text-[10px] tracking-widest px-3 py-1.5 rounded-full">專為 TEREA 煙彈設計</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Specs Grid */}
+            <div className="border-t border-white/10 grid grid-cols-2 md:grid-cols-3 divide-x divide-y divide-white/10">
+              {japanDeviceSpecs.map((spec, i) => (
+                <div key={i} className="p-5 flex gap-3 items-start">
+                  <spec.icon className="w-4 h-4 text-purple-300 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-[10px] tracking-widest uppercase text-white/40 mb-1">{spec.label}</p>
+                    <p className="text-xs text-white/80 leading-relaxed">{spec.value}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Video */}
+            <div className="border-t border-white/10 p-6">
+              <p className="text-[10px] tracking-[0.25em] uppercase text-white/40 mb-4">產品影片</p>
+              <video
+                src={JAPAN_DEVICE_VIDEO}
+                className="w-full rounded-2xl max-h-[480px] object-cover bg-black"
+                controls
+                playsInline
+                muted
+              />
+            </div>
+          </motion.div>
         </div>
       </section>
 
