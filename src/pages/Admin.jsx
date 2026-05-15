@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp, Video, Upload, Users, Download, ImagePlus } from "lucide-react";
+import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp, Video, Upload, Users, Download, ImagePlus, FileText, Eye, EyeOff } from "lucide-react";
 
 const TAB_LIST = [
   { id: "hero", label: "Hero 輪播", icon: Image },
@@ -9,6 +9,7 @@ const TAB_LIST = [
   { id: "faq", label: "FAQ 問答", icon: HelpCircle },
   { id: "video", label: "影片", icon: Video },
   { id: "members", label: "會員提交", icon: Users },
+  { id: "blog", label: "Blog 文章", icon: FileText },
 ];
 
 const ADMIN_EMAIL = "568iqos@gmail.com";
@@ -78,6 +79,11 @@ export default function Admin() {
   // Members state
   const [members, setMembers] = useState([]);
 
+  // Blog state
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [editingPost, setEditingPost] = useState(null);
+  const [newPost, setNewPost] = useState({ title: "", slug: "", content: "", excerpt: "", cover_image: "", published: true });
+
   const [expandedSlide, setExpandedSlide] = useState(0);
   const [videoUrl, setVideoUrl] = useState("");
   const [videoSettingId, setVideoSettingId] = useState(null);
@@ -106,6 +112,9 @@ export default function Admin() {
     if (authenticated && user?.role === "admin" && tab === "members") {
       loadMembers();
     }
+    if (authenticated && user?.role === "admin" && tab === "blog") {
+      loadBlogPosts();
+    }
   }, [tab, authenticated, user?.role]);
 
   const loadMembers = async () => {
@@ -113,6 +122,37 @@ export default function Admin() {
       const records = await base44.entities.MemberSubmission.list('-created_date', 100);
       setMembers(records);
     } catch {}
+  };
+
+  const loadBlogPosts = async () => {
+    try {
+      const records = await base44.entities.BlogPost.list('-created_date', 50);
+      setBlogPosts(records);
+    } catch {}
+  };
+
+  const saveBlogPost = async (post) => {
+    if (post.id) {
+      await base44.entities.BlogPost.update(post.id, post);
+    } else {
+      await base44.entities.BlogPost.create(post);
+    }
+    setEditingPost(null);
+    setNewPost({ title: "", slug: "", content: "", excerpt: "", cover_image: "", published: true });
+    await loadBlogPosts();
+    setSavedMsg("儲存成功！");
+    setTimeout(() => setSavedMsg(""), 2500);
+  };
+
+  const deleteBlogPost = async (id) => {
+    if (!confirm("確定要刪除這篇文章嗎？")) return;
+    await base44.entities.BlogPost.delete(id);
+    await loadBlogPosts();
+  };
+
+  const togglePublish = async (post) => {
+    await base44.entities.BlogPost.update(post.id, { published: !post.published });
+    await loadBlogPosts();
   };
 
   const exportToCSV = () => {
@@ -712,6 +752,102 @@ export default function Admin() {
               >
                 <Plus className="w-4 h-4" /> 新增問答
               </button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Blog Posts */}
+        {tab === "blog" && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+            {/* New / Edit Form */}
+            {(editingPost !== null || newPost.title !== "" || newPost.content !== "") ? (
+              <div className="bg-white rounded-xl border p-6 mb-6 space-y-4">
+                <h2 className="font-semibold text-base">{editingPost ? "編輯文章" : "新增文章"}</h2>
+                {["title", "slug", "excerpt", "cover_image"].map((field) => (
+                  <div key={field}>
+                    <label className="block text-xs font-medium text-gray-500 mb-1">
+                      {field === "title" ? "標題" : field === "slug" ? "網址 slug（英文）" : field === "excerpt" ? "摘要" : "封面圖片網址"}
+                    </label>
+                    <input
+                      className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black"
+                      value={editingPost ? editingPost[field] : newPost[field]}
+                      onChange={(e) => editingPost ? setEditingPost({ ...editingPost, [field]: e.target.value }) : setNewPost({ ...newPost, [field]: e.target.value })}
+                    />
+                  </div>
+                ))}
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">內容（支援 Markdown）</label>
+                  <textarea
+                    className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black font-mono"
+                    rows={16}
+                    value={editingPost ? editingPost.content : newPost.content}
+                    onChange={(e) => editingPost ? setEditingPost({ ...editingPost, content: e.target.value }) : setNewPost({ ...newPost, content: e.target.value })}
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editingPost ? editingPost.published : newPost.published}
+                      onChange={(e) => editingPost ? setEditingPost({ ...editingPost, published: e.target.checked }) : setNewPost({ ...newPost, published: e.target.checked })}
+                      className="w-4 h-4"
+                    />
+                    立即發布
+                  </label>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => saveBlogPost(editingPost || newPost)}
+                    className="flex items-center gap-2 px-5 py-2 bg-black text-white text-sm rounded-lg hover:bg-black/80 transition"
+                  >
+                    <Save className="w-4 h-4" /> 儲存文章
+                  </button>
+                  <button
+                    onClick={() => { setEditingPost(null); setNewPost({ title: "", slug: "", content: "", excerpt: "", cover_image: "", published: true }); }}
+                    className="px-5 py-2 border text-sm rounded-lg hover:bg-gray-50 transition"
+                  >
+                    取消
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => setNewPost({ ...newPost, title: " " })}
+                className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-gray-200 rounded-xl text-sm text-gray-400 hover:border-black hover:text-black transition w-full justify-center mb-6"
+              >
+                <Plus className="w-4 h-4" /> 新增文章
+              </button>
+            )}
+
+            {/* Post List */}
+            <div className="space-y-3">
+              {blogPosts.map((post) => (
+                <div key={post.id} className="bg-white rounded-xl border p-4 flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${post.published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
+                        {post.published ? "已發布" : "草稿"}
+                      </span>
+                    </div>
+                    <p className="font-semibold text-sm truncate">{post.title}</p>
+                    <p className="text-xs text-gray-400 mt-0.5">{new Date(post.created_date).toLocaleDateString('zh-TW')}</p>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <button onClick={() => togglePublish(post)} className="p-1.5 rounded hover:bg-gray-100 transition" title={post.published ? "取消發布" : "發布"}>
+                      {post.published ? <EyeOff className="w-4 h-4 text-gray-400" /> : <Eye className="w-4 h-4 text-gray-400" />}
+                    </button>
+                    <button onClick={() => setEditingPost(post)} className="p-1.5 rounded hover:bg-gray-100 transition">
+                      <Save className="w-4 h-4 text-gray-400" />
+                    </button>
+                    <button onClick={() => deleteBlogPost(post.id)} className="p-1.5 rounded hover:bg-red-50 text-red-400 hover:text-red-600 transition">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {blogPosts.length === 0 && (
+                <div className="text-center text-gray-400 py-8 text-sm">還沒有文章</div>
+              )}
             </div>
           </motion.div>
         )}

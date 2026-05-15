@@ -1,0 +1,35 @@
+{
+  "name": "BlogPost",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "\u6587\u7ae0\u6a19\u984c"
+    },
+    "slug": {
+      "type": "string",
+      "description": "\u6587\u7ae0\u7db2\u5740 slug"
+    },
+    "content": {
+      "type": "string",
+      "description": "\u6587\u7ae0\u5167\u5bb9\uff08Markdown\uff09"
+    },
+    "excerpt": {
+      "type": "string",
+      "description": "\u6587\u7ae0\u6458\u8981"
+    },
+    "cover_image": {
+      "type": "string",
+      "description": "\u5c01\u9762\u5716\u7247 URL"
+    },
+    "published": {
+      "type": "boolean",
+      "description": "\u662f\u5426\u5df2\u767c\u5e03",
+      "default": true
+    }
+  },
+  "required": [
+    "title",
+    "content"
+  ]
+}
