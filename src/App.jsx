@@ -19,6 +19,8 @@ import Cart from './pages/Cart';
 import ContactUs from './pages/ContactUs';
 import Admin from './pages/Admin';
 import Limited from './pages/Limited';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -36,6 +38,8 @@ const AuthenticatedApp = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/limited" element={<Limited />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
       </Route>
       <Route path="/admin" element={<Admin />} />
       <Route path="*" element={<PageNotFound />} />
