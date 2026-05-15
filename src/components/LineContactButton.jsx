@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 export default function LineContactButton() {
-  const LINE_OFFICIAL_URL = "https://lin.ee/oUNXRCC";
+  const LINE_OFFICIAL_URL = "https://lin.ee/5Wj7ONl";
 
   return (
     <motion.div
