@@ -8,7 +8,7 @@ const navLinks = [
   { label: '門市據點', href: '/stores' },
 ];
 
-const LINE_URL = 'https://lin.ee/5nyowm8c';
+const LINE_URL = 'https://lin.ee/XiRqVwz';
 
 export default function Footer() {
   return (

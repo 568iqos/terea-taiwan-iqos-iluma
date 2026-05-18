@@ -1,6 +1,6 @@
 import React from "react";
 
-const LINE_URL = "https://lin.ee/5nyowm8c";
+const LINE_URL = "https://lin.ee/XiRqVwz";
 
 export default function FloatingLine() {
   return (
