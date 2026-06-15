@@ -41,6 +41,7 @@ export default function App() {
         
         {/* Admin Route */}
         <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/login" element={<Admin />} />
         
         {/* 404 Route */}
         <Route path="*" element={<PageNotFound />} />
