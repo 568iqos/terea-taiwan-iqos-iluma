@@ -7,7 +7,7 @@ const navLinks = [
   { label: '加熱設備', href: '/devices' },
   { label: '風味系列', href: '/products' },
   { label: '最新情報NEW', href: '/limited' },
-  { label: '關於我們', href: '/about' },
+  { label: '關於我們', href: '/about' }, { label: '部落格', href: '/blog' },
 ];
 
 export default function Navbar() {
