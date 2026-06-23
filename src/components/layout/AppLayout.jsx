@@ -4,22 +4,12 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import AgeGate from "../AgeGate";
 import HealthWarningBanner from "../HealthWarningBanner";
-import WebViewWarning from "../WebViewWarning";
-import MemberRegisterGate from "../MemberRegisterGate";
 import LineContactButton from "../LineContactButton";
-import { useState } from "react";
 
 export default function AppLayout() {
-  const [memberDone, setMemberDone] = useState(() => {
-    // Force refresh - clear old sessionStorage
-    try { sessionStorage.removeItem("memberRegistered"); } catch {}
-    return false;
-  });
-
   return (
     <div className="min-h-screen flex flex-col">
       <AgeGate />
-      <MemberRegisterGate key="member-register-gate-v2" onComplete={() => setMemberDone(true)} />
       <HealthWarningBanner />
       <LineContactButton />
       <Navbar />
