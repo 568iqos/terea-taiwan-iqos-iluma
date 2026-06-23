@@ -8,22 +8,30 @@ import TechTeaser from "../components/home/TechTeaser";
 import FaqSection from "../components/home/FaqSection";
 
 export default function Home() {
-  const [siteSettings, setSiteSettings] = useState(null);
+  const [siteSettings, setSiteSettings] = useState([]);
 
   useEffect(() => {
-    base44.entities.SiteSettings.list()
-      .then(setSiteSettings)
-      .catch(() => setSiteSettings([]));
+    const loadSettings = async () => {
+      try {
+        const records = await base44.entities.SiteSettings.list();
+        setSiteSettings(records || []);
+      } catch (e) {
+        console.warn('Failed to load site settings:', e);
+        // 使用空陣列作為備用，讓首頁仍能顯示預設內容
+        setSiteSettings([]);
+      }
+    };
+    loadSettings();
   }, []);
 
   return (
     <div>
-      <HeroSection siteSettings={siteSettings} />
+      <HeroSection siteSettings={Array.isArray(siteSettings) ? siteSettings : []} />
       <FlavorPreview />
-      <VideoSection siteSettings={siteSettings} />
+      <VideoSection siteSettings={Array.isArray(siteSettings) ? siteSettings : []} />
       <ProductCompare />
       <TechTeaser />
-      <FaqSection siteSettings={siteSettings} />
+      <FaqSection siteSettings={Array.isArray(siteSettings) ? siteSettings : []} />
     </div>
   );
 }

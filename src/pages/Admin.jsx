@@ -99,8 +99,19 @@ export default function Admin() {
           await loadSettings();
           await loadMembers();
         }
-      } catch {
-        setUser(null);
+      } catch (e) {
+        // API 斷開時，使用本機管理員帳戶
+        if (authenticated) {
+          setUser({ role: "admin", email: ADMIN_EMAIL });
+          try {
+            await loadSettings();
+          } catch {}
+          try {
+            await loadMembers();
+          } catch {}
+        } else {
+          setUser(null);
+        }
       } finally {
         setLoading(false);
       }
@@ -121,14 +132,20 @@ export default function Admin() {
     try {
       const records = await base44.entities.MemberSubmission.list('-created_date', 100);
       setMembers(records);
-    } catch {}
+    } catch (e) {
+      console.warn('Failed to load members:', e);
+      setMembers([]);
+    }
   };
 
   const loadBlogPosts = async () => {
     try {
       const records = await base44.entities.BlogPost.list('-created_date', 50);
       setBlogPosts(records);
-    } catch {}
+    } catch (e) {
+      console.warn('Failed to load blog posts:', e);
+      setBlogPosts([]);
+    }
   };
 
   const saveBlogPost = async (post) => {
@@ -202,7 +219,9 @@ export default function Admin() {
       if (videoRec?.value) { setVideoUrl(videoRec.value); setVideoSettingId(videoRec.id); }
       const productImgRec = records.find((r) => r.key === "product_images");
       if (productImgRec?.value) setProductImages(JSON.parse(productImgRec.value));
-    } catch {}
+    } catch (e) {
+      console.warn('Failed to load settings:', e);
+    }
   };
 
   const saveSettings = async () => {
@@ -236,10 +255,14 @@ export default function Admin() {
 
   const handleAdminLogin = (e) => {
     e.preventDefault();
+    // 驗證管理員帳戶
     if (loginEmail === ADMIN_EMAIL && loginPassword === ADMIN_PASSWORD) {
       setAuthenticated(true);
       setLoginError("");
       setLoading(true);
+      // 存儲到 localStorage 以便次次登入
+      localStorage.setItem('admin_authenticated', 'true');
+      localStorage.setItem('admin_email', loginEmail);
     } else {
       setLoginError("帳號或密碼錯誤");
     }

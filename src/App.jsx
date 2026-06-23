@@ -16,6 +16,43 @@ import Limited from './pages/Limited';
 import Admin from './pages/Admin';
 import PageNotFound from './lib/PageNotFound';
 
+// 全域錯誤邊界
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('App Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="text-center max-w-md">
+            <h1 className="text-2xl font-bold mb-2">發生錯誤</h1>
+            <p className="text-gray-600 mb-4">網站暫時無法使用，請稍後重試。</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-2 bg-black text-white rounded-lg hover:bg-black/80 transition"
+            >
+              重新整理
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 /* ── Google Fonts ─────────────────────────────────────── */
 const _fl = document.createElement("link");
 _fl.rel = "stylesheet";
@@ -24,8 +61,9 @@ document.head.appendChild(_fl);
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
+    <ErrorBoundary>
+      <Router>
+        <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
@@ -45,8 +83,9 @@ export default function App() {
         
         {/* 404 Route */}
         <Route path="*" element={<PageNotFound />} />
-      </Routes>
-      <Toaster />
-    </Router>
+        </Routes>
+        <Toaster />
+      </Router>
+    </ErrorBoundary>
   );
 }
