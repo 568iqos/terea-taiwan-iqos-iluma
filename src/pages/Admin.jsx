@@ -1,8 +1,43 @@
 import React, { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
-import { normalizeImage } from "@/utils/normalizeImage";
 import { motion } from "framer-motion";
 import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp, Video, Upload, Download, ImagePlus, FileText, Eye, EyeOff, Edit2 } from "lucide-react";
+
+// 圖片調整函數（1000x1000px，品質 95）
+async function normalizeImage(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 1000;
+        canvas.height = 1000;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, 1000, 1000);
+        
+        const ratio = Math.min(1000 / img.width, 1000 / img.height);
+        const x = (1000 - img.width * ratio) / 2;
+        const y = (1000 - img.height * ratio) / 2;
+        ctx.drawImage(img, x, y, img.width * ratio, img.height * ratio);
+        
+        canvas.toBlob(
+          (blob) => {
+            const normalized = new File([blob], file.name, { type: "image/jpeg" });
+            resolve(normalized);
+          },
+          "image/jpeg",
+          0.95
+        );
+      };
+      img.onerror = () => reject(new Error("Image load failed"));
+      img.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error("File read failed"));
+    reader.readAsDataURL(file);
+  });
+}
 
 const TAB_LIST = [
   { id: "products", label: "產品管理", icon: ImagePlus },
@@ -58,7 +93,6 @@ export default function Admin() {
 
   const [videoUrl, setVideoUrl] = useState("");
   const [videoUploading, setVideoUploading] = useState(false);
-  const videoInputRef = useRef(null);
   const [expandedSlide, setExpandedSlide] = useState(0);
 
   useEffect(() => {
@@ -194,7 +228,6 @@ export default function Admin() {
       } else if (!editingProduct && productId === "new") {
         setNewProduct({ ...newProduct, image_url: file_url });
       } else {
-        // 更新已存在的產品
         const product = products.find(p => p.id === productId);
         if (product) {
           await base44.entities.Product.update(productId, { image_url: file_url });
@@ -271,53 +304,3 @@ export default function Admin() {
   };
 
   const handleAdminLogin = (e) => {
-    e.preventDefault();
-    if (loginEmail === ADMIN_EMAIL && loginPassword === ADMIN_PASSWORD) {
-      setAuthenticated(true);
-      setLoginError("");
-      setLoading(true);
-    } else {
-      setLoginError("帳號或密碼錯誤");
-    }
-  };
-
-  const handleLogout = () => {
-    setAuthenticated(false);
-    setLoginEmail("");
-    setLoginPassword("");
-  };
-
-  const updateSlide = (i, field, val) => {
-    const updated = [...slides];
-    updated[i] = { ...updated[i], [field]: val };
-    setSlides(updated);
-  };
-
-  const removeSlide = (i) => {
-    setSlides(slides.filter((_, idx) => idx !== i));
-  };
-
-  const addSlide = () => {
-    setSlides([
-      ...slides,
-      {
-        image: "",
-        label: "",
-        title: "",
-        sub: "",
-        ctaLabel: "",
-        ctaTo: "",
-        ctaSecondaryLabel: "",
-        ctaSecondaryTo: "",
-        align: "left",
-      },
-    ]);
-  };
-
-  const updateFaq = (i, field, val) => {
-    const updated = [...faqs];
-    updated[i] = { ...updated[i], [field]: val };
-    setFaqs(updated);
-  };
-
-  const removeFaq = (i) => {
