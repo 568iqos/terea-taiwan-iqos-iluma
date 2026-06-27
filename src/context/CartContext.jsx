@@ -34,5 +34,18 @@ export function CartProvider({ children }) {
 }
 
 export function useCart() {
-  return useContext(CartContext);
+  const ctx = useContext(CartContext);
+  // 安全網：萬一沒有 Provider，回傳無動作的預設值，避免整站崩潰
+  if (!ctx) {
+    return {
+      items: [],
+      addItem: () => {},
+      removeItem: () => {},
+      updateQty: () => {},
+      totalCount: 0,
+      open: false,
+      setOpen: () => {},
+    };
+  }
+  return ctx;
 }

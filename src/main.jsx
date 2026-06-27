@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from '@/App.jsx'
+import { CartProvider } from '@/context/CartContext'
 import '@/index.css'
 
 const queryClient = new QueryClient({
@@ -48,7 +49,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <HelmetProvider>
-        <App />
+        <CartProvider>
+          <App />
+        </CartProvider>
       </HelmetProvider>
     </QueryClientProvider>
   </ErrorBoundary>
