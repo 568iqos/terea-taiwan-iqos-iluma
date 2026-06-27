@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
+import { normalizeImage } from "@/utils/normalizeImage";
 import { motion } from "framer-motion";
 import { Save, Plus, Trash2, LogOut, Image, HelpCircle, ChevronDown, ChevronUp, Video, Upload, Users, Download, ImagePlus, FileText, Eye, EyeOff } from "lucide-react";
 
@@ -330,9 +331,10 @@ export default function Admin() {
 
   // Product image upload
   const handleProductImageUpload = async (e, productId) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const raw = e.target.files[0];
+    if (!raw) return;
     setProductImgUploading((prev) => ({ ...prev, [productId]: true }));
+    const file = await normalizeImage(raw);
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     const updated = { ...productImages, [productId]: file_url };
     setProductImages(updated);
@@ -349,9 +351,10 @@ export default function Admin() {
 
   // Slide image upload
   const handleSlideImageUpload = async (e, i) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const raw = e.target.files[0];
+    if (!raw) return;
     updateSlide(i, "_uploading", true);
+    const file = await normalizeImage(raw);
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     setSlides((prev) => prev.map((s, idx) => idx === i ? { ...s, image: file_url, _uploading: false } : s));
   };

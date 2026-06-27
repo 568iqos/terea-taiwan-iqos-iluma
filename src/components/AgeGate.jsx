@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 export default function AgeGate() {
   const [confirmed, setConfirmed] = useState(() => {
-    try { return localStorage.getItem("ageConfirmed") === "true"; } catch { return false; }
+    try { return sessionStorage.getItem("ageConfirmed") === "true"; } catch { return false; }
   });
 
   const handleYes = () => {
-    try { localStorage.setItem("ageConfirmed", "true"); } catch {}
+    try { sessionStorage.setItem("ageConfirmed", "true"); } catch {}
     setConfirmed(true);
   };
 
