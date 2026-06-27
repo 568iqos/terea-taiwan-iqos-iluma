@@ -93,14 +93,13 @@ export default function Admin() {
   useEffect(() => {
     const init = async () => {
       try {
-        const me = await base44.auth.me();
-        setUser(me);
-        if (me?.role === "admin" && authenticated) {
-          await loadSettings();
-          await loadMembers();
-        }
-      } catch {
-        setUser(null);
+        // 密碼已在前面驗證，直接設定 admin 身份
+        const adminUser = { role: "admin", email: ADMIN_EMAIL };
+        setUser(adminUser);
+        await loadSettings();
+        await loadMembers();
+      } catch (e) {
+        console.error("init error", e);
       } finally {
         setLoading(false);
       }
@@ -109,13 +108,13 @@ export default function Admin() {
   }, [authenticated]);
 
   useEffect(() => {
-    if (authenticated && user?.role === "admin" && tab === "members") {
+    if (authenticated && tab === "members") {
       loadMembers();
     }
-    if (authenticated && user?.role === "admin" && tab === "blog") {
+    if (authenticated && tab === "blog") {
       loadBlogPosts();
     }
-  }, [tab, authenticated, user?.role]);
+  }, [tab, authenticated]);
 
   const loadMembers = async () => {
     try {
@@ -294,32 +293,7 @@ export default function Admin() {
     );
   }
 
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <p className="text-lg font-semibold mb-2">請先登入</p>
-          <button
-            onClick={() => base44.auth.redirectToLogin("/admin")}
-            className="px-6 py-2 bg-black text-white text-sm rounded hover:bg-black/80 transition"
-          >
-            前往登入
-          </button>
-        </div>
-      </div>
-    );
-  }
 
-  if (user.role !== "admin") {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <p className="text-lg font-semibold mb-1">權限不足</p>
-          <p className="text-sm text-gray-500">此頁面僅限管理員使用</p>
-        </div>
-      </div>
-    );
-  }
 
   // Video upload
   const handleVideoUpload = async (e) => {
