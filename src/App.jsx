@@ -15,6 +15,7 @@ import BlogPost from './pages/BlogPost';
 import Limited from './pages/Limited';
 import Admin from './pages/Admin';
 import PageNotFound from './lib/PageNotFound';
+import AgeGate from './components/AgeGate';
 
 /* ── Google Fonts ─────────────────────────────────────── */
 const _fl = document.createElement("link");
@@ -46,6 +47,7 @@ export default function App() {
         {/* 404 Route */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+      <AgeGate />
       <Toaster />
     </Router>
   );
