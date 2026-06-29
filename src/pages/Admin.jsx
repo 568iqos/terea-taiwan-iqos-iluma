@@ -76,6 +76,7 @@ export default function Admin() {
   // Product images state
   const [productImages, setProductImages] = useState({});
   const [productImgUploading, setProductImgUploading] = useState({});
+  const [productNames, setProductNames] = useState({});
 
   // Members state
   const [members, setMembers] = useState([]);
@@ -202,6 +203,8 @@ export default function Admin() {
       if (videoRec?.value) { setVideoUrl(videoRec.value); setVideoSettingId(videoRec.id); }
       const productImgRec = records.find((r) => r.key === "product_images");
       if (productImgRec?.value) setProductImages(JSON.parse(productImgRec.value));
+      const productNameRec = records.find((r) => r.key === "product_names");
+      if (productNameRec?.value) setProductNames(JSON.parse(productNameRec.value));
     } catch {}
   };
 
@@ -327,6 +330,19 @@ export default function Admin() {
     setSavedMsg("儲存成功！");
     setTimeout(() => setSavedMsg(""), 2500);
     setSaving(false);
+  };
+
+  // Product name save
+  const handleProductNameSave = async (productId, newName) => {
+    const updated = { ...productNames, [productId]: newName };
+    setProductNames(updated);
+    const records = await base44.entities.SiteSettings.list();
+    const rec = records.find((r) => r.key === "product_names");
+    if (rec) {
+      await base44.entities.SiteSettings.update(rec.id, { value: JSON.stringify(updated) });
+    } else {
+      await base44.entities.SiteSettings.create({ key: "product_names", value: JSON.stringify(updated) });
+    }
   };
 
   // Product image upload
@@ -654,6 +670,14 @@ export default function Admin() {
                 { id: "kr-black-ruby", name: "黑紅莓果(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/Black-Ruby.png" },
                 { id: "kr-black-purple", name: "黑葡萄(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/black_purple.png" },
                 { id: "kr-black-green", name: "黑冰薄荷(韓)", defaultImg: "https://terea-kim.com/wp-content/uploads/2025/05/black_green.png" },
+                { id: "tw-101", name: "霧籃", defaultImg: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%230ea5e9%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22sans-serif%22%20font-size%3D%2272%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3E%E9%9C%A7%E7%B1%83%3C/text%3E%3C/svg%3E" },
+                { id: "tw-102", name: "靛藍", defaultImg: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%236366f1%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22sans-serif%22%20font-size%3D%2272%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3E%E9%9D%9B%E8%97%8D%3C/text%3E%3C/svg%3E" },
+                { id: "tw-103", name: "蔚藍", defaultImg: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%2306b6d4%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22sans-serif%22%20font-size%3D%2272%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3E%E8%94%9A%E8%97%8D%3C/text%3E%3C/svg%3E" },
+                { id: "tw-104", name: "清綠", defaultImg: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%2322c55e%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22sans-serif%22%20font-size%3D%2272%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3E%E6%B8%85%E7%B6%A0%3C/text%3E%3C/svg%3E" },
+                { id: "tw-105", name: "森綠", defaultImg: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%23059669%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22sans-serif%22%20font-size%3D%2272%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3E%E6%A3%AE%E7%B6%A0%3C/text%3E%3C/svg%3E" },
+                { id: "tw-106", name: "冰紫", defaultImg: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%23a855f7%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22sans-serif%22%20font-size%3D%2272%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3E%E5%86%B0%E7%B4%AB%3C/text%3E%3C/svg%3E" },
+                { id: "tw-107", name: "清寧", defaultImg: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%232dd4bf%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22sans-serif%22%20font-size%3D%2272%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3E%E6%B8%85%E5%AF%A7%3C/text%3E%3C/svg%3E" },
+                { id: "tw-108", name: "黑冰", defaultImg: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22400%22%3E%3Crect%20width%3D%22400%22%20height%3D%22400%22%20fill%3D%22%23334155%22/%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-family%3D%22sans-serif%22%20font-size%3D%2272%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3E%E9%BB%91%E5%86%B0%3C/text%3E%3C/svg%3E" },
               ].map((product) => {
                 const currentImg = productImages[product.id] || product.defaultImg;
                 const isUploading = productImgUploading[product.id];
@@ -666,7 +690,7 @@ export default function Admin() {
                         <img src={currentImg} alt={product.name} className="w-full h-full object-contain" />
                       )}
                     </div>
-                    <p className="text-xs font-medium text-center text-gray-700 leading-tight">{product.name}</p>
+                    <input type="text" defaultValue={productNames[product.id] || product.name} onBlur={(e) => { const v = e.target.value.trim(); if (v && v !== (productNames[product.id] || product.name)) handleProductNameSave(product.id, v); }} className="text-xs font-medium text-center text-gray-700 leading-tight border border-gray-200 rounded px-1 py-0.5 w-full focus:border-black outline-none" />
                     <label className="w-full flex items-center justify-center gap-1.5 py-2 border border-dashed border-gray-300 rounded-lg text-xs text-gray-500 hover:border-black hover:text-black transition cursor-pointer">
                       <Upload className="w-3 h-3" />
                       {isUploading ? "上傳中..." : "換圖"}

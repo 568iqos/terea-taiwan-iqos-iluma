@@ -668,11 +668,14 @@ export default function Products() {
   const { addItem } = useCart();
   const [addedId, setAddedId] = useState(null);
   const [productImages, setProductImages] = useState({});
+  const [productNames, setProductNames] = useState({});
 
   useEffect(() => {
     base44.entities.SiteSettings.list().then((records) => {
       const rec = records.find((r) => r.key === "product_images");
       if (rec?.value) setProductImages(JSON.parse(rec.value));
+      const nrec = records.find((r) => r.key === "product_names");
+      if (nrec?.value) setProductNames(JSON.parse(nrec.value));
     }).catch(() => {});
   }, []);
 
@@ -686,6 +689,7 @@ export default function Products() {
   const allFlavors = [...flavors, ...koreaFlavors, ...taiwanFlavors].map((f) => ({
     ...f,
     image: productImages[f.id] || f.image,
+    name: productNames[f.id] || f.name,
   }));
   const filteredFlavors = activeRegion === "全部"
     ? allFlavors
