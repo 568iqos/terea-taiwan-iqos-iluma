@@ -6,7 +6,6 @@ import AppLayout from './components/layout/AppLayout';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Technology from './pages/Technology';
-import Stores from './pages/Stores';
 import Devices from './pages/Devices';
 import About from './pages/About';
 import ContactUs from './pages/ContactUs';
@@ -31,7 +30,6 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/technology" element={<Technology />} />
-          <Route path="/stores" element={<Stores />} />
           <Route path="/devices" element={<Devices />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<ContactUs />} />

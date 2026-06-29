@@ -5,7 +5,6 @@ const navLinks = [
   { label: '加熱設備', href: '/devices' },
   { label: '風味系列', href: '/products' },
   { label: '核心科技', href: '/technology' },
-  { label: '門市據點', href: '/stores' },
 ];
 
 const LINE_URL = 'https://lin.ee/XiRqVwz';
